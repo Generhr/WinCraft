@@ -8,10 +8,10 @@ include(cmake/SafeGuards.cmake)
 
 # NOTE: update this with your new project's details.
 
-project("__Name"
+project("WinCraft"
         VERSION "0.1.0" # NOTE: Listing the version is nice here since it sets lots of useful variables.
-        DESCRIPTION "__Description"
-        HOMEPAGE_URL "__Url"
+        DESCRIPTION "Window automation tool"
+        HOMEPAGE_URL "https://github.com/Onimuru/WinCraft"
         LANGUAGES CXX C # NOTE: To support external libraries, it's good practice to list both CXX and C.
 )
 
