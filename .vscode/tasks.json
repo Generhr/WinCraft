@@ -1,0 +1,60 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Sequence",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Clear",
+                "Configure",
+                "Build",
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                {
+                    "base": "$gcc",
+                    "fileLocation": [
+                        "relative",
+                        "${command:cmake.buildDirectory}"
+                    ]
+                },
+            ],
+            "options": {
+                "environment": {
+                    "CLICOLOR_FORCE": "1"
+                }
+            },
+            "presentation": {
+                "clear": true
+            }
+        },
+        {
+            "label": "Clear",
+            "type": "shell",
+            "command": "cls",
+            "options": {
+                "cwd": "${workspaceFolder}/build",
+            },
+        },
+        {
+            "label": "Configure",
+            "type": "shell",
+            "command": "cmake ..",
+            "options": {
+                "cwd": "${workspaceFolder}/build",
+            },
+        },
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "cmake --build .",
+            "options": {
+                "cwd": "${workspaceFolder}/build",
+            },
+        }
+    ]
+}

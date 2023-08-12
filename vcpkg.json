@@ -1,0 +1,21 @@
+{
+    "name": "packages",
+    "version-string": "0.1.0",
+    "dependencies": [
+        {
+            "name": "nlohmann-json"
+        },
+        {
+            "name": "fmt"
+        },
+        {
+            "name": "spdlog"
+        },
+        {
+            "name": "cxxopts"
+        },
+        {
+            "name": "gtest"
+        }
+    ]
+}

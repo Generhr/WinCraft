@@ -1,0 +1,227 @@
+{
+    //============== Native ======================================================//
+    "editor.rulers": [
+        120
+    ],
+    "files.associations": {
+        "*.py": "python",
+        "*.pylintrc": "ini",
+        "*.gpj": "jsonc",
+        "*.gvw": "jsonc",
+        "*.pyx": "cython",
+        ".clang*": "yaml",
+        "chrono": "cpp",
+        "iomanip": "cpp",
+        "memory": "cpp",
+        "xstring": "cpp",
+        "type_traits": "cpp"
+    },
+    "files.autoSave": "off", //~ Builds the project when you switch to another window (annoying).
+    "files.exclude": {
+        "node_modules/**/*": true,
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    },
+    "workbench.editorAssociations": {
+        "*.md": "vscode.markdown.preview.editor",
+        "*.svg": "svgPreviewer.customEditor"
+    },
+    "[cmake]": {
+        "editor.defaultFormatter": "cheshirekow.cmake-format",
+        "editor.quickSuggestions": {
+            "strings": true
+        }
+    },
+    "[c]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools",
+        "editor.semanticHighlighting.enabled": true,
+        "editor.suggest.insertMode": "replace",
+        "editor.wordBasedSuggestions": false
+    },
+    "[cpp]": {
+        "editor.defaultFormatter": "ms-vscode.cpptools",
+        "editor.semanticHighlighting.enabled": true,
+        "editor.suggest.insertMode": "replace",
+        "editor.wordBasedSuggestions": false
+    },
+    "[cuda-cpp]": {
+        "editor.semanticHighlighting.enabled": true,
+        "editor.suggest.insertMode": "replace",
+        "editor.wordBasedSuggestions": false
+    },
+    //==============  C/C++  ======================================================//
+    "C_Cpp.configurationWarnings": "disabled",
+    "C_Cpp.default.browse.limitSymbolsToIncludedHeaders": false,
+    "C_Cpp.default.cStandard": "c17",
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "C_Cpp.default.cppStandard": "c++23",
+    "C_Cpp.formatting": "clangFormat",
+    //=========== C/C++ Runner ===================================================//
+    "C_Cpp_Runner.cStandard": "c11",
+    "C_Cpp_Runner.cppStandard": "c++20",
+    "C_Cpp_Runner.enableWarnings": true,
+    "C_Cpp_Runner.warningsAsError": false,
+    //============= CodeSnap =====================================================//
+    "codesnap.showWindowControls": false,
+    "codesnap.shutterAction": "copy",
+    //==============  CMake  ======================================================//
+    "cmake.buildTask": false, //* Build using tasks.json instead of internal process
+    "cmake.clearOutputBeforeBuild": true,
+    "cmake.configureOnEdit": true,
+    "cmake.configureOnOpen": false,
+    "cmake.ctest.allowParallelJobs": true,
+    "cmake.ignoreCMakeListsMissing": false,
+    "cmake.launchBehavior": "newTerminal",
+    "cmake.showSystemKits": false,
+    "cmake.useCMakePresets": "always",
+    //=========== CMake Format ===================================================//
+    "cmakeFormat.args": [
+        "--config-files=C:/Users/Onimuru/Code/C++/__Template/.cmake-format.yaml",
+        "--literal-comment-pattern=.*"
+    ],
+    //====== CMake Language Support ==============================================//
+    "cmake.languageSupport.enableFileAPI": true,
+    //======== Code Spell Checker ================================================//
+    "cSpell.dictionaries": [
+        "cpp"
+    ],
+    //=  Doxygen Documentation Generator  =========================================//
+    "doxdocgen.cpp.tparamTemplate": "@tparam {param} ",
+    "doxdocgen.file.fileTemplate": "@file {name}",
+    "doxdocgen.generic.boolReturnsTrueFalse": false,
+    "doxdocgen.generic.briefTemplate": "@brief {text}",
+    "doxdocgen.generic.includeTypeAtReturn": false,
+    "doxdocgen.generic.paramTemplate": "@param {param} ",
+    "doxdocgen.generic.returnTemplate": "@return",
+    //============ Error Lens ====================================================//
+    "errorLens.delay": 1000,
+    "errorLens.enabled": true,
+    "errorLens.enabledDiagnosticLevels": [
+        "error",
+        "warning"
+    ],
+    "errorLens.fontFamily": "'Fira Code Retina','Input Mono Condensed','Input Mono Compressed'",
+    "errorLens.fontSize": 15,
+    "errorLens.fontWeight": 300,
+    //============  Highlight  ====================================================//
+    "highlight.decorations": {
+        "rangeBehavior": 3
+    },
+    "highlight.maxMatches": 500,
+    "highlight.regexes": {
+        "([(//)#]+[=-]+)(.*?)([=-]+[(//)#]+)": {
+            "decorations": [ //: https://code.visualstudio.com/api/references/vscode-api#DecorationRenderOptions
+                {
+                    "color": "SkyBlue", // Decoration options to apply to the first capturing group, in this case "[;/]+=+".
+                    "opacity": "0.5"
+                },
+                {
+                    //"backgroundColor": "Black",
+                    //"border": "1px Solid SkyBlue", // Decoration options to apply to the second capturing group, in this case ".*?".
+                    "color": "Beige",
+                    //"overviewRulerColor": "SkyBlue"
+                },
+                {
+                    "color": "SkyBlue", // Decoration options to apply to the third capturing group, in this case "=+[;/]+".
+                    "opacity": "0.5"
+                }
+            ],
+        },
+        "(`.*?`(?=([^\"]*\"[^\"]*\")*[^\"]*$))": {
+            "decorations": [
+                {
+                    "color": "Grey",
+                    "backgroundColor": "transparent" // text `code` // other text ** special `code` text ** // "`n string `n"
+                }
+            ]
+        },
+        "(\\*{2}\\s.*?\\s\\*{2})": { //** special text ** normal text // number**2 + number**2
+            "decorations": [
+                {
+                    "color": "Gold",
+                    "backgroundColor": "transparent"
+                }
+            ]
+        },
+        "((#|\/\/)\\*\\s.*?)(?:\\s(#|\/\/)\\S?\\s|$)": { //* text ** special text ** text // other text
+            "decorations": [
+                {
+                    "color": "#B59E1B",
+                    "backgroundColor": "transparent"
+                }
+            ]
+        },
+        "((#|\/\/)!\\s.*?)(?:\\s(#|\/\/)\\S?\\s|$)": { //! text ** special text ** text // other text
+            "decorations": [
+                {
+                    "color": "#FF6961",
+                    "backgroundColor": "transparent"
+                }
+            ]
+        },
+        "((#|\/\/)\\?\\s.*?)(?:\\s(#|\/\/)\\S?\\s|$)": { //? text ** special text ** text // other text
+            "decorations": [
+                {
+                    "color": "#3498DB",
+                    "backgroundColor": "transparent"
+                }
+            ]
+        },
+        "((#|\/\/):\\s.*?)(?:\\s(#|\/\/)\\S?\\s|$)": { //: text ** special text ** text //? other text
+            "decorations": [
+                {
+                    "color": "#474747",
+                    "backgroundColor": "transparent"
+                }
+            ]
+        },
+        "((#|\/\/)~\\s.*?)(?:\\s(#|\/\/)\\S?\\s|$)": { //~ text ** special text ** text //! other text
+            "decorations": [
+                {
+                    "color": "#FF8C00",
+                    "backgroundColor": "transparent"
+                }
+            ]
+        },
+    },
+    "highlight.regexFlags": "gm",
+    //===========  IntelliCode  ===================================================//
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    //========= Output Colorizer =================================================//
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "invalid.deprecated",
+                "settings": {
+                    "foreground": "#d1d425",
+                }
+            }
+        ]
+    },
+    //==========  SVG Previewer  ==================================================//
+    "svg.preview.autoOpen": true,
+    //=======  Workspace Formatter  ===============================================//
+    "Workspace_Formatter.closeAfterSave": true,
+    "Workspace_Formatter.excludePattern": [
+        "**/build",
+        "**/extern*",
+        "**/.*",
+        "**/.vscode",
+        "**/html"
+    ],
+    "Workspace_Formatter.includePattern": [
+        "*.cmake",
+        "*.h(pp)?",
+        "*.cc",
+        "*.c(pp)?"
+    ],
+    "cSpell.words": [
+        "DXTRACE",
+        "FILEW",
+        "HRESULT",
+        "kwargs",
+        "pargs"
+    ],
+}
