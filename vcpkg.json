@@ -3,16 +3,10 @@
     "version-string": "0.1.0",
     "dependencies": [
         {
-            "name": "nlohmann-json"
+            "name": "ms-gsl"
         },
         {
-            "name": "fmt"
-        },
-        {
-            "name": "spdlog"
-        },
-        {
-            "name": "cxxopts"
+            "name": "simpleini"
         },
         {
             "name": "gtest"

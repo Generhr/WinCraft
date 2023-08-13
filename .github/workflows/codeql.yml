@@ -12,14 +12,20 @@ name: "CodeQL"
 
 on:
   push:
-    branches: [main, master, dev]
+    branches:
+      - main
     paths: [include/**, lib/**, src/**]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [main, master, dev]
+    branches:
+      - main
     paths: [include/**, lib/**, src/**]
   schedule:
     - cron: "0 8 * * 0"
+
+concurrency:
+  group: CodeQL
+  cancel-in-progress: true
 
 jobs:
   CodeQL-Build:
@@ -29,7 +35,7 @@ jobs:
     #   - https://gh.io/supported-runners-and-hardware-resources
     #   - https://gh.io/using-larger-runners
     # Consider using larger runners for possible analysis time improvements.
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     permissions:
       # required for all workflows
@@ -42,6 +48,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+        with:
+          submodules: true
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
@@ -49,11 +57,23 @@ jobs:
         # Override language selection by uncommenting this and choosing your languages
       # Autobuild attempts to build any compiled languages (C/C++, C#, Go, or Java).
       # If this step fails, then you should remove it and run the build manually (see below).
-      - name: Build
-        # with:
-        #   languages: go, javascript, csharp, python, cpp, java, ruby
 
-        uses: github/codeql-action/autobuild@v2
+      - name: Get CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Run vcpkg
+        uses: lukka/run-vcpkg@v10
+        with:
+          vcpkgDirectory: "${{ github.workspace }}/external/vcpkg"
+          vcpkgJsonGlob: "${{ github.workspace }}/vcpkg.json"
+
+      - name: Run CMake
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: "ninja-multi-vcpkg"
+          configurePresetAdditionalArgs: '[`-DENABLE_TESTING=OFF`]'
+          buildPreset: "ninja-multi-vcpkg-release"
+          buildPresetAdditionalArgs: '[`--target all`, `-j4`]'
 
       # ℹ️ Command-line programs to run using the OS shell.
       # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun

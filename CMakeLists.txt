@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16...3.27 FATAL_ERROR) #? 3.16 - target_precompile_headers
+cmake_minimum_required(VERSION 3.21...3.27 FATAL_ERROR) #? 3.21 - PROJECT_IS_TOP_LEVEL
 
 #============  Safe Guards  ====================================================#
 
@@ -19,12 +19,10 @@ project("WinCraft"
 
 message(STATUS "\n-- Configuring CMake for ${PROJECT_NAME} v${PROJECT_VERSION}...\n--")
 
-string(COMPARE EQUAL "${CMAKE_SOURCE_DIR}" "${PROJECT_SOURCE_DIR}" PROJECT_IS_TOP_LEVEL) # NOTE: This variable is set by `project()` in CMake 3.21+.
-
 # Only do these if this is the main project, and not if it is included through add_subdirectory:
 if(PROJECT_IS_TOP_LEVEL)
     if(NOT DEFINED CMAKE_CXX_STANDARD)
-        set(CMAKE_CXX_STANDARD # NOTE: GoogleTest requires at least C++14.
+        set(CMAKE_CXX_STANDARD
             20
             CACHE STRING "The C++ standard to use."
         )
@@ -33,7 +31,7 @@ if(PROJECT_IS_TOP_LEVEL)
     # Require C++17 features like if constexpr:
     set(CMAKE_CXX_STANDARD_REQUIRED 17)
 
-    set(CMAKE_CXX_EXTENSIONS OFF) # NOTE: While this is generally a good practice, you should ensure that this setting doesn't cause any issues with third-party libraries or the project's requirements.
+    set(CMAKE_CXX_EXTENSIONS OFF)
     set(CMAKE_C_EXTENSIONS OFF)
 endif()
 
@@ -107,13 +105,6 @@ option(VCPKG_APPLOCAL_DEPS "Automatically copy dependencies into the output dire
 
 include(${CMAKE_SOURCE_DIR}/external/vcpkg/scripts/buildsystems/vcpkg.cmake)
 
-#============== OS Fixes ======================================================#
-
-# This will allow the use of the same _DEBUG macro available in both Linux and Windows environment. Easy to put Debug specific code:
-if(UNIX)
-    add_compile_options("$<$<CONFIG:DEBUG>:-D_DEBUG>")
-endif()
-
 #==========  Configure Files  ==================================================#
 
 add_subdirectory(configure)
@@ -128,12 +119,8 @@ add_subdirectory(external EXCLUDE_FROM_ALL)
 
 set(PRECOMPILED_HEADER_LIST "${CMAKE_CURRENT_SOURCE_DIR}/include/pch.h")
 
-# NOTE: globbing sources is considered bad practice as CMake's generators may not detect new files
-# automatically. Keep that in mind when changing files, or explicitly mention them here.
-
 if(ENABLE_CLANG_TIDY)
     set(NO_STATIC_CODE_ANALYSIS_LIST # Add here any file you want to exclude from clang-tidy static analysis.
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/ClangTidyWarnings.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/include/ClangTidyWarnings.h"
     )
 endif()
 
@@ -186,7 +173,7 @@ elseif(BUILD_EXECUTABLE)
 
         add_executable(${PROJECT_NAME} "src/Main.cpp" "$<TARGET_OBJECTS:NO_STATIC_CODE_ANALYSIS>" "${SOURCE_LIST}" "${HEADER_LIST}")
     else()
-        add_executable(${PROJECT_NAME} "src/Main.cpp" "${SOURCE_LIST}" "${HEADER_LIST}") # NOTE: Including header files here helps IDEs but is not required.
+        add_executable(${PROJECT_NAME} "src/Main.cpp" "${SOURCE_LIST}" "${HEADER_LIST}")
     endif()
 
     if(VERBOSE_OUTPUT)
@@ -249,20 +236,18 @@ if(ENABLE_WARNINGS)
     target_set_warnings(${PROJECT_NAME})
 endif()
 
+target_compile_definitions(${PROJECT_NAME} PRIVATE _AFXDLL)
+
 #=========  Link Dependencies  =================================================#
 
-if(ENABLE_CLANG_TIDY AND CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-    target_precompile_headers(${PROJECT_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:${PRECOMPILED_HEADER_LIST}>")
-elseif(NOT ENABLE_CLANG_TIDY)
+# Precompile headers
+if(NOT ENABLE_CLANG_TIDY)
     target_precompile_headers(${PROJECT_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:${PRECOMPILED_HEADER_LIST}>")
 endif()
 
-find_package(cxxopts CONFIG REQUIRED)
-find_package(fmt CONFIG REQUIRED)
-find_package(nlohmann_json CONFIG REQUIRED)
-find_package(spdlog CONFIG REQUIRED)
+find_package(Microsoft.GSL CONFIG REQUIRED)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json fmt::fmt spdlog::spdlog cxxopts::cxxopts)
+target_link_libraries(${PROJECT_NAME} PRIVATE Microsoft.GSL::GSL)
 
 #===========  Alias Targets  ===================================================#
 
@@ -290,7 +275,6 @@ if(PROJECT_IS_TOP_LEVEL)
                 "${CMAKE_CURRENT_SOURCE_DIR}/cmake/*"
                 "${CMAKE_CURRENT_SOURCE_DIR}/external/*"
                 "${CMAKE_CURRENT_SOURCE_DIR}/src/Main.cpp"
-                "${CMAKE_CURRENT_SOURCE_DIR}/src/ClangTidyWarnings.cpp"
                 "${CMAKE_CURRENT_SOURCE_DIR}/test/*"
                 "${CMAKE_CURRENT_SOURCE_DIR}/build/*"
                 "${CMAKE_CURRENT_SOURCE_DIR}/docs/*"

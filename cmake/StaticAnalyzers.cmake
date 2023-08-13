@@ -36,6 +36,7 @@ macro(enable_cppcheck)
                 #"--performance-valueflow-max-if-count=60" # (Optional) Adjusts the max count for number of if in a function.
                 "--quiet" # (Optional) Only print something when there is an error.
                 #"--verbose"  # (Optional) More detailed error reports.
+                "--platform=win64"
                 "-j ${PROCESSOR_COUNT}" # (Optional) Start x amount of threads to do the checking work.
             )
         else()

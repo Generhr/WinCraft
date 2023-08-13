@@ -2,10 +2,12 @@ name: Documentation
 
 on:
   push:
-    branches: [main, master, dev]
+    branches:
+      - main
     paths: [include/**, lib/**, src/**]
   pull_request:
-    branches: [main, master, dev]
+    branches:
+      - main
     paths: [include/**, lib/**, src/**]
 
 concurrency:
@@ -14,8 +16,8 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
+    runs-on: windows-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout Repository
@@ -33,15 +35,15 @@ jobs:
           vcpkgJsonGlob: "${{ github.workspace }}/vcpkg.json"
 
       - name: Install Packages
-        run: sudo apt-get install doxygen graphviz
+        run: choco install doxygen.install graphviz -y
 
       - name: Run CMake
         uses: lukka/run-cmake@v10
         with:
           configurePreset: "ninja-multi-vcpkg"
-          configurePresetAdditionalArgs: '[`-DENABLE_DOXYGEN=ON`]'
+          configurePresetAdditionalArgs: '[`-DENABLE_DOXYGEN=ON`, `-DENABLE_TESTING=OFF`]'
           buildPreset: "ninja-multi-vcpkg-release"
-          buildPresetAdditionalArgs: '[`--target doxygen`, ` -j4`]'
+          buildPresetAdditionalArgs: '[`--target doxygen`, `-j4`]'
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3  #: https://github.com/peaceiris/actions-gh-pages
