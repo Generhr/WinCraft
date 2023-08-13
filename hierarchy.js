@@ -1,15 +1,16 @@
 var hierarchy =
 [
-    [ "ClangTidyExample", "classClangTidyExample.html", [
-      [ "DerivedExample", "classDerivedExample.html", null ]
+    [ "CWnd", null, [
+      [ "CMyWindow", "class_c_my_window.html", null ]
     ] ],
+    [ "NotificationIconManager", "class_notification_icon_manager.html", null ],
     [ "object", null, [
-      [ "clang-tidy-cache.ClangTidyCache", "classclang-tidy-cache_1_1ClangTidyCache.html", null ],
-      [ "clang-tidy-cache.ClangTidyCacheHash", "classclang-tidy-cache_1_1ClangTidyCacheHash.html", null ],
-      [ "clang-tidy-cache.ClangTidyCacheOpts", "classclang-tidy-cache_1_1ClangTidyCacheOpts.html", null ],
-      [ "clang-tidy-cache.ClangTidyLocalCache", "classclang-tidy-cache_1_1ClangTidyLocalCache.html", null ],
-      [ "clang-tidy-cache.ClangTidyRedisCache", "classclang-tidy-cache_1_1ClangTidyRedisCache.html", null ],
-      [ "clang-tidy-cache.ClangTidyS3Cache", "classclang-tidy-cache_1_1ClangTidyS3Cache.html", null ],
-      [ "clang-tidy-cache.ClangTidyServerCache", "classclang-tidy-cache_1_1ClangTidyServerCache.html", null ]
+      [ "clang-tidy-cache.ClangTidyCache", "classclang-tidy-cache_1_1_clang_tidy_cache.html", null ],
+      [ "clang-tidy-cache.ClangTidyCacheHash", "classclang-tidy-cache_1_1_clang_tidy_cache_hash.html", null ],
+      [ "clang-tidy-cache.ClangTidyCacheOpts", "classclang-tidy-cache_1_1_clang_tidy_cache_opts.html", null ],
+      [ "clang-tidy-cache.ClangTidyLocalCache", "classclang-tidy-cache_1_1_clang_tidy_local_cache.html", null ],
+      [ "clang-tidy-cache.ClangTidyRedisCache", "classclang-tidy-cache_1_1_clang_tidy_redis_cache.html", null ],
+      [ "clang-tidy-cache.ClangTidyS3Cache", "classclang-tidy-cache_1_1_clang_tidy_s3_cache.html", null ],
+      [ "clang-tidy-cache.ClangTidyServerCache", "classclang-tidy-cache_1_1_clang_tidy_server_cache.html", null ]
     ] ]
 ];

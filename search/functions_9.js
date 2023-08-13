@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['original_5fargs_125',['original_args',['../classclang-tidy-cache_1_1ClangTidyCacheOpts.html#a88605a2f6605cc5879968609c963abe0',1,'clang-tidy-cache::ClangTidyCacheOpts']]]
+  ['main_123',['main',['../_main_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;Main.cpp'],['../namespaceclang-tidy-cache.html#ae5a9360827a85a9471eba9bd0e140848',1,'clang-tidy-cache.main()']]]
 ];

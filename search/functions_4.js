@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['find_5fct_5fconfig_112',['find_ct_config',['../namespaceclang-tidy-cache.html#a2268d655c464a7275ef7d34da3ca3a6b',1,'clang-tidy-cache']]],
-  ['function_113',['Function',['../classClangTidyExample.html#ae6a95d95d335a16a78df942ddcb8514c',1,'ClangTidyExample']]]
+  ['debug_5fenabled_111',['debug_enabled',['../classclang-tidy-cache_1_1_clang_tidy_cache_opts.html#ab0fd7674aeb73be7fff805fd19231c1b',1,'clang-tidy-cache::ClangTidyCacheOpts']]],
+  ['declare_5fdynamic_112',['DECLARE_DYNAMIC',['../class_c_my_window.html#a471eb45e96af7ff70199798eb1e206b7',1,'CMyWindow']]],
+  ['dump_5fenabled_113',['dump_enabled',['../classclang-tidy-cache_1_1_clang_tidy_cache_opts.html#a22fbccd90227cbfc6fa933a35475e689',1,'clang-tidy-cache::ClangTidyCacheOpts']]]
 ];

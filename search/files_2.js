@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['main_2ecpp_97',['Main.cpp',['../Main_8cpp.html',1,'']]]
+  ['notificationiconmanager_2ecpp_96',['NotificationIconManager.cpp',['../_notification_icon_manager_8cpp.html',1,'']]],
+  ['notificationiconmanager_2eh_97',['NotificationIconManager.h',['../_notification_icon_manager_8h.html',1,'']]]
 ];

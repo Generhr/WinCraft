@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['print_5fstats_126',['print_stats',['../namespaceclang-tidy-cache.html#a9b3db07143732e04693695ee124de392',1,'clang-tidy-cache']]]
+  ['notificationiconmanager_124',['NotificationIconManager',['../class_notification_icon_manager.html#ab57d0e55e2e99567c9476892932d801a',1,'NotificationIconManager::NotificationIconManager(HWND hWnd)'],['../class_notification_icon_manager.html#a9d598ff449e1018675701a51b5cfd2e1',1,'NotificationIconManager::NotificationIconManager(const NotificationIconManager &amp;)=delete'],['../class_notification_icon_manager.html#a0b7e0ec83ce1d0d1bbb765dd41342080',1,'NotificationIconManager::NotificationIconManager(NotificationIconManager &amp;&amp;)=delete']]]
 ];

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['query_5fstats_48',['query_stats',['../classclang-tidy-cache_1_1ClangTidyServerCache.html#aba785bff2f81fa02ddddd20dd3654afa',1,'clang-tidy-cache.ClangTidyServerCache.query_stats()'],['../classclang-tidy-cache_1_1ClangTidyCache.html#aa18cbf04c80ae408a629d1a493b409ef',1,'clang-tidy-cache.ClangTidyCache.query_stats()']]]
+  ['pch_2eh_47',['pch.h',['../pch_8h.html',1,'']]],
+  ['print_5fstats_48',['print_stats',['../namespaceclang-tidy-cache.html#a9b3db07143732e04693695ee124de392',1,'clang-tidy-cache']]]
 ];

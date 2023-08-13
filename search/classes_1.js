@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['derivedexample_86',['DerivedExample',['../classDerivedExample.html',1,'']]]
+  ['notificationiconmanager_89',['NotificationIconManager',['../class_notification_icon_manager.html',1,'']]]
 ];

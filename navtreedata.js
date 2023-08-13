@@ -24,43 +24,36 @@
 */
 var NAVTREE =
 [
-  [ "__Name", "index.html", [
-    [ "C++ Project Template", "index.html", [
-      [ "Structure", "index.html#autotoc_md1", null ],
-      [ "Software Requirements", "index.html#autotoc_md2", null ],
-      [ "Additional setup", "index.html#autotoc_md3", [
-        [ "GitHub", "index.html#autotoc_md4", null ],
-        [ "Local Machine", "index.html#autotoc_md5", null ]
+  [ "WinCraft", "index.html", [
+    [ "About WinCraft", "index.html#autotoc_md1", null ],
+    [ "Features", "index.html#autotoc_md2", null ],
+    [ "CMake Tutorial", "md__r_e_a_d_m_e_cmake.html", [
+      [ "Generating a Project", "md__r_e_a_d_m_e_cmake.html#autotoc_md4", null ],
+      [ "Generator for GCC and Clang", "md__r_e_a_d_m_e_cmake.html#autotoc_md5", null ],
+      [ "Generator for MSVC", "md__r_e_a_d_m_e_cmake.html#autotoc_md6", null ],
+      [ "Specify the Build Type", "md__r_e_a_d_m_e_cmake.html#autotoc_md7", null ],
+      [ "Passing Options", "md__r_e_a_d_m_e_cmake.html#autotoc_md8", null ],
+      [ "Specify the Build Target (Option 1)", "md__r_e_a_d_m_e_cmake.html#autotoc_md9", null ],
+      [ "Specify the Build Target (Option 2)", "md__r_e_a_d_m_e_cmake.html#autotoc_md10", null ],
+      [ "Run the Executable", "md__r_e_a_d_m_e_cmake.html#autotoc_md11", null ],
+      [ "Different Linking Types", "md__r_e_a_d_m_e_cmake.html#autotoc_md12", [
+        [ "PUBLIC", "md__r_e_a_d_m_e_cmake.html#autotoc_md13", null ],
+        [ "PRIVATE", "md__r_e_a_d_m_e_cmake.html#autotoc_md14", null ],
+        [ "INTERFACE", "md__r_e_a_d_m_e_cmake.html#autotoc_md15", null ]
       ] ],
-      [ "Building", "index.html#autotoc_md6", null ]
-    ] ],
-    [ "CMake Tutorial", "md_README_cmake.html", [
-      [ "Generating a Project", "md_README_cmake.html#autotoc_md8", null ],
-      [ "Generator for GCC and Clang", "md_README_cmake.html#autotoc_md9", null ],
-      [ "Generator for MSVC", "md_README_cmake.html#autotoc_md10", null ],
-      [ "Specify the Build Type", "md_README_cmake.html#autotoc_md11", null ],
-      [ "Passing Options", "md_README_cmake.html#autotoc_md12", null ],
-      [ "Specify the Build Target (Option 1)", "md_README_cmake.html#autotoc_md13", null ],
-      [ "Specify the Build Target (Option 2)", "md_README_cmake.html#autotoc_md14", null ],
-      [ "Run the Executable", "md_README_cmake.html#autotoc_md15", null ],
-      [ "Different Linking Types", "md_README_cmake.html#autotoc_md16", [
-        [ "PUBLIC", "md_README_cmake.html#autotoc_md17", null ],
-        [ "PRIVATE", "md_README_cmake.html#autotoc_md18", null ],
-        [ "INTERFACE", "md_README_cmake.html#autotoc_md19", null ]
-      ] ],
-      [ "Different Library Types", "md_README_cmake.html#autotoc_md20", [
-        [ "Shared", "md_README_cmake.html#autotoc_md21", null ],
-        [ "Static", "md_README_cmake.html#autotoc_md22", null ]
+      [ "Different Library Types", "md__r_e_a_d_m_e_cmake.html#autotoc_md16", [
+        [ "Shared", "md__r_e_a_d_m_e_cmake.html#autotoc_md17", null ],
+        [ "Static", "md__r_e_a_d_m_e_cmake.html#autotoc_md18", null ]
       ] ]
     ] ],
-    [ "Software Installation", "md_README_install.html", [
-      [ "How to install VCPKG", "md_README_install.html#autotoc_md24", null ],
-      [ "How to install the Conan Package Manager", "md_README_install.html#autotoc_md25", [
-        [ "Installation Steps", "md_README_install.html#autotoc_md26", null ]
+    [ "Software Installation", "md__r_e_a_d_m_e_install.html", [
+      [ "How to install VCPKG", "md__r_e_a_d_m_e_install.html#autotoc_md20", null ],
+      [ "How to install the Conan Package Manager", "md__r_e_a_d_m_e_install.html#autotoc_md21", [
+        [ "Installation Steps", "md__r_e_a_d_m_e_install.html#autotoc_md22", null ]
       ] ],
-      [ "Formatter and Static Analyzer", "md_README_install.html#autotoc_md27", [
-        [ "Tooling", "md_README_install.html#autotoc_md28", null ],
-        [ "Install Clang Tools", "md_README_install.html#autotoc_md29", null ]
+      [ "Formatter and Static Analyzer", "md__r_e_a_d_m_e_install.html#autotoc_md23", [
+        [ "Tooling", "md__r_e_a_d_m_e_install.html#autotoc_md24", null ],
+        [ "Install Clang Tools", "md__r_e_a_d_m_e_install.html#autotoc_md25", null ]
       ] ]
     ] ],
     [ "Namespaces", "namespaces.html", [
@@ -85,7 +78,8 @@ var NAVTREE =
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
-        [ "Typedefs", "globals_type.html", null ]
+        [ "Variables", "globals_vars.html", null ],
+        [ "Macros", "globals_defs.html", null ]
       ] ]
     ] ]
   ] ]
@@ -93,7 +87,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"Calc_8h.html"
+"_c_my_window_8cpp.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
