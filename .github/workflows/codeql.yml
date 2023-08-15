@@ -58,6 +58,11 @@ jobs:
       # Autobuild attempts to build any compiled languages (C/C++, C#, Go, or Java).
       # If this step fails, then you should remove it and run the build manually (see below).
 
+      - name: Set up Windows Includes Paths
+        run: |
+          # Set environment variables for Windows headers needed by Clang
+          echo "WindowsIncludes=C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0" >> $GITHUB_ENV
+
       - name: Get CMake
         uses: lukka/get-cmake@latest
 
@@ -71,9 +76,8 @@ jobs:
         uses: lukka/run-cmake@v10
         with:
           configurePreset: "ninja-multi-vcpkg"
-          configurePresetAdditionalArgs: '[`-DENABLE_TESTING=OFF`]'
           buildPreset: "ninja-multi-vcpkg-release"
-          buildPresetAdditionalArgs: '[`--target all`, `-j4`]'
+          buildPresetAdditionalArgs: '[`--target all`]'
 
       # ℹ️ Command-line programs to run using the OS shell.
       # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun

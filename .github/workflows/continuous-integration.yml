@@ -31,7 +31,7 @@ jobs:
         uses: lukka/run-cmake@v10
         with:
           configurePreset: "ninja-multi-vcpkg"
-          configurePresetAdditionalArgs: '[`-DENABLE_TESTING=ON`, `DENABLE_CODE_COVERAGE=ON`]'
+          configurePresetAdditionalArgs: '[`-DENABLE_TESTING=ON`, `-DENABLE_CODE_COVERAGE=ON`]'
           buildPreset: "ninja-multi-vcpkg-debug"
           buildPresetAdditionalArgs: '[`--target unit_tests`]'
           testPreset: "ninja-multi-vcpkg-debug"

@@ -30,9 +30,9 @@
                 "ENABLE_WARNINGS": "ON",
                 "ENABLE_WARNINGS_AS_ERRORS": "OFF",
                 "VERBOSE_OUTPUT": "OFF",
-                "ENABLE_TESTING": "ON",
+                "ENABLE_TESTING": "OFF",
                 "USE_GOOGLE_MOCK": "OFF",
-                "ENABLE_CODE_COVERAGE": "ON"
+                "ENABLE_CODE_COVERAGE": "OFF"
             }
         }
     ],
