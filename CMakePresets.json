@@ -11,14 +11,6 @@
             "displayName": "Ninja Multi-Config",
             "description": "Configure with vcpkg toolchain and generate Ninja project files for all configurations",
             "generator": "Ninja Multi-Config",
-            "architecture": {
-                "value": "x64",
-                "strategy": "external"
-            },
-            "toolset": {
-                "value": "host=x64",
-                "strategy": "external"
-            },
             "toolchainFile": "${sourceDir}/external/vcpkg/scripts/buildsystems/vcpkg.cmake",
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
@@ -52,7 +44,7 @@
             "description": "Build ninja-multi-vcpkg Debug configuration",
             "configuration": "Debug",
             "cleanFirst": false,
-            "jobs": 4
+            "jobs": 2
         },
         {
             "name": "ninja-multi-vcpkg-release",
@@ -60,7 +52,7 @@
             "displayName": "Build ninja-multi-vcpkg-release",
             "description": "Build ninja-multi-vcpkg Release configuration",
             "configuration": "Release",
-            "jobs": 4
+            "jobs": 2
         }
     ],
     "testPresets": [
@@ -73,7 +65,7 @@
                 "noTestsAction": "error",
                 "scheduleRandom": true,
                 "stopOnFailure": true,
-                "jobs": 4
+                "jobs": 2
             },
             "output": {
                 "outputOnFailure": true,
@@ -89,7 +81,7 @@
                 "noTestsAction": "error",
                 "scheduleRandom": true,
                 "stopOnFailure": true,
-                "jobs": 4
+                "jobs": 2
             },
             "output": {
                 "outputOnFailure": true,

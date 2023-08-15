@@ -16,7 +16,7 @@ jobs:
       - name: Set up Windows Includes Paths
         run: |
           # Set environment variables for Windows headers needed by Clang
-          echo "WindowsIncludes=C:/Program Files (x86)/Windows Kits/10/Include/10.0.20348.0" >> $GITHUB_ENV
+          echo "WindowsIncludes=C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0" >> $GITHUB_ENV
 
       - name: Get CMake
         uses: lukka/get-cmake@latest
@@ -31,7 +31,7 @@ jobs:
         uses: lukka/run-cmake@v10
         with:
           configurePreset: "ninja-multi-vcpkg"
-          configurePresetAdditionalArgs: '[`-DENABLE_TESTING=ON`, `-ENABLE_CODE_COVERAGE=ON`]'
+          configurePresetAdditionalArgs: '[`-DENABLE_TESTING=ON`, `DENABLE_CODE_COVERAGE=ON`]'
           buildPreset: "ninja-multi-vcpkg-debug"
           buildPresetAdditionalArgs: '[`--target unit_tests`]'
           testPreset: "ninja-multi-vcpkg-debug"
