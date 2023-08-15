@@ -1,24 +1,28 @@
 #include "CMyWindow.h"  //~ Inlcude `winsock2.h` before `windows.h` (https://stackoverflow.com/a/1372836)
 
+#include "Exception.h"
+#include "simpleini.h"
+
 #include <windows.h>
-#include <psapi.h> /* GetModuleFileNameEx */
-#include <string>  /* std::wstring */
-#include <sstream> /* std::istringstream */
+#include <array>   /* std::array */
+#include <codecvt> /* std::codecvt_utf8 */
 #include <locale>  /* std::wstring_convert */
-#include <codecvt> /* std::codecvt_utf8_utf16 */
+#include <psapi.h> /* GetModuleFileNameEx */
+#include <sstream> /* std::istringstream */
+#include <string>  /* std::wstring */
 #include <iostream>
 
-#include "simpleini.h"
+#include "resource.h"
 
 
 IMPLEMENT_DYNAMIC(CMyWindow, CWnd)
-
-int SHELLMESSAGE = RegisterWindowMessage("SHELLHOOK");
 
 BEGIN_MESSAGE_MAP(CMyWindow,
     CWnd)  //~ User-Defined Handlers:
            //: https://learn.microsoft.com/en-us/cpp/mfc/reference/user-defined-handlers?view=msvc-170
 ON_MESSAGE(CALLBACKMESSAGE, &CMyWindow::WindowMessageHandler)
+ON_WM_CAPTURECHANGED()
+
 ON_REGISTERED_MESSAGE(SHELLMESSAGE, &CMyWindow::ShellMessageHandler)
 END_MESSAGE_MAP()
 
@@ -26,25 +30,37 @@ inline static CSimpleIniA ini;
 
 CMyWindow::CMyWindow() {
     // Constructor implementation
-    std::cout << "CMyWindow"
-              << "\n";
+#ifdef __DEBUG
+    std::cout << "CMyWindow\n";
+#endif
+
+    popupMenu.LoadMenu(IDR_MAINMENU);
+
+    if (!popupMenu) {
+        throw Exception(GET_EXCEPTION_FILE, GET_EXCEPTION_LINE, GET_EXCEPTION_COLUMN, L"CMenu::LoadMenu()", GET_LAST_ERROR_DESCRIPTION);
+    }
 
     SI_Error rc = ini.LoadFile("Settings.ini");  //: https://github.com/brofield/simpleini
-    assert(rc == SI_OK);
+
+    if (rc != SI_OK) {
+        throw Exception(GET_EXCEPTION_FILE,
+            GET_EXCEPTION_LINE,
+            GET_EXCEPTION_COLUMN,
+            L"CSimpleIniA::LoadFile()",
+            L"Failed to load ini file (" + std::to_wstring(rc) + L").");
+    }
 }
 
 CMyWindow::~CMyWindow() {
     // Destructor implementation
-    std::cout << "~CMyWindow()"
-              << "\n";
+#ifdef __DEBUG
+    std::cout << "~CMyWindow()\n";
+#endif
+
+    popupMenu.DestroyMenu();
 }
 
-#define IDM_MENU_ITEM1 1001
-#define IDM_MENU_ITEM2 1002
-#define IDM_MENU_ITEM3 1003
-#define IDM_MENU_ITEM4 1004
-
-afx_msg LRESULT CMyWindow::WindowMessageHandler([[maybe_unused]] WPARAM wParam, LPARAM lParam) {
+LRESULT CMyWindow::WindowMessageHandler([[maybe_unused]] WPARAM wParam, LPARAM lParam) {
     switch (lParam) {
         case WM_LBUTTONUP:
             std::cout << "WM_LBUTTONUP"
@@ -52,25 +68,15 @@ afx_msg LRESULT CMyWindow::WindowMessageHandler([[maybe_unused]] WPARAM wParam, 
 
             break;
         case WM_RBUTTONUP: {
-            // Create and display the context menu
-            CMenu SubMenu, MainMenu;
-
-            SubMenu.CreatePopupMenu();
-            SubMenu.AppendMenu(MF_STRING, 4001, _T("1"));
-            SubMenu.AppendMenu(MF_STRING, 4002, _T("2"));
-            SubMenu.AppendMenu(MF_STRING, 4003, _T("4"));
-            SubMenu.AppendMenu(MF_STRING, 4004, _T("8"));
-
-            MainMenu.CreatePopupMenu();
-            MainMenu.AppendMenu(MF_STRING, 4005, _T("Line"));
-            MainMenu.AppendMenu(MF_STRING, 4006, _T("Circle"));
-            MainMenu.AppendMenuA(MF_POPUP, reinterpret_cast<UINT_PTR>(SubMenu.GetSafeHmenu()), _T("Line Thickness"));
-            MainMenu.AppendMenu(MF_STRING, 4007, _T("Exit"));
+            SetForegroundWindow();
 
             POINT cursorPos;
             GetCursorPos(&cursorPos);
 
-            MainMenu.TrackPopupMenu(TPM_LEFTALIGN | TPM_TOPALIGN, cursorPos.x, cursorPos.y, this);
+            popupMenu.GetSubMenu(0)->TrackPopupMenu(TPM_LEFTALIGN | TPM_TOPALIGN, cursorPos.x, cursorPos.y, this);
+
+            PostMessage(WM_NULL, 0,
+                0);  //~ You must force a task switch to the application that called `TrackPopupMenu`
 
             break;
         }
@@ -79,17 +85,42 @@ afx_msg LRESULT CMyWindow::WindowMessageHandler([[maybe_unused]] WPARAM wParam, 
     return 0;
 }
 
-LRESULT CMyWindow::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
-    if (message == WM_COMMAND) {
-        if (HIWORD(wParam) == BN_CLICKED) {
-            switch (LOWORD(wParam)) {
-                case 4007:
-                    PostQuitMessage(0);
-            }
+BOOL CMyWindow::OnCommand(WPARAM wParam, LPARAM lParam) {
+    if (HIWORD(wParam) == BN_CLICKED) {
+        switch (LOWORD(wParam)) {
+            case IDM_MAINMENU_ITEM4:
+#ifdef __TEST
+                fprintf(stderr, "Success");
+                exit(EXIT_SUCCESS);
+#else
+                PostQuitMessage(0);
+#endif
         }
+
+#ifdef __DEBUG
+        std::cout << "\x1B[31mOnCommand\x1B[0m" << std::endl;
+#endif
     }
 
-    return CWnd::WindowProc(message, wParam, lParam);
+    return CWnd::OnCommand(wParam, lParam);
+}
+
+// Using this to restore the focus away from the taskbar when the menu loses focus because a key like Escape or Alt was
+// pressed
+void CMyWindow::OnCaptureChanged(CWnd* pWnd) {
+    if (!(GetAsyncKeyState(VK_LBUTTON) & 0x8000 || GetAsyncKeyState(VK_RBUTTON) & 0x8000)) {
+        // Simulate pressing Alt + Escape keys
+        keybd_event(VK_MENU, 0, KEYEVENTF_EXTENDEDKEY | 0, 0);
+        keybd_event(VK_ESCAPE, 0, KEYEVENTF_EXTENDEDKEY | 0, 0);
+        keybd_event(VK_ESCAPE, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+        keybd_event(VK_MENU, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
+
+#ifdef __DEBUG
+        std::cout << "\x1B[34mRestored focus!\x1B[0m" << std::endl;
+#endif
+    }
+
+    return CWnd::OnCaptureChanged(pWnd);
 }
 
 LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
@@ -99,8 +130,21 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
                       << "\n";
 
             break;
-        case HSHELL_WINDOWDESTROYED:
+        case HSHELL_WINDOWDESTROYED: {
+            HWND hWnd = reinterpret_cast<HWND>(lParam);
+            auto windowIterator = windows.find(hWnd);
+
+            if (windowIterator != windows.end()) {
+                // Window was found in the map, remove it
+                windows.erase(windowIterator);
+
+#ifdef __DEBUG
+                std::cout << "\x1B[31mRemoved window\x1B[0m (" << hWnd << ")" << std::endl;
+                system("pause");
+#endif
+            }
             break;
+        }
         case HSHELL_WINDOWACTIVATED:
         case HSHELL_RUDEAPPACTIVATED: {
 #ifdef __DEBUG
@@ -110,104 +154,119 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
 
             if (UnhookWinEvent(hook)) {
 #ifdef __DEBUG
-                std::wcout << L"\x1B[31mUnhookWinEvent\x1B[0m" << std::endl;
+                std::cout << "\x1B[31mUnhookWinEvent\x1B[0m" << std::endl;
 #endif
             }
 
             HWND hWnd = reinterpret_cast<HWND>(lParam);
 
-            if (pWnd = CMyWindow::FromHandle(hWnd)) {
-                DWORD dwPID;
-                GetWindowThreadProcessId(hWnd, &dwPID);
+            if (IsWindow(hWnd)) {
+                // Check if the window is in the `windows` already
+                if (windows.find(hWnd) == windows.end()) {
+                    DWORD windowPID;
+                    GetWindowThreadProcessId(hWnd, &windowPID);
 
-                HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, dwPID);
+                    HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, windowPID);
 
-                // Set `windowProcessPath`
-                std::array<WCHAR, MAX_PATH> windowProcessPath = {};
-                GetModuleFileNameExW(hProcess, nullptr, windowProcessPath.data(), windowProcessPath.size());
+                    // Set `windowProcessPath`
+                    std::array<WCHAR, MAX_PATH> windowProcessPath = {};
+                    GetModuleFileNameExW(hProcess, nullptr, windowProcessPath.data(), windowProcessPath.size());
 
-                CloseHandle(hProcess);
+                    CloseHandle(hProcess);
 
-                // Set `windowTitle`
-                std::array<WCHAR, 256> windowTitle = {};
-                GetWindowTextW(hWnd, windowTitle.data(), windowTitle.size());
+                    // Set `windowTitle`
+                    std::array<WCHAR, 256> windowTitle = {};
+                    GetWindowTextW(hWnd, windowTitle.data(), windowTitle.size());
 
-                // Set `windowClass`
-                std::array<WCHAR, 256> windowClass = {};
-                GetClassNameW(hWnd, windowClass.data(), windowClass.size());
+                    // Set `windowClassName`
+                    std::array<WCHAR, 256> windowClassName = {};
+                    GetClassNameW(hWnd, windowClassName.data(), windowClassName.size());
 
-                // Set `windowProcessName`
-                std::wstring windowProcessName =
-                    static_cast<std::wstring>(windowProcessPath.data())
-                        .substr(static_cast<std::wstring>(windowProcessPath.data()).find_last_of(L'\\') + 1);
+                    // Set `windowProcessName`. Extract the executable name from the full process path
+                    std::wstring windowProcessName = static_cast<std::wstring>(windowProcessPath.data())
+                                                         .substr(static_cast<std::wstring>(windowProcessPath.data()).find_last_of(L'\\') + 1);
 
-                if (_wcsicmp(windowProcessName.c_str(), L"ApplicationFrameHost.exe") == 0) {
-                    windowProcessName = windowTitle.data();
-                    windowProcessName += L".exe";
-                }
-
-                // Attempt to read position values from Setting.ini
-                std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-                std::string narrowWindowProcessName = converter.to_bytes(windowProcessName);
-
-                std::string value = ini.GetValue("Window Positions", narrowWindowProcessName.c_str(), "default");
-
-                if (value != "default") {
-                    // Create a string stream to tokenize the input
-                    std::istringstream iss(value);
-                    std::string token;
-
-                    // Tokenize the input using ',' as delimiter
-                    for (int i = 0; i < 4 && std::getline(iss, token, ','); i++) {
-                        // Convert the token to an integer and store it in the array
-                        position[i] = std::stoi(token);
+                    // Check if the process name is "ApplicationFrameHost.exe"
+                    if (_wcsicmp(windowProcessName.c_str(), L"ApplicationFrameHost.exe") == 0) {
+                        // If so, replace the process name with the window title and append ".exe" to make it unique
+                        windowProcessName = windowTitle.data();
+                        windowProcessName += L".exe";
                     }
 
-                    DWORD dwProcessId;
-                    GetWindowThreadProcessId(hWnd, &dwProcessId);
+                    // Attempt to read position values from Setting.ini
+                    std::string value = ini.GetValue("Window Positions",
+                        std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(windowProcessName).c_str(),
+                        "Scheißdreck I. Hosen");
+
+                    if (value != "Scheißdreck I. Hosen") {
+                        windows[hWnd].title = windowTitle.data();
+                        windows[hWnd].className = windowClassName.data();
+                        windows[hWnd].processName = windowProcessName;
+                        windows[hWnd].PID = windowPID;
+
+                        // Create a string stream to tokenize the input
+                        std::istringstream iss(value);
+                        std::string token;
+
+                        // Tokenize the input using ',' as delimiter
+                        for (int i = 0; i < 4 && std::getline(iss, token, ','); i++) {
+                            int value = std::stoi(token);
+
+                            (i == 0) ? windows[hWnd].x = value :
+                            (i == 1) ? windows[hWnd].y = value :
+                            (i == 2) ? windows[hWnd].width = value :
+                                       windows[hWnd].height = value;
+                        }
+                    }
+                }
+
+                auto windowIterator = windows.find(hWnd);
+
+                if (windowIterator != windows.end()) {
+                    const CMyWindow::Window& currentWindow = windowIterator->second;
 
                     hook = SetWinEventHook(EVENT_SYSTEM_MOVESIZEEND,
                         EVENT_SYSTEM_MOVESIZEEND,
                         NULL,
                         &CMyWindow::PositionWindow,
-                        dwProcessId,
+                        currentWindow.PID,
                         0,
                         WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
 
 #ifdef __DEBUG
                     std::wcout << L"HSHELL_RUDEAPPACTIVATED:\n"
-                               << L"    * " << windowTitle.data() << L"\n"
-                               << L"    * " << windowClass.data() << L"\n"
-                               << L"    * " << windowProcessName << L"\n"
-                               << L"    * " << position[0] << L", " << position[1] << L", " << position[2] << L", "
-                               << position[3] << std::endl;
-                    std::wcout << L"\x1B[32mSetWinEventHook\x1B[0m" << std::endl;
+                               << L"    * " << currentWindow.title << L"\n"
+                               << L"    * " << currentWindow.className << L"\n"
+                               << L"    * " << currentWindow.processName << L"\n"
+                               << L"    * " << currentWindow.x << L", " << currentWindow.y << L", " << currentWindow.width << L", "
+                               << currentWindow.height << std::endl;
+                    std::cout << "\x1B[32mSetWinEventHook\x1B[0m" << std::endl;
 #endif
 
-                    WINDOWPLACEMENT wp;
-                    pWnd->GetWindowPlacement(&wp);
+                    WINDOWPLACEMENT windowplacement;
+                    ::GetWindowPlacement(hWnd, &windowplacement);
 
-                    if (wp.showCmd == SW_MAXIMIZE) {
+                    if (windowplacement.showCmd == SW_MAXIMIZE) {
 #ifdef __DEBUG
-                        std::cout << "\x1B[33mWindow is maximized\x1B[0m" << std::endl;
+                        std::cout << "\x1B[33mThis window is maximized!\x1B[0m" << std::endl;
 #endif
                     }
                     else {
-                        pWnd->MoveWindow(position[0], position[1], position[2], position[3]);
+                        ::MoveWindow(hWnd, currentWindow.x, currentWindow.y, currentWindow.width, currentWindow.height, TRUE);
 #ifdef __DEBUG
-                        std::cout << "\x1B[32mSet initial position\x1B[0m" << std::endl;
+                        std::cout << "\x1B[32mSet initial position!\x1B[0m" << std::endl;
 #endif
                     }
                 }
                 else {
 #ifdef __DEBUG
-                    std::wcout << L"\x1B[33mNot interested in this window!\x1B[0m" << std::endl;
+                    std::cout << "\x1B[33mNot interested in this window!\x1B[0m" << std::endl;
 #endif
                 }
             }
             else {
 #ifdef __DEBUG
-                std::wcout << L"\x1B[31mThis is not a valid window!\x1B[0m" << std::endl;
+                std::cout << "\x1B[31mThis is not a valid window!\x1B[0m" << std::endl;
 #endif
             }
 
@@ -241,52 +300,26 @@ void CALLBACK CMyWindow::PositionWindow(HWINEVENTHOOK /* hWinEventHook */,
     LONG /* idChild */,
     DWORD /* dwEventThread */,
     DWORD /* dwmsEventTime */) {
+    CMyWindow::Window& currentWindow = windows.find(hWnd)->second;
+
     if (GetKeyState(VK_SHIFT) & 0x8000) {
-        DWORD dwPID;
-        GetWindowThreadProcessId(hWnd, &dwPID);
-
-        HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, dwPID);
-
-        // Set `windowProcessPath`
-        std::array<WCHAR, MAX_PATH> windowProcessPath = {};
-        GetModuleFileNameExW(hProcess, nullptr, windowProcessPath.data(), windowProcessPath.size());
-
-        CloseHandle(hProcess);
-
-        // Set `windowTitle`
-        std::array<WCHAR, 256> windowTitle = {};
-        GetWindowTextW(hWnd, windowTitle.data(), windowTitle.size());
-
-        // Set `windowProcessName`
-        std::wstring windowProcessName =
-            static_cast<std::wstring>(windowProcessPath.data())
-                .substr(static_cast<std::wstring>(windowProcessPath.data()).find_last_of(L'\\') + 1);
-
-        if (_wcsicmp(windowProcessName.c_str(), L"ApplicationFrameHost.exe") == 0) {
-            windowProcessName = windowTitle.data();
-            windowProcessName += L".exe";
-        }
-
         RECT rect;
-        pWnd->GetWindowRect(&rect);
+        ::GetWindowRect(hWnd, &rect);
 
-        position[0] = rect.left;
-        position[1] = rect.top;
-        position[2] = rect.right - rect.left;
-        position[3] = rect.bottom - rect.top;
-
-        // Convert the position values to a string format
-        std::ostringstream newValueStream;
-        newValueStream << position[0] << ", " << position[1] << ", " << position[2] << ", " << position[3];
-        std::string newValue = newValueStream.str();
-
-        std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-        // Convert the process name to narrow string
-        std::string narrowWindowProcessName = converter.to_bytes(windowProcessName);
-
-        ini.SetValue("Window Positions", narrowWindowProcessName.c_str(), newValue.c_str());
+        currentWindow.x = rect.left;
+        currentWindow.y = rect.top;
+        currentWindow.width = rect.right - rect.left;
+        currentWindow.height = rect.bottom - rect.top;
 
         if (GetKeyState(VK_CONTROL) & 0x8000) {
+            // Convert the position values to a string format
+            std::ostringstream newValueStream;
+            newValueStream << currentWindow.x << ", " << currentWindow.y << ", " << currentWindow.width << ", " << currentWindow.height;
+            std::string newValue = newValueStream.str();
+
+            ini.SetValue("Window Positions",
+                std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(currentWindow.processName).c_str(),
+                newValue.c_str());
             // Save the changes to the INI file
             ini.SaveFile("Settings.ini");
         }
@@ -296,7 +329,7 @@ void CALLBACK CMyWindow::PositionWindow(HWINEVENTHOOK /* hWinEventHook */,
 #endif
     }
     else {
-        pWnd->MoveWindow(position[0], position[1], position[2], position[3]);
+        ::MoveWindow(hWnd, currentWindow.x, currentWindow.y, currentWindow.width, currentWindow.height, TRUE);
 
 #ifdef __DEBUG
         std::cout << "\x1B[32mRestored window position\x1B[0m" << std::endl;

@@ -9,7 +9,7 @@ include(cmake/SafeGuards.cmake)
 # NOTE: update this with your new project's details.
 
 project("WinCraft"
-        VERSION "0.1.0" # NOTE: Listing the version is nice here since it sets lots of useful variables.
+        VERSION "0.3.0" # NOTE: Listing the version is nice here since it sets lots of useful variables.
         DESCRIPTION "Window automation tool"
         HOMEPAGE_URL "https://github.com/Onimuru/WinCraft"
         LANGUAGES CXX C # NOTE: To support external libraries, it's good practice to list both CXX and C.
@@ -109,9 +109,8 @@ include(${CMAKE_SOURCE_DIR}/external/vcpkg/scripts/buildsystems/vcpkg.cmake)
 
 add_subdirectory(configure)
 
-# Move any textures so that they are relative to the executable
-file(GLOB_RECURSE COPY_FILES "res/*")
-file(COPY ${COPY_FILES} DESTINATION "${CMAKE_BINARY_DIR}/bin/res")
+# Move the ini file so that it is relative to the executable
+file(COPY "cfg/Settings.ini" DESTINATION "${CMAKE_BINARY_DIR}/bin")
 
 #========== Add Source Files ==================================================#
 
@@ -124,8 +123,7 @@ if(ENABLE_CLANG_TIDY)
     )
 endif()
 
-set(HEADER_LIST # Add here any file you want to add manually which is not in include/*.
-)
+set(HEADER_LIST)
 
 file(GLOB_RECURSE HEADER_FILES include/*${SUFFIX_HPPHEADER})
 
@@ -135,8 +133,8 @@ foreach(HEADER_FILE ${HEADER_FILES})
     endif()
 endforeach()
 
-set(SOURCE_LIST # Add here any file you want to add manually which is not in src/*.cpp.
-)
+# Include the .rc file directly as a source file for the project, CMake is flexible enough to consider any file with a recognized source file extension (like .cpp, .c, .rc, etc.) as part of the source code. Including the .rc file in this way tells CMake to compile it as part of your project without needing to manually compile it into a .res resource file.
+set(SOURCE_LIST "${CMAKE_CURRENT_SOURCE_DIR}/res/resource.rc")
 
 file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
 
@@ -152,71 +150,35 @@ endforeach()
 add_custom_target(clean_build_folder COMMAND git clean -d -f -x)
 
 # Main executable
-if(BUILD_HEADERS_ONLY)
-    add_library(${PROJECT_NAME} INTERFACE)
+if(ENABLE_CLANG_TIDY AND NO_STATIC_CODE_ANALYSIS_LIST)
+    # Create a library with the sources from `NO_STATIC_CODE_ANALYSIS_LIST` and reset its `CMAKE_CXX_CLANG_TIDY` property to avoid having clang-tidy analyze the code:
+    add_library(NO_STATIC_CODE_ANALYSIS OBJECT "${NO_STATIC_CODE_ANALYSIS_LIST}")
+    set_target_properties(NO_STATIC_CODE_ANALYSIS PROPERTIES CXX_CLANG_TIDY "")
+    target_include_directories(NO_STATIC_CODE_ANALYSIS PRIVATE "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>")
 
-    if(VERBOSE_OUTPUT)
-        message(STATUS "Created ${PROJECT_NAME} interface library with the following headers:")
-
-        foreach(HEADER IN LISTS HEADER_LIST)
-            message(STATUS "* ${HEADER}")
-        endforeach()
-    else()
-        message(STATUS "Created ${PROJECT_NAME} interface library")
-    endif()
-elseif(BUILD_EXECUTABLE)
-    if(ENABLE_CLANG_TIDY AND NO_STATIC_CODE_ANALYSIS_LIST)
-        # Create a library with the sources from `NO_STATIC_CODE_ANALYSIS_LIST` and reset its `CMAKE_CXX_CLANG_TIDY` property to avoid having clang-tidy analyze the code:
-        add_library(NO_STATIC_CODE_ANALYSIS OBJECT "${NO_STATIC_CODE_ANALYSIS_LIST}")
-        set_target_properties(NO_STATIC_CODE_ANALYSIS PROPERTIES CXX_CLANG_TIDY "")
-        target_include_directories(NO_STATIC_CODE_ANALYSIS PRIVATE "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>")
-
-        add_executable(${PROJECT_NAME} "src/Main.cpp" "$<TARGET_OBJECTS:NO_STATIC_CODE_ANALYSIS>" "${SOURCE_LIST}" "${HEADER_LIST}")
-    else()
-        add_executable(${PROJECT_NAME} "src/Main.cpp" "${SOURCE_LIST}" "${HEADER_LIST}")
-    endif()
-
-    if(VERBOSE_OUTPUT)
-        message(STATUS "Created ${PROJECT_NAME} binary with the following sources:")
-        message(STATUS "* ${CMAKE_CURRENT_SOURCE_DIR}/src/Main.cpp")
-
-        foreach(SOURCE IN LISTS SOURCE_LIST)
-            message(STATUS "* ${SOURCE}")
-        endforeach()
-    else()
-        message(STATUS "Created ${PROJECT_NAME} binary")
-    endif()
+    add_executable(${PROJECT_NAME} "src/Main.cpp" "$<TARGET_OBJECTS:NO_STATIC_CODE_ANALYSIS>" "${SOURCE_LIST}" "${HEADER_LIST}")
 else()
-    add_library(${PROJECT_NAME} "${SOURCE_LIST}" "${HEADER_LIST}")
+    add_executable(${PROJECT_NAME} "src/Main.cpp" "${SOURCE_LIST}" "${HEADER_LIST}")
+endif()
 
-    if(VERBOSE_OUTPUT)
-        message(STATUS "Created ${PROJECT_NAME} static library with the following sources:")
+if(VERBOSE_OUTPUT)
+    message(STATUS "Created ${PROJECT_NAME} binary with the following sources:")
+    message(STATUS "* ${CMAKE_CURRENT_SOURCE_DIR}/src/Main.cpp")
 
-        foreach(SOURCE IN LISTS SOURCE_LIST)
-            message(STATUS "* ${SOURCE}")
-        endforeach()
-
-        message(STATUS "and the following headers:")
-
-        foreach(HEADER IN LISTS HEADER_LIST)
-            message(STATUS "* ${HEADER}")
-        endforeach()
-    else()
-        message(STATUS "Created ${PROJECT_NAME} static library")
-    endif()
+    foreach(SOURCE IN LISTS SOURCE_LIST)
+        message(STATUS "* ${SOURCE}")
+    endforeach()
+else()
+    message(STATUS "Created ${PROJECT_NAME} binary")
 endif()
 
 #========  Include Directories  ================================================#
 
-if(BUILD_HEADERS_ONLY)
-    target_include_directories(${PROJECT_NAME} INTERFACE $<INSTALL_INTERFACE:include> $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
-else()
-    target_include_directories(
-        ${PROJECT_NAME}
-        PUBLIC "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
-        PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include"
-    )
-endif()
+target_include_directories(
+    ${PROJECT_NAME}
+    PUBLIC "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
+    PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include"
+)
 
 #=====  Set Standard and Warnings  =============================================#
 
@@ -251,11 +213,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Microsoft.GSL::GSL)
 
 #===========  Alias Targets  ===================================================#
 
-if(BUILD_EXECUTABLE)
-    add_executable(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
-else()
-    add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
-endif()
+add_executable(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 #========= Unit Testing Setup =================================================#
 

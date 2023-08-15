@@ -18,10 +18,6 @@ option(ENABLE_DOXYGEN "Enable to create a doxygen build target (doxygen)." ON)
 
 option(VERBOSE_OUTPUT "Enable verbose output, allowing for a better understanding of each step taken." OFF)
 
-option(BUILD_HEADERS_ONLY "Build the project as a header-only library." OFF)
-option(BUILD_EXECUTABLE "Build the project as an executable, rather than a library." ON)
-option(BUILD_SHARED_LIBS "Build libraries as shared as opposed to static." OFF)
-
 cmake_dependent_option(ENABLE_TESTING "Enable to create a unit test build target (unit_tests)." ON "NOT BUILD_TESTING" OFF)
 option(USE_GOOGLE_MOCK "Use the GoogleMock project for extending the unit tests." OFF)
 option(ENABLE_CODE_COVERAGE "Enable to create a Code Coverage build target (coverage)." OFF)
@@ -40,9 +36,6 @@ if(NOT PROJECT_IS_TOP_LEVEL)
         ENABLE_WARNINGS_AS_ERRORS
         ENABLE_DOXYGEN
         VERBOSE_OUTPUT
-        BUILD_HEADERS_ONLY
-        BUILD_EXECUTABLE
-        BUILD_SHARED_LIBS
         ENABLE_TESTING
         USE_GOOGLE_MOCK
         ENABLE_CODE_COVERAGE

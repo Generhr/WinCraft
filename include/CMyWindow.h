@@ -2,15 +2,14 @@
 
 #include <winsock2.h> /* Needed by `afxwin.h` */
 #include <afxwin.h>
-#include <array> /* std::array */
+#include <unordered_map>
 
 
 #define CALLBACKMESSAGE (WM_APP + 1)
 #define __DEBUG
 
-class CMyWindow
-    : public CWnd {  //~ CWnd Class:
-                     //: https://github.com/MicrosoftDocs/cpp-docs/blob/main/docs/mfc/reference/cwnd-class.md#onmenuselect
+class CMyWindow : public CWnd {  //~ CWnd Class:
+                                 //: https://github.com/MicrosoftDocs/cpp-docs/blob/main/docs/mfc/reference/cwnd-class.md#onmenuselect
 public:
     DECLARE_DYNAMIC(CMyWindow)  // cppcheck-suppress unknownMacro
 
@@ -26,21 +25,30 @@ protected:
     DECLARE_MESSAGE_MAP()
 
 private:
-    LRESULT WindowMessageHandler(WPARAM wParam, LPARAM lParam);
-    LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-
-    LRESULT ShellMessageHandler(WPARAM wParam, LPARAM lParam);
-    static void CALLBACK PositionWindow(HWINEVENTHOOK hWinEventHook,
-        DWORD event,
-        HWND hwnd,
-        LONG idObject,
-        LONG idChild,
-        DWORD dwEventThread,
-        DWORD dwmsEventTime);
-
     inline const static int SHELLMESSAGE = RegisterWindowMessage("SHELLHOOK");
 
+    inline static CMenu popupMenu;
+
+    LRESULT WindowMessageHandler(WPARAM wParam, LPARAM lParam);
+    BOOL OnCommand(WPARAM wParam, LPARAM lParam);
+    void OnCaptureChanged(CWnd* pWnd);
+
+    struct Window {
+        std::wstring title;
+        std::wstring className;
+        std::wstring processName;
+        DWORD PID;
+
+        int x;
+        int y;
+        int width;
+        int height;
+    };
+
     inline static HWINEVENTHOOK hook;
-    inline static CWnd* pWnd;
-    inline static std::array<int, 4> position;
+    inline static std::unordered_map<HWND, Window> windows;
+
+    LRESULT ShellMessageHandler(WPARAM wParam, LPARAM lParam);
+    static void CALLBACK
+    PositionWindow(HWINEVENTHOOK hWinEventHook, DWORD event, HWND hwnd, LONG idObject, LONG idChild, DWORD dwEventThread, DWORD dwmsEventTime);
 };

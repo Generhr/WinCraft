@@ -1,0 +1,26 @@
+// https://learn.microsoft.com/en-gb/windows/win32/menurc/about-resource-files?redirectedfrom=MSDN
+
+#include "../include/resource.h"
+
+#include <windows.h>
+
+
+IDR_MAINMENU MENUEX
+BEGIN
+    POPUP "MainMenu"
+    BEGIN
+        MENUITEM "WinCraft", 1000, MFT_BITMAP, MFS_DISABLED | MFS_DEFAULT
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "1", IDM_MAINMENU_ITEM1, MFT_STRING, MFS_ENABLED
+        MENUITEM "2", IDM_MAINMENU_ITEM2, MFT_STRING, MFS_ENABLED
+        POPUP "&Submenu Item 3"
+        BEGIN
+            MENUITEM "Submenu Item 1", IDM_SUBMENU1_ITEM1, MFT_STRING, MFS_ENABLED
+            MENUITEM "Submenu Item 2", IDM_SUBMENU1_ITEM2, MFT_STRING, MFS_ENABLED
+            MENUITEM "Submenu Item 3", IDM_SUBMENU1_ITEM3, MFT_STRING, MFS_ENABLED
+            MENUITEM "Submenu Item 4", IDM_SUBMENU1_ITEM4, MFT_STRING, MFS_ENABLED
+        END
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Quit WinCraft", IDM_MAINMENU_ITEM4, MFT_STRING, MFS_ENABLED
+    END
+END

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Exception.h"
+
 #include <windows.h>
 #include <shellapi.h> /* NOTIFYICONDATAA, Shell_NotifyIcon */
 

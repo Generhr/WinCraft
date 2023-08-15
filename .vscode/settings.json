@@ -1,7 +1,7 @@
 {
     //============== Native ======================================================//
     "editor.rulers": [
-        120
+        150
     ],
     "files.associations": {
         "*.py": "python",
@@ -115,7 +115,9 @@
         "xutility": "cpp",
         "assert": "cpp",
         "string_span": "cpp",
-        "pointers": "cpp"
+        "pointers": "cpp",
+        "source_location": "cpp",
+        "*.rh": "cpp"
     },
     "files.autoSave": "off", //~ Builds the project when you switch to another window (annoying).
     "files.exclude": {
@@ -319,34 +321,51 @@
         "*.c(pp)?"
     ],
     "cSpell.words": [
+        "afxres",
+        "BYPOSITION",
         "codecov",
         "countof",
         "dwms",
         "DXTRACE",
         "FILEW",
         "gcovr",
+        "gtest",
         "HHOOK",
         "HMENU",
+        "Hosen",
         "HRESULT",
         "HSHELL",
         "HWINEVENTHOOK",
         "HWND",
         "IWYU",
+        "keybd",
+        "KEYEVENTF",
         "kwargs",
+        "LBUTTON",
         "LBUTTONUP",
         "lcov",
         "LPARAM",
         "LPCREATESTRUCT",
         "lpfn",
+        "LPSTR",
         "lpsz",
+        "LPWSTR",
         "LRESULT",
         "lstrcpy",
         "LUID",
+        "MENUEX",
+        "MYMENU",
         "NOTIFYICONDATAA",
         "Onimuru",
         "OUTOFCONTEXT",
         "pargs",
+        "poopypants",
+        "RBUTTON",
+        "RBUTTONDOWN",
         "RBUTTONUP",
-        "vcpkg"
+        "Scheißdreck",
+        "tsystem",
+        "vcpkg",
+        "wndpl"
     ],
 }
