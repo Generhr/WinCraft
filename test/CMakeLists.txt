@@ -75,11 +75,11 @@ if(ENABLE_CODE_COVERAGE)
             #~ CTest Command-Line Reference: https://manpages.ubuntu.com/manpages/xenial/en/man1/ctest.1.html
             COMMAND ctest -C $<CONFIGURATION> --quiet -j ${PROCESSOR_COUNT}
             #~ llvm-profdata: https://llvm.org/docs/CommandGuide/llvm-profdata.html
-            COMMAND llvm-profdata merge -sparse ${PROJECT_BINARY_DIR}/default.profraw -o ${PROJECT_BINARY_DIR}/coverage.profdata
+            COMMAND llvm-profdata merge -sparse default.profraw -o coverage.profdata
             #~ llvm-cov: https://llvm.org/docs/CommandGuide/llvm-cov.html
-            COMMAND llvm-cov show -format=html -instr-profile=${PROJECT_BINARY_DIR}/coverage.profdata -j ${PROCESSOR_COUNT} -o ${CMAKE_BINARY_DIR} ${PROJECT_BINARY_DIR}/${TEST_NAME}.exe
-            WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
-            COMMENT "Generating code coverage report for ${TEST_NAME}"
+            COMMAND llvm-cov show -format=html -instr-profile coverage.profdata -j ${PROCESSOR_COUNT} -o "${CMAKE_BINARY_DIR}" ${TEST_NAME}.exe
+            WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
+            COMMENT "Generating code coverage report"
         )
     endforeach()
 endif()
