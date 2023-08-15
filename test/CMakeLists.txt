@@ -55,28 +55,29 @@ foreach(TEST_FILE ${TEST_FILES})
     )
 
     list(APPEND TEST_NAMES "${TEST_NAME}")
-
-    add_custom_command(
-        TARGET ${TEST_NAME}
-        POST_BUILD
-        WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
-        COMMAND ${CMAKE_CTEST_COMMAND} -C $<CONFIGURATION> -R "^${UNIT_TEST}$" --output-on-failures
-    )
 endforeach()
 
 add_custom_target(unit_tests DEPENDS ${TEST_NAMES})
 
 if(ENABLE_CODE_COVERAGE)
+    # Get the number of processors to speed up linting
+    include(ProcessorCount)
+    ProcessorCount(PROCESSOR_COUNT)
+
+    if(PROCESSOR_COUNT EQUAL 0)
+        set(PROCESSOR_COUNT 1)
+    endif()
+
     foreach(TEST_NAME ${TEST_NAMES})
         add_custom_command(
             TARGET unit_tests
             POST_BUILD
             #~ CTest Command-Line Reference: https://manpages.ubuntu.com/manpages/xenial/en/man1/ctest.1.html
-            COMMAND ctest -C $<CONFIGURATION> --quiet -j 8
+            COMMAND ctest -C $<CONFIGURATION> --quiet -j ${PROCESSOR_COUNT}
             #~ llvm-profdata: https://llvm.org/docs/CommandGuide/llvm-profdata.html
             COMMAND llvm-profdata merge -sparse "${PROJECT_BINARY_DIR}/default.profraw" -o "${PROJECT_BINARY_DIR}/coverage.profdata"
             #~ llvm-cov: https://llvm.org/docs/CommandGuide/llvm-cov.html
-            COMMAND llvm-cov show -format=html "-instr-profile=${PROJECT_BINARY_DIR}/coverage.profdata" -o "${CMAKE_BINARY_DIR}" "${PROJECT_BINARY_DIR}/${TEST_NAME}.exe" -j 8
+            COMMAND llvm-cov show -format=html "-instr-profile=${PROJECT_BINARY_DIR}/coverage.profdata" -o "${CMAKE_BINARY_DIR}" "${PROJECT_BINARY_DIR}/${TEST_NAME}.exe" -j ${PROCESSOR_COUNT}
             WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
             COMMENT "Generating code coverage report for ${TEST_NAME}"
         )
