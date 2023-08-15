@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['notificationiconmanager_89',['NotificationIconManager',['../class_notification_icon_manager.html',1,'']]]
+  ['exception_110',['Exception',['../class_exception.html',1,'']]]
 ];

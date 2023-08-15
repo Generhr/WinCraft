@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['operator_3d_45',['operator=',['../class_c_my_window.html#a648ca1b01f92402823751cfec4264795',1,'CMyWindow::operator=(const CMyWindow &amp;)=delete'],['../class_c_my_window.html#a1c54eb618c08cdc82519a69774ed40ed',1,'CMyWindow::operator=(CMyWindow &amp;&amp;)=delete'],['../class_notification_icon_manager.html#af08c7d833ed5073ad58f7b33a4d5d0de',1,'NotificationIconManager::operator=(const NotificationIconManager &amp;)=delete'],['../class_notification_icon_manager.html#a72a252c5f2e98ef35bf824b02f0fe547',1,'NotificationIconManager::operator=(NotificationIconManager &amp;&amp;)=delete']]],
-  ['original_5fargs_46',['original_args',['../classclang-tidy-cache_1_1_clang_tidy_cache_opts.html#a88605a2f6605cc5879968609c963abe0',1,'clang-tidy-cache::ClangTidyCacheOpts']]]
+  ['notificationiconmanager_61',['NotificationIconManager',['../class_notification_icon_manager.html',1,'NotificationIconManager'],['../class_notification_icon_manager.html#ab57d0e55e2e99567c9476892932d801a',1,'NotificationIconManager::NotificationIconManager(HWND hWnd)'],['../class_notification_icon_manager.html#a9d598ff449e1018675701a51b5cfd2e1',1,'NotificationIconManager::NotificationIconManager(const NotificationIconManager &amp;)=delete'],['../class_notification_icon_manager.html#a0b7e0ec83ce1d0d1bbb765dd41342080',1,'NotificationIconManager::NotificationIconManager(NotificationIconManager &amp;&amp;)=delete']]],
+  ['notificationiconmanager_2ecpp_62',['NotificationIconManager.cpp',['../_notification_icon_manager_8cpp.html',1,'']]],
+  ['notificationiconmanager_2eh_63',['NotificationIconManager.h',['../_notification_icon_manager_8h.html',1,'']]]
 ];

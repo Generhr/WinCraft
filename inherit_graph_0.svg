@@ -8,9 +8,9 @@
  viewBox="0.00 0.00 219.25 347.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 343)">
 <title>Graphical Class Hierarchy</title>
-<!-- Node4 -->
+<!-- Node5 -->
 <g id="node1" class="node">
-<title>Node4</title>
+<title>Node5</title>
 <g id="a_node1"><a xlink:title=" ">
 <polygon fill="none" stroke="#bfbfbf" points="0,-159.5 0,-179.5 42.25,-179.5 42.25,-159.5 0,-159.5"/>
 <text text-anchor="middle" x="21.12" y="-166" font-family="Helvetica,sans-Serif" font-size="10.00">object</text>
@@ -27,15 +27,15 @@
 </a>
 </g>
 </g>
-<!-- Node4&#45;&gt;Node0 -->
+<!-- Node5&#45;&gt;Node0 -->
 <g id="edge1" class="edge">
-<title>Node4&#45;&gt;Node0</title>
+<title>Node5&#45;&gt;Node0</title>
 <path fill="none" stroke="midnightblue" d="M25.91,-189.79C32.12,-217.68 47.04,-267.77 78.25,-297.5 81.86,-300.94 86,-303.92 90.4,-306.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="29.2,-189.41 23.76,-180.32 22.34,-190.82 29.2,-189.41"/>
 </g>
-<!-- Node6 -->
+<!-- Node7 -->
 <g id="node3" class="node">
-<title>Node6</title>
+<title>Node7</title>
 <g id="a_node3"><a xlink:href="classclang-tidy-cache_1_1_clang_tidy_cache_hash.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="78.25,-255.5 78.25,-287.5 211.25,-287.5 211.25,-255.5 78.25,-255.5"/>
 <text text-anchor="start" x="86.25" y="-274" font-family="Helvetica,sans-Serif" font-size="10.00">clang&#45;tidy&#45;cache.ClangTidy</text>
@@ -43,15 +43,15 @@
 </a>
 </g>
 </g>
-<!-- Node4&#45;&gt;Node6 -->
+<!-- Node5&#45;&gt;Node7 -->
 <g id="edge2" class="edge">
-<title>Node4&#45;&gt;Node6</title>
+<title>Node5&#45;&gt;Node7</title>
 <path fill="none" stroke="midnightblue" d="M32.11,-189.05C41.81,-206.29 58.01,-231.02 78.25,-246.5 82.79,-249.97 87.88,-253.02 93.15,-255.67"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="34.76,-187.58 26.94,-180.43 28.59,-190.9 34.76,-187.58"/>
 </g>
-<!-- Node7 -->
+<!-- Node8 -->
 <g id="node4" class="node">
-<title>Node7</title>
+<title>Node8</title>
 <g id="a_node4"><a xlink:href="classclang-tidy-cache_1_1_clang_tidy_cache_opts.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="78.25,-204.5 78.25,-236.5 211.25,-236.5 211.25,-204.5 78.25,-204.5"/>
 <text text-anchor="start" x="86.25" y="-223" font-family="Helvetica,sans-Serif" font-size="10.00">clang&#45;tidy&#45;cache.ClangTidy</text>
@@ -59,15 +59,15 @@
 </a>
 </g>
 </g>
-<!-- Node4&#45;&gt;Node7 -->
+<!-- Node5&#45;&gt;Node8 -->
 <g id="edge3" class="edge">
-<title>Node4&#45;&gt;Node7</title>
+<title>Node5&#45;&gt;Node8</title>
 <path fill="none" stroke="midnightblue" d="M52.03,-183.82C60.46,-187.73 69.67,-191.88 78.25,-195.5 85.43,-198.53 93.11,-201.6 100.6,-204.52"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="53.78,-180.3 43.24,-179.23 50.81,-186.64 53.78,-180.3"/>
 </g>
-<!-- Node8 -->
+<!-- Node9 -->
 <g id="node5" class="node">
-<title>Node8</title>
+<title>Node9</title>
 <g id="a_node5"><a xlink:href="classclang-tidy-cache_1_1_clang_tidy_local_cache.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="78.25,-153.5 78.25,-185.5 211.25,-185.5 211.25,-153.5 78.25,-153.5"/>
 <text text-anchor="start" x="86.25" y="-172" font-family="Helvetica,sans-Serif" font-size="10.00">clang&#45;tidy&#45;cache.ClangTidy</text>
@@ -75,15 +75,15 @@
 </a>
 </g>
 </g>
-<!-- Node4&#45;&gt;Node8 -->
+<!-- Node5&#45;&gt;Node9 -->
 <g id="edge4" class="edge">
-<title>Node4&#45;&gt;Node8</title>
+<title>Node5&#45;&gt;Node9</title>
 <path fill="none" stroke="midnightblue" d="M52.98,-169.5C60.83,-169.5 69.56,-169.5 78.43,-169.5"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="53.21,-166 43.21,-169.5 53.21,-173 53.21,-166"/>
 </g>
-<!-- Node9 -->
+<!-- Node10 -->
 <g id="node6" class="node">
-<title>Node9</title>
+<title>Node10</title>
 <g id="a_node6"><a xlink:href="classclang-tidy-cache_1_1_clang_tidy_redis_cache.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="78.25,-102.5 78.25,-134.5 211.25,-134.5 211.25,-102.5 78.25,-102.5"/>
 <text text-anchor="start" x="86.25" y="-121" font-family="Helvetica,sans-Serif" font-size="10.00">clang&#45;tidy&#45;cache.ClangTidy</text>
@@ -91,15 +91,15 @@
 </a>
 </g>
 </g>
-<!-- Node4&#45;&gt;Node9 -->
+<!-- Node5&#45;&gt;Node10 -->
 <g id="edge5" class="edge">
-<title>Node4&#45;&gt;Node9</title>
+<title>Node5&#45;&gt;Node10</title>
 <path fill="none" stroke="midnightblue" d="M51.9,-155.96C60.38,-152.18 69.65,-148.12 78.25,-144.5 86.14,-141.18 94.62,-137.73 102.76,-134.47"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="50.73,-153.1 43.04,-160.39 53.6,-159.49 50.73,-153.1"/>
 </g>
-<!-- Node10 -->
+<!-- Node11 -->
 <g id="node7" class="node">
-<title>Node10</title>
+<title>Node11</title>
 <g id="a_node7"><a xlink:href="classclang-tidy-cache_1_1_clang_tidy_s3_cache.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="78.25,-51.5 78.25,-83.5 211.25,-83.5 211.25,-51.5 78.25,-51.5"/>
 <text text-anchor="start" x="86.25" y="-70" font-family="Helvetica,sans-Serif" font-size="10.00">clang&#45;tidy&#45;cache.ClangTidy</text>
@@ -107,15 +107,15 @@
 </a>
 </g>
 </g>
-<!-- Node4&#45;&gt;Node10 -->
+<!-- Node5&#45;&gt;Node11 -->
 <g id="edge6" class="edge">
-<title>Node4&#45;&gt;Node10</title>
+<title>Node5&#45;&gt;Node11</title>
 <path fill="none" stroke="midnightblue" d="M32.22,-150.27C41.99,-133.29 58.23,-108.92 78.25,-93.5 83.19,-89.69 88.77,-86.37 94.52,-83.49"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="28.76,-148.29 27,-158.74 34.89,-151.67 28.76,-148.29"/>
 </g>
-<!-- Node11 -->
+<!-- Node12 -->
 <g id="node8" class="node">
-<title>Node11</title>
+<title>Node12</title>
 <g id="a_node8"><a xlink:href="classclang-tidy-cache_1_1_clang_tidy_server_cache.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="78.25,-0.5 78.25,-32.5 211.25,-32.5 211.25,-0.5 78.25,-0.5"/>
 <text text-anchor="start" x="86.25" y="-19" font-family="Helvetica,sans-Serif" font-size="10.00">clang&#45;tidy&#45;cache.ClangTidy</text>
@@ -123,9 +123,9 @@
 </a>
 </g>
 </g>
-<!-- Node4&#45;&gt;Node11 -->
+<!-- Node5&#45;&gt;Node12 -->
 <g id="edge7" class="edge">
-<title>Node4&#45;&gt;Node11</title>
+<title>Node5&#45;&gt;Node12</title>
 <path fill="none" stroke="midnightblue" d="M26.1,-149.06C32.48,-121.38 47.54,-72.06 78.25,-42.5 82.3,-38.6 87.02,-35.26 92.02,-32.4"/>
 <polygon fill="midnightblue" stroke="midnightblue" points="22.47,-148.28 23.81,-158.79 29.32,-149.73 22.47,-148.28"/>
 </g>

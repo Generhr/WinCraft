@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['_7ecmywindow_79',['~CMyWindow',['../class_c_my_window.html#ad93f6824bf3aeb44c9c046a91daf284e',1,'CMyWindow']]],
-  ['_7enotificationiconmanager_80',['~NotificationIconManager',['../class_notification_icon_manager.html#ace7dabad40a287938ff557442129418f',1,'NotificationIconManager']]]
+  ['update_97',['update',['../classclang-tidy-cache_1_1_clang_tidy_cache_hash.html#af8b7008cb7ee3cde06add700eab0f068',1,'clang-tidy-cache::ClangTidyCacheHash']]]
 ];

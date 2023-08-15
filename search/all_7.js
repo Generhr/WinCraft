@@ -1,8 +1,15 @@
 var searchData=
 [
-  ['has_5fhost_29',['has_host',['../classclang-tidy-cache_1_1_clang_tidy_cache_opts.html#a927cd4f13fc1130a3a385a6d906a6c2c',1,'clang-tidy-cache::ClangTidyCacheOpts']]],
-  ['has_5fredis_5fhost_30',['has_redis_host',['../classclang-tidy-cache_1_1_clang_tidy_cache_opts.html#acf46183cc7aacd0d7244ed26b6d07837',1,'clang-tidy-cache::ClangTidyCacheOpts']]],
-  ['has_5fs3_31',['has_s3',['../classclang-tidy-cache_1_1_clang_tidy_cache_opts.html#a49c4d10291d45fc4fad21494b7f8bd78',1,'clang-tidy-cache::ClangTidyCacheOpts']]],
-  ['hash_5finputs_32',['hash_inputs',['../namespaceclang-tidy-cache.html#a540f1c62d93828382ab1ae6805dff4e0',1,'clang-tidy-cache']]],
-  ['hexdigest_33',['hexdigest',['../classclang-tidy-cache_1_1_clang_tidy_cache_hash.html#a88b72ecb4444bcfcbab33debac1a07e3',1,'clang-tidy-cache::ClangTidyCacheHash']]]
+  ['get_5fcache_5fdata_31',['get_cache_data',['../classclang-tidy-cache_1_1_clang_tidy_local_cache.html#ae83e4d8036c17238ba7a02282c00fa30',1,'clang-tidy-cache.ClangTidyLocalCache.get_cache_data()'],['../classclang-tidy-cache_1_1_clang_tidy_redis_cache.html#a1ff639401cd30de486acfd2a20fa1341',1,'clang-tidy-cache.ClangTidyRedisCache.get_cache_data()'],['../classclang-tidy-cache_1_1_clang_tidy_cache.html#aa23477dd179d0fbb9d576d436f38a9aa',1,'clang-tidy-cache.ClangTidyCache.get_cache_data()']]],
+  ['get_5fexception_5fcolumn_32',['GET_EXCEPTION_COLUMN',['../_exception_8h.html#abf2f7eb4b91cb6db457a5ceb455cc4dd',1,'Exception.h']]],
+  ['get_5fexception_5ffile_33',['GET_EXCEPTION_FILE',['../_exception_8h.html#aed4707ac1c9504c4f64622473fb39029',1,'Exception.h']]],
+  ['get_5fexception_5fline_34',['GET_EXCEPTION_LINE',['../_exception_8h.html#af5855f8bede79203cd0f28ea6204c431',1,'Exception.h']]],
+  ['get_5flast_5ferror_5fdescription_35',['GET_LAST_ERROR_DESCRIPTION',['../_exception_8h.html#a1c3a0cdd833d8e77bb2add49e014c78c',1,'Exception.h']]],
+  ['getcolumn_36',['GetColumn',['../class_exception.html#aec051e0fde1147cd00c8e65255525d23',1,'Exception']]],
+  ['getfile_37',['GetFile',['../class_exception.html#ae3ed2d2a48ffb48eae944d6c3b87558e',1,'Exception']]],
+  ['getfullmessage_38',['GetFullMessage',['../class_exception.html#a24790b7d43274e6043122fa6546f27e2',1,'Exception']]],
+  ['getline_39',['GetLine',['../class_exception.html#acb23ac14125e3c513f5404256d1b70bd',1,'Exception']]],
+  ['getlocation_40',['GetLocation',['../class_exception.html#acb5c9464ffc8a86bd6ea9e02c3702327',1,'Exception']]],
+  ['getnote_41',['GetNote',['../class_exception.html#ac17b8d732b73373bb946215795775047',1,'Exception']]],
+  ['gettitle_42',['GetTitle',['../class_exception.html#acd380a1e7b3c31a64a7e818b49810be5',1,'Exception']]]
 ];

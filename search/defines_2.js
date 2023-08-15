@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['idm_5fmenu_5fitem1_157',['IDM_MENU_ITEM1',['../_c_my_window_8cpp.html#a756ae37e2a28d7a56a191cd3bfd504d4',1,'CMyWindow.cpp']]],
-  ['idm_5fmenu_5fitem2_158',['IDM_MENU_ITEM2',['../_c_my_window_8cpp.html#a6d8805da064053a8ee35b3d00f5d6371',1,'CMyWindow.cpp']]],
-  ['idm_5fmenu_5fitem3_159',['IDM_MENU_ITEM3',['../_c_my_window_8cpp.html#ac0fcc2034e13651647766df19eedfbea',1,'CMyWindow.cpp']]],
-  ['idm_5fmenu_5fitem4_160',['IDM_MENU_ITEM4',['../_c_my_window_8cpp.html#a99d81c670e4b74278a19c8f19f164903',1,'CMyWindow.cpp']]]
+  ['get_5fexception_5fcolumn_192',['GET_EXCEPTION_COLUMN',['../_exception_8h.html#abf2f7eb4b91cb6db457a5ceb455cc4dd',1,'Exception.h']]],
+  ['get_5fexception_5ffile_193',['GET_EXCEPTION_FILE',['../_exception_8h.html#aed4707ac1c9504c4f64622473fb39029',1,'Exception.h']]],
+  ['get_5fexception_5fline_194',['GET_EXCEPTION_LINE',['../_exception_8h.html#af5855f8bede79203cd0f28ea6204c431',1,'Exception.h']]],
+  ['get_5flast_5ferror_5fdescription_195',['GET_LAST_ERROR_DESCRIPTION',['../_exception_8h.html#a1c3a0cdd833d8e77bb2add49e014c78c',1,'Exception.h']]]
 ];

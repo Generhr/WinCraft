@@ -1,8 +1,11 @@
 var searchData=
 [
-  ['has_5fhost_116',['has_host',['../classclang-tidy-cache_1_1_clang_tidy_cache_opts.html#a927cd4f13fc1130a3a385a6d906a6c2c',1,'clang-tidy-cache::ClangTidyCacheOpts']]],
-  ['has_5fredis_5fhost_117',['has_redis_host',['../classclang-tidy-cache_1_1_clang_tidy_cache_opts.html#acf46183cc7aacd0d7244ed26b6d07837',1,'clang-tidy-cache::ClangTidyCacheOpts']]],
-  ['has_5fs3_118',['has_s3',['../classclang-tidy-cache_1_1_clang_tidy_cache_opts.html#a49c4d10291d45fc4fad21494b7f8bd78',1,'clang-tidy-cache::ClangTidyCacheOpts']]],
-  ['hash_5finputs_119',['hash_inputs',['../namespaceclang-tidy-cache.html#a540f1c62d93828382ab1ae6805dff4e0',1,'clang-tidy-cache']]],
-  ['hexdigest_120',['hexdigest',['../classclang-tidy-cache_1_1_clang_tidy_cache_hash.html#a88b72ecb4444bcfcbab33debac1a07e3',1,'clang-tidy-cache::ClangTidyCacheHash']]]
+  ['get_5fcache_5fdata_140',['get_cache_data',['../classclang-tidy-cache_1_1_clang_tidy_local_cache.html#ae83e4d8036c17238ba7a02282c00fa30',1,'clang-tidy-cache.ClangTidyLocalCache.get_cache_data()'],['../classclang-tidy-cache_1_1_clang_tidy_redis_cache.html#a1ff639401cd30de486acfd2a20fa1341',1,'clang-tidy-cache.ClangTidyRedisCache.get_cache_data()'],['../classclang-tidy-cache_1_1_clang_tidy_cache.html#aa23477dd179d0fbb9d576d436f38a9aa',1,'clang-tidy-cache.ClangTidyCache.get_cache_data()']]],
+  ['getcolumn_141',['GetColumn',['../class_exception.html#aec051e0fde1147cd00c8e65255525d23',1,'Exception']]],
+  ['getfile_142',['GetFile',['../class_exception.html#ae3ed2d2a48ffb48eae944d6c3b87558e',1,'Exception']]],
+  ['getfullmessage_143',['GetFullMessage',['../class_exception.html#a24790b7d43274e6043122fa6546f27e2',1,'Exception']]],
+  ['getline_144',['GetLine',['../class_exception.html#acb23ac14125e3c513f5404256d1b70bd',1,'Exception']]],
+  ['getlocation_145',['GetLocation',['../class_exception.html#acb5c9464ffc8a86bd6ea9e02c3702327',1,'Exception']]],
+  ['getnote_146',['GetNote',['../class_exception.html#ac17b8d732b73373bb946215795775047',1,'Exception']]],
+  ['gettitle_147',['GetTitle',['../class_exception.html#acd380a1e7b3c31a64a7e818b49810be5',1,'Exception']]]
 ];

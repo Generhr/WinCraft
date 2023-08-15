@@ -10,5 +10,6 @@ var annotated_dup =
       [ "ClangTidyCache", "classclang-tidy-cache_1_1_clang_tidy_cache.html", "classclang-tidy-cache_1_1_clang_tidy_cache" ]
     ] ],
     [ "CMyWindow", "class_c_my_window.html", "class_c_my_window" ],
+    [ "Exception", "class_exception.html", "class_exception" ],
     [ "NotificationIconManager", "class_notification_icon_manager.html", "class_notification_icon_manager" ]
 ];
