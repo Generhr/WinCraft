@@ -13,11 +13,6 @@ jobs:
         with:
           submodules: true
 
-      - name: Set up Windows Includes Paths
-        run: |
-          # Set environment variables for Windows headers needed by Clang
-          echo "WindowsIncludes=C:/Program Files (x86)/Windows Kits/10/Include/10.0.22621.0" >> $GITHUB_ENV
-
       - name: Get CMake
         uses: lukka/get-cmake@latest
 

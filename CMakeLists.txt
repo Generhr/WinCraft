@@ -118,7 +118,7 @@ add_subdirectory(external EXCLUDE_FROM_ALL)
 
 set(PRECOMPILED_HEADER_LIST "${CMAKE_CURRENT_SOURCE_DIR}/include/pch.h")
 
-set(WINDOWS_HEADERS_NEEDED_BY_CLANG_LIST "$ENV{WindowsIncludes}/shared" "$ENV{WindowsIncludes}/um")
+set(WINDOWS_HEADERS_NEEDED_BY_CLANG_LIST "$ENV{EXTERNAL_INCLUDE}")
 
 if(ENABLE_CLANG_TIDY)
     set(NO_STATIC_CODE_ANALYSIS_LIST # Add here any file you want to exclude from clang-tidy static analysis.
@@ -208,9 +208,7 @@ add_compile_definitions(_AFXDLL)
 #=========  Link Dependencies  =================================================#
 
 # Precompile headers
-if(NOT ENABLE_CLANG_TIDY)
-    target_precompile_headers(${PROJECT_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:${PRECOMPILED_HEADER_LIST}>")
-endif()
+target_precompile_headers(${PROJECT_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:${PRECOMPILED_HEADER_LIST}>")
 
 find_package(Microsoft.GSL CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE Microsoft.GSL::GSL)

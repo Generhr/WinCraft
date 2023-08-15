@@ -41,9 +41,9 @@ jobs:
         uses: lukka/run-cmake@v10
         with:
           configurePreset: "ninja-multi-vcpkg"
-          configurePresetAdditionalArgs: '[`-DENABLE_DOXYGEN=ON`, `-DENABLE_TESTING=OFF`]'
+          configurePresetAdditionalArgs: '[`-DENABLE_DOXYGEN=ON`]'
           buildPreset: "ninja-multi-vcpkg-release"
-          buildPresetAdditionalArgs: '[`--target doxygen`, `-j4`]'
+          buildPresetAdditionalArgs: '[`--target doxygen`]'
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3  #: https://github.com/peaceiris/actions-gh-pages

@@ -1,6 +1,7 @@
 #include "CMyWindow.h"
 #include "NotificationIconManager.h"
 
+#include <sstream>
 #include <iostream>
 
 
