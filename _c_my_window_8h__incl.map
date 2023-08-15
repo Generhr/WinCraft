@@ -1,6 +1,7 @@
 <map id="include/CMyWindow.h" name="include/CMyWindow.h">
-<area shape="rect" id="node1" title=" " alt="" coords="75,5,225,33"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,81,92,109"/>
-<area shape="rect" id="node3" title=" " alt="" coords="116,81,184,109"/>
-<area shape="rect" id="node4" title=" " alt="" coords="208,81,318,109"/>
+<area shape="rect" id="node1" title=" " alt="" coords="122,5,272,33"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,81,96,109"/>
+<area shape="rect" id="node3" title=" " alt="" coords="120,81,189,109"/>
+<area shape="rect" id="node4" title=" " alt="" coords="213,81,267,109"/>
+<area shape="rect" id="node5" title=" " alt="" coords="290,81,400,109"/>
 </map>

@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">WinCraft
-   &#160;<span id="projectnumber">0.3.0</span>
+   &#160;<span id="projectnumber">0.4.0</span>
    </div>
    <div id="projectbrief">Window automation tool</div>
   </td>
@@ -92,12 +92,13 @@ $(document).ready(function(){initNavTree('_exception_8h.html',''); initResizable
 <div class="title">Exception.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;string&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="_string_conversion_8h_source.html">Utility/StringConversion.h</a>&quot;</code><br />
+<code>#include &lt;string&gt;</code><br />
 <code>#include &lt;source_location&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Exception.h:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="_exception_8h__incl.svg" width="200" height="115"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="_exception_8h__incl.svg" width="387" height="191"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -116,7 +117,7 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:aed4707ac1c9504c4f64622473fb39029"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_exception_8h.html#aed4707ac1c9504c4f64622473fb39029">GET_EXCEPTION_FILE</a>&#160;&#160;&#160;    std::wstring_convert&lt;std::codecvt_utf8&lt;wchar_t&gt;&gt;().from_bytes(std::source_location::current().file_name())</td></tr>
+<tr class="memitem:aed4707ac1c9504c4f64622473fb39029"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_exception_8h.html#aed4707ac1c9504c4f64622473fb39029">GET_EXCEPTION_FILE</a>&#160;&#160;&#160;<a class="el" href="namespace_string_conversion.html#ad9e2cafe9dba2ddd9d85f15ffaed9240">StringConversion::Utf8ToWstring</a>(std::source_location::current().file_name())</td></tr>
 <tr class="separator:aed4707ac1c9504c4f64622473fb39029"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af5855f8bede79203cd0f28ea6204c431"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_exception_8h.html#af5855f8bede79203cd0f28ea6204c431">GET_EXCEPTION_LINE</a>&#160;&#160;&#160;std::to_wstring(std::source_location::current().line())</td></tr>
 <tr class="separator:af5855f8bede79203cd0f28ea6204c431"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,7 +148,7 @@ Macros</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define GET_EXCEPTION_FILE&#160;&#160;&#160;    std::wstring_convert&lt;std::codecvt_utf8&lt;wchar_t&gt;&gt;().from_bytes(std::source_location::current().file_name())</td>
+          <td class="memname">#define GET_EXCEPTION_FILE&#160;&#160;&#160;<a class="el" href="namespace_string_conversion.html#ad9e2cafe9dba2ddd9d85f15ffaed9240">StringConversion::Utf8ToWstring</a>(std::source_location::current().file_name())</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -179,22 +180,22 @@ Macros</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    []() -&gt; std::wstring {                                                                                             \</div>
-<div class="line">        DWORD errorCode = GetLastError();                                                                              \</div>
-<div class="line">        LPWSTR errorMsgBuffer = <span class="keyword">nullptr</span>;                                                                               \</div>
-<div class="line">        FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,                                    \</div>
-<div class="line">            <span class="keyword">nullptr</span>,                                                                                                   \</div>
-<div class="line">            errorCode,                                                                                                 \</div>
-<div class="line">            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),                                                                 \</div>
-<div class="line">            <span class="keyword">reinterpret_cast&lt;</span>LPWSTR<span class="keyword">&gt;</span>(&amp;errorMsgBuffer),                                                                 \</div>
-<div class="line">            0,                                                                                                         \</div>
-<div class="line">            <span class="keyword">nullptr</span>);                                                                                                  \</div>
-<div class="line">        std::wstring errorDescription = errorMsgBuffer ? errorMsgBuffer : L<span class="stringliteral">&quot;Unknown error.&quot;</span>;                           \</div>
-<div class="line">        LocalFree(errorMsgBuffer);                                                                                     \</div>
-<div class="line">        while (!errorDescription.empty() &amp;&amp; (errorDescription.back() == L<span class="charliteral">&#39;\n&#39;</span> || errorDescription.back() == L<span class="charliteral">&#39;\r&#39;</span>)) {  \</div>
-<div class="line">            errorDescription.pop_back();                                                                               \</div>
-<div class="line">        }                                                                                                              \</div>
-<div class="line">        return errorDescription;                                                                                       \</div>
+<b>Value:</b><div class="fragment"><div class="line">    []() -&gt; std::wstring {                                                                                                                           \</div>
+<div class="line">        DWORD errorCode = GetLastError();                                                                                                            \</div>
+<div class="line">        LPWSTR errorMsgBuffer = <span class="keyword">nullptr</span>;                                                                                                             \</div>
+<div class="line">        FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,                                                                  \</div>
+<div class="line">            <span class="keyword">nullptr</span>,                                                                                                                                 \</div>
+<div class="line">            errorCode,                                                                                                                               \</div>
+<div class="line">            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),                                                                                               \</div>
+<div class="line">            <span class="keyword">reinterpret_cast&lt;</span>LPWSTR<span class="keyword">&gt;</span>(&amp;errorMsgBuffer),                                                                                               \</div>
+<div class="line">            0,                                                                                                                                       \</div>
+<div class="line">            <span class="keyword">nullptr</span>);                                                                                                                                \</div>
+<div class="line">        std::wstring errorDescription = errorMsgBuffer ? errorMsgBuffer : L<span class="stringliteral">&quot;Unknown error.&quot;</span>;                                                         \</div>
+<div class="line">        LocalFree(errorMsgBuffer);                                                                                                                   \</div>
+<div class="line">        while (!errorDescription.empty() &amp;&amp; (errorDescription.back() == L<span class="charliteral">&#39;\n&#39;</span> || errorDescription.back() == L<span class="charliteral">&#39;\r&#39;</span>)) {                                \</div>
+<div class="line">            errorDescription.pop_back();                                                                                                             \</div>
+<div class="line">        }                                                                                                                                            \</div>
+<div class="line">        return errorDescription;                                                                                                                     \</div>
 <div class="line">    }()</div>
 </div><!-- fragment -->
 </div>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['redis_187',['redis',['../namespaceclang-tidy-cache.html#a9165c425366ed5d12734848cadf3f6cd',1,'clang-tidy-cache']]]
+  ['redis_196',['redis',['../namespaceclang-tidy-cache.html#a9165c425366ed5d12734848cadf3f6cd',1,'clang-tidy-cache']]]
 ];

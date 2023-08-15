@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['callbackmessage_190',['CALLBACKMESSAGE',['../_c_my_window_8h.html#a4b6e6061e5c52d82c975b641a5f3e9e3',1,'CMyWindow.h']]],
-  ['create_5fwindow_191',['CREATE_WINDOW',['../test_2_c_my_window_8cpp.html#a96e87a918d2b77ec2cd46d4686a00797',1,'CMyWindow.cpp']]]
+  ['get_5fexception_5fcolumn_200',['GET_EXCEPTION_COLUMN',['../_exception_8h.html#abf2f7eb4b91cb6db457a5ceb455cc4dd',1,'Exception.h']]],
+  ['get_5fexception_5ffile_201',['GET_EXCEPTION_FILE',['../_exception_8h.html#aed4707ac1c9504c4f64622473fb39029',1,'Exception.h']]],
+  ['get_5fexception_5fline_202',['GET_EXCEPTION_LINE',['../_exception_8h.html#af5855f8bede79203cd0f28ea6204c431',1,'Exception.h']]],
+  ['get_5flast_5ferror_5fdescription_203',['GET_LAST_ERROR_DESCRIPTION',['../_exception_8h.html#a1c3a0cdd833d8e77bb2add49e014c78c',1,'Exception.h']]]
 ];

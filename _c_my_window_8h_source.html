@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">WinCraft
-   &#160;<span id="projectnumber">0.3.0</span>
+   &#160;<span id="projectnumber">0.4.0</span>
    </div>
    <div id="projectbrief">Window automation tool</div>
   </td>
@@ -91,13 +91,13 @@ $(document).ready(function(){initNavTree('_c_my_window_8h_source.html',''); init
 <div class="contents">
 <a href="_c_my_window_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;winsock2.h&gt;</span> <span class="comment">/* Needed by `afxwin.h` */</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;Winsock2.h&gt;</span> <span class="comment">/* Needed by `afxwin.h` */</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;afxwin.h&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span> <span class="comment">/* std::wstring */</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;unordered_map&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="_c_my_window_8h.html#a4b6e6061e5c52d82c975b641a5f3e9e3">    8</a></span>&#160;<span class="preprocessor">#define CALLBACKMESSAGE (WM_APP + 1)</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="_c_my_window_8h.html#ad4e9c77ce961d1cc484b4287d34a708c">    9</a></span>&#160;<span class="preprocessor">#define __DEBUG</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="_c_my_window_8h.html#a4b6e6061e5c52d82c975b641a5f3e9e3">    9</a></span>&#160;<span class="preprocessor">#define CALLBACKMESSAGE (WM_APP + 1)</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
 <div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="class_c_my_window.html">   11</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_c_my_window.html">CMyWindow</a> : <span class="keyword">public</span> CWnd {  <span class="comment">//~ CWnd Class:</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                 <span class="comment">//: https://github.com/MicrosoftDocs/cpp-docs/blob/main/docs/mfc/reference/cwnd-class.md#onmenuselect</span></div>
@@ -121,7 +121,7 @@ $(document).ready(function(){initNavTree('_c_my_window_8h_source.html',''); init
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    inline static CMenu popupMenu;</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    LRESULT WindowMessageHandler(WPARAM wParam, LPARAM lParam);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    BOOL OnCommand(WPARAM wParam, LPARAM lParam);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    BOOL OnCommand(WPARAM wParam, LPARAM lParam) override;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">void</span> OnCaptureChanged(CWnd* pWnd);</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    struct Window {</div>
