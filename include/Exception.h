@@ -3,12 +3,21 @@
 #include "Utility/StringConversion.h"
 
 #include <string>
-#include <source_location>
+#include <iostream>
 
 
-#define GET_EXCEPTION_FILE StringConversion::Utf8ToWstring(std::source_location::current().file_name())
-#define GET_EXCEPTION_LINE std::to_wstring(std::source_location::current().line())
-#define GET_EXCEPTION_COLUMN std::to_wstring(std::source_location::current().column())
+#ifdef WINCRAFT_LOCAL
+    #include <source_location>
+
+
+    #define GET_EXCEPTION_FILE StringConversion::Utf8ToWstring(std::source_location::current().file_name())
+    #define GET_EXCEPTION_LINE std::to_wstring(std::source_location::current().line())
+    #define GET_EXCEPTION_COLUMN std::to_wstring(std::source_location::current().column())
+#else
+    #define GET_EXCEPTION_FILE __FILEW__
+    #define GET_EXCEPTION_LINE std::to_wstring(__LINE__)
+    #define GET_EXCEPTION_COLUMN std::to_wstring(__builtin_COLUMN())  // `__builtin_COLUMN()` is provided by the Clang compiler
+#endif
 
 #define GET_LAST_ERROR_DESCRIPTION                                                                                                                   \
     []() -> std::wstring {                                                                                                                           \
