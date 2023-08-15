@@ -24,8 +24,6 @@ foreach(TEST_FILE ${TEST_FILES})
 
     if(${TEST_NAME} STREQUAL "CMyWindow")
         add_executable(${TEST_NAME} ${TEST_FILE} "../res/resource.rc")
-
-        target_compile_definitions(${TEST_NAME} PRIVATE _AFXDLL __TEST)
     else()
         add_executable(${TEST_NAME} ${TEST_FILE})
     endif()
@@ -54,11 +52,35 @@ foreach(TEST_FILE ${TEST_FILES})
         ${TEST_NAME}
         PROPERTIES
         TIMEOUT 10
-    ) #? CMake 3.10+
+    )
 
     list(APPEND TEST_NAMES "${TEST_NAME}")
+
+    add_custom_command(
+        TARGET ${TEST_NAME}
+        POST_BUILD
+        WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
+        COMMAND ${CMAKE_CTEST_COMMAND} -C $<CONFIGURATION> -R "^${UNIT_TEST}$" --output-on-failures
+    )
 endforeach()
 
 add_custom_target(unit_tests DEPENDS ${TEST_NAMES})
+
+if(ENABLE_CODE_COVERAGE)
+    foreach(TEST_NAME ${TEST_NAMES})
+        add_custom_command(
+            TARGET unit_tests
+            POST_BUILD
+            #~ CTest Command-Line Reference: https://manpages.ubuntu.com/manpages/xenial/en/man1/ctest.1.html
+            COMMAND ctest -C $<CONFIGURATION> --quiet -j 8
+            #~ llvm-profdata: https://llvm.org/docs/CommandGuide/llvm-profdata.html
+            COMMAND llvm-profdata merge -sparse "${PROJECT_BINARY_DIR}/default.profraw" -o "${PROJECT_BINARY_DIR}/coverage.profdata"
+            #~ llvm-cov: https://llvm.org/docs/CommandGuide/llvm-cov.html
+            COMMAND llvm-cov show -format=html "-instr-profile=${PROJECT_BINARY_DIR}/coverage.profdata" -o "${CMAKE_BINARY_DIR}" "${PROJECT_BINARY_DIR}/${TEST_NAME}.exe" -j 8
+            WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+            COMMENT "Generating code coverage report for ${TEST_NAME}"
+        )
+    endforeach()
+endif()
 
 message(STATUS "Created `unit_tests` build target that will build all tests found in ${CMAKE_CURRENT_SOURCE_DIR} (${TEST_NAMES})")

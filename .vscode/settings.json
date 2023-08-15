@@ -363,9 +363,15 @@
         "RBUTTON",
         "RBUTTONDOWN",
         "RBUTTONUP",
+        "ridk",
         "Scheißdreck",
         "tsystem",
         "vcpkg",
         "wndpl"
+    ],
+    "coverage-gutters.coverageReportFileName": "C:/Users/Onimuru/Code/C++/WinCraft/build/index.html",
+    "coverage-gutters.manualCoverageFilePaths": [
+        "C:/Users/Onimuru/Code/C++/WinCraft/build/index.html",
+        "C:/Users/Onimuru/Code/C++/WinCraft/build/coverage.xml"
     ],
 }

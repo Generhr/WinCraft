@@ -9,7 +9,7 @@ include(cmake/SafeGuards.cmake)
 # NOTE: update this with your new project's details.
 
 project("WinCraft"
-        VERSION "0.3.0" # NOTE: Listing the version is nice here since it sets lots of useful variables.
+        VERSION "0.4.0" # NOTE: Listing the version is nice here since it sets lots of useful variables.
         DESCRIPTION "Window automation tool"
         HOMEPAGE_URL "https://github.com/Onimuru/WinCraft"
         LANGUAGES CXX C # NOTE: To support external libraries, it's good practice to list both CXX and C.
@@ -118,6 +118,8 @@ add_subdirectory(external EXCLUDE_FROM_ALL)
 
 set(PRECOMPILED_HEADER_LIST "${CMAKE_CURRENT_SOURCE_DIR}/include/pch.h")
 
+set(WINDOWS_HEADERS_NEEDED_BY_CLANG_LIST "$ENV{WindowsIncludes}/shared" "$ENV{WindowsIncludes}/um")
+
 if(ENABLE_CLANG_TIDY)
     set(NO_STATIC_CODE_ANALYSIS_LIST # Add here any file you want to exclude from clang-tidy static analysis.
     )
@@ -161,6 +163,12 @@ else()
     add_executable(${PROJECT_NAME} "src/Main.cpp" "${SOURCE_LIST}" "${HEADER_LIST}")
 endif()
 
+target_include_directories(
+    ${PROJECT_NAME}
+    PUBLIC "${WINDOWS_HEADERS_NEEDED_BY_CLANG_LIST}" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
+    PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include"
+)
+
 if(VERBOSE_OUTPUT)
     message(STATUS "Created ${PROJECT_NAME} binary with the following sources:")
     message(STATUS "* ${CMAKE_CURRENT_SOURCE_DIR}/src/Main.cpp")
@@ -171,14 +179,6 @@ if(VERBOSE_OUTPUT)
 else()
     message(STATUS "Created ${PROJECT_NAME} binary")
 endif()
-
-#========  Include Directories  ================================================#
-
-target_include_directories(
-    ${PROJECT_NAME}
-    PUBLIC "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
-    PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include"
-)
 
 #=====  Set Standard and Warnings  =============================================#
 
@@ -198,7 +198,12 @@ if(ENABLE_WARNINGS)
     target_set_warnings(${PROJECT_NAME})
 endif()
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE _AFXDLL)
+#=========  Compile Definitions  =================================================#
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE WINCRAFT_DEBUG)
+
+# Global
+add_compile_definitions(_AFXDLL)
 
 #=========  Link Dependencies  =================================================#
 
@@ -208,8 +213,10 @@ if(NOT ENABLE_CLANG_TIDY)
 endif()
 
 find_package(Microsoft.GSL CONFIG REQUIRED)
-
 target_link_libraries(${PROJECT_NAME} PRIVATE Microsoft.GSL::GSL)
+
+find_path(SIMPLEINI_INCLUDE_DIRS "ConvertUTF.c")
+target_include_directories(${PROJECT_NAME} PRIVATE ${SIMPLEINI_INCLUDE_DIRS})
 
 #===========  Alias Targets  ===================================================#
 
@@ -219,29 +226,18 @@ add_executable(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 if(PROJECT_IS_TOP_LEVEL)
     if(ENABLE_TESTING)
+        enable_testing()
+
         if(ENABLE_CODE_COVERAGE)
             include(cmake/CodeCoverage.cmake)
 
             append_coverage_compiler_flags()
-
-            setup_target_for_coverage_lcov(
-                NAME
-                coverage
-                EXECUTABLE
-                ctest
-                EXCLUDE
-                "${CMAKE_CURRENT_SOURCE_DIR}/cmake/*"
-                "${CMAKE_CURRENT_SOURCE_DIR}/external/*"
-                "${CMAKE_CURRENT_SOURCE_DIR}/src/Main.cpp"
-                "${CMAKE_CURRENT_SOURCE_DIR}/test/*"
-                "${CMAKE_CURRENT_SOURCE_DIR}/build/*"
-                "${CMAKE_CURRENT_SOURCE_DIR}/docs/*"
-            )
         endif()
 
         add_library(TESTING_LIBRARY INTERFACE)
-        target_sources(TESTING_LIBRARY INTERFACE "${SOURCE_LIST}" "${HEADER_LIST}") # NOTE: Including header files here helps IDEs but is not required.
-        target_include_directories(TESTING_LIBRARY INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+        target_sources(TESTING_LIBRARY INTERFACE "${SOURCE_LIST}" "${HEADER_LIST}")
+        target_include_directories(TESTING_LIBRARY INTERFACE "${WINDOWS_HEADERS_NEEDED_BY_CLANG_LIST}" "${CMAKE_CURRENT_SOURCE_DIR}/include")
+
         set_target_properties(
             ${TESTING_LIBRARY}
             PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD}
@@ -249,13 +245,9 @@ if(PROJECT_IS_TOP_LEVEL)
                        CXX_EXTENSIONS NO
         )
 
-        if(ENABLE_CLANG_TIDY AND CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-            target_precompile_headers(TESTING_LIBRARY INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:${PRECOMPILED_HEADER_LIST}>")
-        elseif(NOT ENABLE_CLANG_TIDY)
-            target_precompile_headers(TESTING_LIBRARY INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:${PRECOMPILED_HEADER_LIST}>")
-        endif()
+        target_compile_definitions(TESTING_LIBRARY INTERFACE WINCRAFT_TEST)
 
-        enable_testing()
+        target_precompile_headers(TESTING_LIBRARY INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:${PRECOMPILED_HEADER_LIST}>")
 
         find_package(GTest CONFIG REQUIRED)
         include(GoogleTest)

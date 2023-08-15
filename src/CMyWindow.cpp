@@ -1,15 +1,15 @@
-#include "CMyWindow.h"  //~ Inlcude `winsock2.h` before `windows.h` (https://stackoverflow.com/a/1372836)
+#include "CMyWindow.h"  //~ Inlcude `Winsock2.h` before `Windows.h` (https://stackoverflow.com/a/1372836)
 
 #include "Exception.h"
+#include "Utility/StringConversion.h"
 #include "simpleini.h"
 
-#include <windows.h>
+#include <Windows.h>
 #include <array>   /* std::array */
 #include <codecvt> /* std::codecvt_utf8 */
 #include <locale>  /* std::wstring_convert */
 #include <psapi.h> /* GetModuleFileNameEx */
 #include <sstream> /* std::istringstream */
-#include <string>  /* std::wstring */
 #include <iostream>
 
 #include "resource.h"
@@ -30,7 +30,7 @@ inline static CSimpleIniA ini;
 
 CMyWindow::CMyWindow() {
     // Constructor implementation
-#ifdef __DEBUG
+#ifdef WINCRAFT_DEBUG
     std::cout << "CMyWindow\n";
 #endif
 
@@ -53,7 +53,7 @@ CMyWindow::CMyWindow() {
 
 CMyWindow::~CMyWindow() {
     // Destructor implementation
-#ifdef __DEBUG
+#ifdef WINCRAFT_DEBUG
     std::cout << "~CMyWindow()\n";
 #endif
 
@@ -89,7 +89,7 @@ BOOL CMyWindow::OnCommand(WPARAM wParam, LPARAM lParam) {
     if (HIWORD(wParam) == BN_CLICKED) {
         switch (LOWORD(wParam)) {
             case IDM_MAINMENU_ITEM4:
-#ifdef __TEST
+#ifdef WINCRAFT_TEST
                 fprintf(stderr, "Success");
                 exit(EXIT_SUCCESS);
 #else
@@ -97,7 +97,7 @@ BOOL CMyWindow::OnCommand(WPARAM wParam, LPARAM lParam) {
 #endif
         }
 
-#ifdef __DEBUG
+#ifdef WINCRAFT_DEBUG
         std::cout << "\x1B[31mOnCommand\x1B[0m" << std::endl;
 #endif
     }
@@ -115,7 +115,7 @@ void CMyWindow::OnCaptureChanged(CWnd* pWnd) {
         keybd_event(VK_ESCAPE, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
         keybd_event(VK_MENU, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
 
-#ifdef __DEBUG
+#ifdef WINCRAFT_DEBUG
         std::cout << "\x1B[34mRestored focus!\x1B[0m" << std::endl;
 #endif
     }
@@ -138,7 +138,7 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
                 // Window was found in the map, remove it
                 windows.erase(windowIterator);
 
-#ifdef __DEBUG
+#ifdef WINCRAFT_DEBUG
                 std::cout << "\x1B[31mRemoved window\x1B[0m (" << hWnd << ")" << std::endl;
                 system("pause");
 #endif
@@ -147,13 +147,13 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
         }
         case HSHELL_WINDOWACTIVATED:
         case HSHELL_RUDEAPPACTIVATED: {
-#ifdef __DEBUG
+#ifdef WINCRAFT_DEBUG
             std::cout << "\x1B[2J";  // ANSI escape code to clear the screen
             std::cout << "\x1B[H";   // Move the cursor to the top-left corner
 #endif
 
             if (UnhookWinEvent(hook)) {
-#ifdef __DEBUG
+#ifdef WINCRAFT_DEBUG
                 std::cout << "\x1B[31mUnhookWinEvent\x1B[0m" << std::endl;
 #endif
             }
@@ -194,9 +194,8 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
                     }
 
                     // Attempt to read position values from Setting.ini
-                    std::string value = ini.GetValue("Window Positions",
-                        std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(windowProcessName).c_str(),
-                        "Scheißdreck I. Hosen");
+                    std::string value =
+                        ini.GetValue("Window Positions", StringConversion::WstringToUtf8(windowProcessName).c_str(), "Scheißdreck I. Hosen");
 
                     if (value != "Scheißdreck I. Hosen") {
                         windows[hWnd].title = windowTitle.data();
@@ -233,7 +232,7 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
                         0,
                         WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
 
-#ifdef __DEBUG
+#ifdef WINCRAFT_DEBUG
                     std::wcout << L"HSHELL_RUDEAPPACTIVATED:\n"
                                << L"    * " << currentWindow.title << L"\n"
                                << L"    * " << currentWindow.className << L"\n"
@@ -247,25 +246,25 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
                     ::GetWindowPlacement(hWnd, &windowplacement);
 
                     if (windowplacement.showCmd == SW_MAXIMIZE) {
-#ifdef __DEBUG
+#ifdef WINCRAFT_DEBUG
                         std::cout << "\x1B[33mThis window is maximized!\x1B[0m" << std::endl;
 #endif
                     }
                     else {
                         ::MoveWindow(hWnd, currentWindow.x, currentWindow.y, currentWindow.width, currentWindow.height, TRUE);
-#ifdef __DEBUG
+#ifdef WINCRAFT_DEBUG
                         std::cout << "\x1B[32mSet initial position!\x1B[0m" << std::endl;
 #endif
                     }
                 }
                 else {
-#ifdef __DEBUG
+#ifdef WINCRAFT_DEBUG
                     std::cout << "\x1B[33mNot interested in this window!\x1B[0m" << std::endl;
 #endif
                 }
             }
             else {
-#ifdef __DEBUG
+#ifdef WINCRAFT_DEBUG
                 std::cout << "\x1B[31mThis is not a valid window!\x1B[0m" << std::endl;
 #endif
             }
@@ -317,21 +316,19 @@ void CALLBACK CMyWindow::PositionWindow(HWINEVENTHOOK /* hWinEventHook */,
             newValueStream << currentWindow.x << ", " << currentWindow.y << ", " << currentWindow.width << ", " << currentWindow.height;
             std::string newValue = newValueStream.str();
 
-            ini.SetValue("Window Positions",
-                std::wstring_convert<std::codecvt_utf8<wchar_t>>().to_bytes(currentWindow.processName).c_str(),
-                newValue.c_str());
+            ini.SetValue("Window Positions", StringConversion::WstringToUtf8(currentWindow.processName).c_str(), newValue.c_str());
             // Save the changes to the INI file
             ini.SaveFile("Settings.ini");
         }
 
-#ifdef __DEBUG
+#ifdef WINCRAFT_DEBUG
         std::cout << "\x1B[34mSaved new window position\x1B[0m" << std::endl;
 #endif
     }
     else {
         ::MoveWindow(hWnd, currentWindow.x, currentWindow.y, currentWindow.width, currentWindow.height, TRUE);
 
-#ifdef __DEBUG
+#ifdef WINCRAFT_DEBUG
         std::cout << "\x1B[32mRestored window position\x1B[0m" << std::endl;
 #endif
     }

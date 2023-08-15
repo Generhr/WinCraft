@@ -1,12 +1,12 @@
 #pragma once
 
-#include <winsock2.h> /* Needed by `afxwin.h` */
+#include <Winsock2.h> /* Needed by `afxwin.h` */
 #include <afxwin.h>
+#include <string> /* std::wstring */
 #include <unordered_map>
 
 
 #define CALLBACKMESSAGE (WM_APP + 1)
-#define __DEBUG
 
 class CMyWindow : public CWnd {  //~ CWnd Class:
                                  //: https://github.com/MicrosoftDocs/cpp-docs/blob/main/docs/mfc/reference/cwnd-class.md#onmenuselect
@@ -30,7 +30,7 @@ private:
     inline static CMenu popupMenu;
 
     LRESULT WindowMessageHandler(WPARAM wParam, LPARAM lParam);
-    BOOL OnCommand(WPARAM wParam, LPARAM lParam);
+    BOOL OnCommand(WPARAM wParam, LPARAM lParam) override;
     void OnCaptureChanged(CWnd* pWnd);
 
     struct Window {

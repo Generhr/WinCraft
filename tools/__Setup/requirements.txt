@@ -1,3 +1,4 @@
 cmake-format
 pre-commit
 PyYAML
+codecov-cli

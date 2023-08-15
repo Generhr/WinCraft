@@ -1,42 +1,38 @@
 #pragma once
 
+#include "Utility/StringConversion.h"
+
 #include <string>
 #include <source_location>
 
 
-#define GET_EXCEPTION_FILE                                                                                             \
-    std::wstring_convert<std::codecvt_utf8<wchar_t>>().from_bytes(std::source_location::current().file_name())
+#define GET_EXCEPTION_FILE StringConversion::Utf8ToWstring(std::source_location::current().file_name())
 #define GET_EXCEPTION_LINE std::to_wstring(std::source_location::current().line())
 #define GET_EXCEPTION_COLUMN std::to_wstring(std::source_location::current().column())
 
-#define GET_LAST_ERROR_DESCRIPTION                                                                                     \
-    []() -> std::wstring {                                                                                             \
-        DWORD errorCode = GetLastError();                                                                              \
-        LPWSTR errorMsgBuffer = nullptr;                                                                               \
-        FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,                                    \
-            nullptr,                                                                                                   \
-            errorCode,                                                                                                 \
-            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),                                                                 \
-            reinterpret_cast<LPWSTR>(&errorMsgBuffer),                                                                 \
-            0,                                                                                                         \
-            nullptr);                                                                                                  \
-        std::wstring errorDescription = errorMsgBuffer ? errorMsgBuffer : L"Unknown error.";                           \
-        LocalFree(errorMsgBuffer);                                                                                     \
-        while (!errorDescription.empty() && (errorDescription.back() == L'\n' || errorDescription.back() == L'\r')) {  \
-            errorDescription.pop_back();                                                                               \
-        }                                                                                                              \
-        return errorDescription;                                                                                       \
+#define GET_LAST_ERROR_DESCRIPTION                                                                                                                   \
+    []() -> std::wstring {                                                                                                                           \
+        DWORD errorCode = GetLastError();                                                                                                            \
+        LPWSTR errorMsgBuffer = nullptr;                                                                                                             \
+        FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,                                                                  \
+            nullptr,                                                                                                                                 \
+            errorCode,                                                                                                                               \
+            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),                                                                                               \
+            reinterpret_cast<LPWSTR>(&errorMsgBuffer),                                                                                               \
+            0,                                                                                                                                       \
+            nullptr);                                                                                                                                \
+        std::wstring errorDescription = errorMsgBuffer ? errorMsgBuffer : L"Unknown error.";                                                         \
+        LocalFree(errorMsgBuffer);                                                                                                                   \
+        while (!errorDescription.empty() && (errorDescription.back() == L'\n' || errorDescription.back() == L'\r')) {                                \
+            errorDescription.pop_back();                                                                                                             \
+        }                                                                                                                                            \
+        return errorDescription;                                                                                                                     \
     }()
 
 class Exception {
 public:
-    Exception(std::wstring file,
-        std::wstring line,
-        std::wstring column,
-        std::wstring title = L"Exception",
-        std::wstring note = L"")
-        : file(std::move(file)), line(std::move(line)), column(std::move(column)), title(std::move(title)),
-          note(std::move(note)) {
+    Exception(std::wstring file, std::wstring line, std::wstring column, std::wstring title = L"Exception", std::wstring note = L"")
+        : file(std::move(file)), line(std::move(line)), column(std::move(column)), title(std::move(title)), note(std::move(note)) {
     }
 
     virtual ~Exception() = default;
