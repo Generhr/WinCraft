@@ -68,16 +68,16 @@ if(ENABLE_CODE_COVERAGE)
         set(PROCESSOR_COUNT 1)
     endif()
 
-    foreach(TEST_NAME ${TEST_NAMES})
+    foreach(TEST_NAME ${TEST_NAMES}) #~ codecov-bash: https://github.com/codecov/codecov-bash/blob/master/codecov
         add_custom_command(
             TARGET unit_tests
             POST_BUILD
             #~ CTest Command-Line Reference: https://manpages.ubuntu.com/manpages/xenial/en/man1/ctest.1.html
             COMMAND ctest -C $<CONFIGURATION> --quiet -j ${PROCESSOR_COUNT}
             #~ llvm-profdata: https://llvm.org/docs/CommandGuide/llvm-profdata.html
-            COMMAND llvm-profdata merge -sparse default.profraw -o coverage.profdata
+            COMMAND llvm-profdata merge default.profraw -o coverage.profdata
             #~ llvm-cov: https://llvm.org/docs/CommandGuide/llvm-cov.html
-            COMMAND llvm-cov show -format text -instr-profile coverage.profdata -j ${PROCESSOR_COUNT} -o "${CMAKE_BINARY_DIR}" ${TEST_NAME}.exe
+            COMMAND llvm-cov show ${TEST_NAME}.exe -instr-profile=coverage.profdata > ${CMAKE_BINARY_DIR}/coverage_${TEST_NAME}.txt -j ${PROCESSOR_COUNT}
             WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
             COMMENT "Generating code coverage report"
         )

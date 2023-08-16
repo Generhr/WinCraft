@@ -1,6 +1,7 @@
 #define TEST
 
 #include "CMyWindow.h"
+#include "Utility/StringConversion.h"
 
 #include <gtest/gtest.h>
 

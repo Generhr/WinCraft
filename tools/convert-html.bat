@@ -1,7 +1,7 @@
 @echo off
 setlocal
 
-set "SEARCH_DIR=../build/coverage"
+set "SEARCH_DIR=../build"
 
 :: HTML Tidy: http://api.html-tidy.org/tidy/tidylib_api_5.2.0/tidy_cmd.html
 
