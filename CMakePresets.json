@@ -7,17 +7,15 @@
     },
     "configurePresets": [
         {
-            "name": "ninja-multi-vcpkg",
-            "displayName": "Ninja Multi-Config",
-            "description": "Configure with vcpkg toolchain and generate Ninja project files for all configurations",
-            "generator": "Ninja Multi-Config",
+            "name": "ninja-configure",
+            "displayName": "Ninja",
+            "description": "Configure with vcpkg toolchain and generate Ninja project files",
+            "generator": "Ninja",
             "toolchainFile": "${sourceDir}/external/vcpkg/scripts/buildsystems/vcpkg.cmake",
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "clang",
                 "CMAKE_CXX_COMPILER": "clang++",
-                "CMAKE_CONFIGURATION_TYPES": "Debug;Release;DebugCoverage",
-                "CMAKE_DEFAULT_BUILD_TYPE": "Debug",
                 "ENABLE_DOXYGEN": "OFF",
                 "ENABLE_CPPCHECK": "OFF",
                 "ENABLE_CLANG_TIDY": "OFF",
@@ -38,18 +36,18 @@
     ],
     "buildPresets": [
         {
-            "name": "ninja-multi-vcpkg-debug",
-            "configurePreset": "ninja-multi-vcpkg",
-            "displayName": "Build ninja-multi-vcpkg-debug",
+            "name": "ninja-build-debug",
+            "configurePreset": "ninja-configure",
+            "displayName": "Build (Debug)",
             "description": "Build ninja-multi-vcpkg Debug configuration",
             "configuration": "Debug",
             "cleanFirst": false,
             "jobs": 2
         },
         {
-            "name": "ninja-multi-vcpkg-release",
-            "configurePreset": "ninja-multi-vcpkg",
-            "displayName": "Build ninja-multi-vcpkg-release",
+            "name": "ninja-build-release",
+            "configurePreset": "ninja-configure",
+            "displayName": "Build (Release)",
             "description": "Build ninja-multi-vcpkg Release configuration",
             "configuration": "Release",
             "jobs": 2
@@ -57,10 +55,10 @@
     ],
     "testPresets": [
         {
-            "name": "ninja-multi-vcpkg-debug",
-            "configurePreset": "ninja-multi-vcpkg",
+            "name": "ninja-test-debug",
+            "configurePreset": "ninja-configure",
             "configuration": "Debug",
-            "displayName": "Run CTest tests on Ninja Configuration for Debug Build",
+            "displayName": "Test (Debug)",
             "execution": {
                 "noTestsAction": "error",
                 "scheduleRandom": true,
@@ -73,10 +71,10 @@
             }
         },
         {
-            "name": "ninja-multi-vcpkg-release",
-            "configurePreset": "ninja-multi-vcpkg",
+            "name": "ninja-test-release",
+            "configurePreset": "ninja-configure",
             "configuration": "Release",
-            "displayName": "Run CTest tests on Ninja Configuration for Release Build",
+            "displayName": "Test (Release)",
             "execution": {
                 "noTestsAction": "error",
                 "scheduleRandom": true,
