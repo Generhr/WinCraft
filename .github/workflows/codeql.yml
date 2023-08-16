@@ -70,8 +70,8 @@ jobs:
       - name: Run CMake
         uses: lukka/run-cmake@v10
         with:
-          configurePreset: "ninja-multi-vcpkg"
-          buildPreset: "ninja-multi-vcpkg-release"
+          configurePreset: "ninja-configure"
+          buildPreset: "ninja-build-release"
           buildPresetAdditionalArgs: '[`--target all`]'
 
       # ℹ️ Command-line programs to run using the OS shell.
