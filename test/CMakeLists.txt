@@ -77,7 +77,7 @@ if(ENABLE_CODE_COVERAGE)
             #~ llvm-profdata: https://llvm.org/docs/CommandGuide/llvm-profdata.html
             COMMAND llvm-profdata merge -sparse default.profraw -o coverage.profdata
             #~ llvm-cov: https://llvm.org/docs/CommandGuide/llvm-cov.html
-            COMMAND llvm-cov show -format=html -instr-profile coverage.profdata -j ${PROCESSOR_COUNT} -o "${CMAKE_BINARY_DIR}" ${TEST_NAME}.exe
+            COMMAND llvm-cov show -format text -instr-profile coverage.profdata -j ${PROCESSOR_COUNT} -o "${CMAKE_BINARY_DIR}" ${TEST_NAME}.exe
             WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
             COMMENT "Generating code coverage report"
         )
