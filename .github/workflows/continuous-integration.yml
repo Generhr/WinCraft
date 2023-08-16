@@ -30,3 +30,6 @@ jobs:
           buildPreset: "ninja-build-debug"
           buildPresetAdditionalArgs: '[`--target unit_tests`]'
           testPreset: "ninja-test-debug"
+
+      - name: Code Coverage
+        run: bash <(curl -s https://codecov.io/bash)
