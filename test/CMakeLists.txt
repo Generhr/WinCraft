@@ -60,19 +60,21 @@ endforeach()
 add_custom_target(unit_tests DEPENDS ${TEST_NAMES})
 
 if(ENABLE_CODE_COVERAGE)
-    foreach(TEST_NAME ${TEST_NAMES})
-        append_coverage_compiler_flags_to_target(${TEST_NAME})
+    if(CMAKE_GENERATOR MATCHES "Ninja Multi")
+        set(CURRENT_BINARY_DIR "${PROJECT_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
+    elseif(CMAKE_GENERATOR MATCHES "Ninja")
+        set(CURRENT_BINARY_DIR "${PROJECT_BINARY_DIR}")
+    endif()
 
+    foreach(TEST_NAME ${TEST_NAMES})
         add_custom_command(
             TARGET unit_tests
             POST_BUILD
-            COMMAND ctest -C $<CONFIGURATION> --quiet -j ${PROCESSOR_COUNT}
-            COMMAND llvm-profdata merge
-                    -sparse # The `-sparse` option is a trade-off between memory efficiency and profile data accuracy. Use it when you want to manage the size of the profile data file while still maintaining reasonable accuracy for your profiling or coverage analysis needs.
-                    default.profraw -o coverage.profdata
-            COMMAND llvm-cov show ${TEST_NAME}.exe -instr-profile=coverage.profdata > ${CMAKE_BINARY_DIR}/coverage_${TEST_NAME}.txt -j ${PROCESSOR_COUNT}
-            WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
-            COMMENT "Generating code coverage report"
+            COMMAND ${CMAKE_COMMAND} -E env LLVM_PROFILE_FILE=${TEST_NAME}.profraw $<TARGET_FILE:${TEST_NAME}> > NUL 2>&1
+            COMMAND llvm-profdata merge -sparse "${TEST_NAME}.profraw" -o "${TEST_NAME}.profdata"
+            COMMAND llvm-cov show $<TARGET_FILE:${TEST_NAME}> -instr-profile="${TEST_NAME}.profdata" > "${CMAKE_BINARY_DIR}/coverage_${TEST_NAME}.txt" -j ${PROCESSOR_COUNT}
+            WORKING_DIRECTORY "${CURRENT_BINARY_DIR}"
+            COMMENT "Generating code coverage report for ${TEST_NAME}.exe"
         )
     endforeach()
 endif()
