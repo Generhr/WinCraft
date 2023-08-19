@@ -17,7 +17,7 @@ if(USE_GOOGLE_MOCK)
     set(GOOGLE_MOCK_LIBRARIES GTest::gmock_main)
 endif()
 
-set(TEST_LIBRARIES GTest::gtest_main ${GOOGLE_MOCK_LIBRARIES} TESTING_LIBRARY)
+set(TEST_LIBRARIES TESTING_LIBRARY GTest::gtest_main ${GOOGLE_MOCK_LIBRARIES})
 
 foreach(TEST_FILE ${TEST_FILES})
     string(REGEX REPLACE "(.*/)([a-zA-Z0-9_ ]+)(\.cpp)" "\\2" TEST_NAME ${TEST_FILE})
@@ -60,23 +60,16 @@ endforeach()
 add_custom_target(unit_tests DEPENDS ${TEST_NAMES})
 
 if(ENABLE_CODE_COVERAGE)
-    # Get the number of processors to speed up linting
-    include(ProcessorCount)
-    ProcessorCount(PROCESSOR_COUNT)
+    foreach(TEST_NAME ${TEST_NAMES})
+        append_coverage_compiler_flags_to_target(${TEST_NAME})
 
-    if(PROCESSOR_COUNT EQUAL 0)
-        set(PROCESSOR_COUNT 1)
-    endif()
-
-    foreach(TEST_NAME ${TEST_NAMES}) #~ codecov-bash: https://github.com/codecov/codecov-bash/blob/master/codecov
         add_custom_command(
             TARGET unit_tests
             POST_BUILD
-            #~ CTest Command-Line Reference: https://manpages.ubuntu.com/manpages/xenial/en/man1/ctest.1.html
             COMMAND ctest -C $<CONFIGURATION> --quiet -j ${PROCESSOR_COUNT}
-            #~ llvm-profdata: https://llvm.org/docs/CommandGuide/llvm-profdata.html
-            COMMAND llvm-profdata merge default.profraw -o coverage.profdata
-            #~ llvm-cov: https://llvm.org/docs/CommandGuide/llvm-cov.html
+            COMMAND llvm-profdata merge
+                    -sparse # The `-sparse` option is a trade-off between memory efficiency and profile data accuracy. Use it when you want to manage the size of the profile data file while still maintaining reasonable accuracy for your profiling or coverage analysis needs.
+                    default.profraw -o coverage.profdata
             COMMAND llvm-cov show ${TEST_NAME}.exe -instr-profile=coverage.profdata > ${CMAKE_BINARY_DIR}/coverage_${TEST_NAME}.txt -j ${PROCESSOR_COUNT}
             WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
             COMMENT "Generating code coverage report"

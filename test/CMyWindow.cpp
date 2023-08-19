@@ -1,7 +1,4 @@
-#define TEST
-
 #include "CMyWindow.h"
-#include "Utility/StringConversion.h"
 
 #include <gtest/gtest.h>
 
@@ -42,6 +39,7 @@ TEST(CMyWindow, MessageHandling) {
 
     EXPECT_EXIT(
         {
+            myWindow.SendMessage(CALLBACKMESSAGE, reinterpret_cast<WPARAM>(nullptr), static_cast<LPARAM>(WM_RBUTTONUP));
             myWindow.SendMessage(WM_COMMAND, MAKEWPARAM(IDM_MAINMENU_ITEM4, BN_CLICKED), reinterpret_cast<LPARAM>(nullptr));
             fprintf(stderr, "Failure");
             exit(EXIT_FAILURE);

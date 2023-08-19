@@ -46,7 +46,7 @@ jobs:
           buildPresetAdditionalArgs: '[`--target doxygen`]'
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3  #: https://github.com/peaceiris/actions-gh-pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ${{ github.workspace }}/docs/html

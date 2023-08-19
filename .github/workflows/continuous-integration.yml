@@ -2,6 +2,10 @@ name: Continuous Integration
 
 on: [push, workflow_dispatch]
 
+concurrency:
+  group: continuous-integration
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: windows-latest

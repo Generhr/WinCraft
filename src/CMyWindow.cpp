@@ -73,7 +73,9 @@ LRESULT CMyWindow::WindowMessageHandler([[maybe_unused]] WPARAM wParam, LPARAM l
             POINT cursorPos;
             GetCursorPos(&cursorPos);
 
+#ifndef WINCRAFT_TEST
             popupMenu.GetSubMenu(0)->TrackPopupMenu(TPM_LEFTALIGN | TPM_TOPALIGN, cursorPos.x, cursorPos.y, this);
+#endif
 
             PostMessage(WM_NULL, 0,
                 0);  //~ You must force a task switch to the application that called `TrackPopupMenu`
@@ -140,7 +142,6 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
 
 #ifdef WINCRAFT_DEBUG
                 std::cout << "\x1B[31mRemoved window\x1B[0m (" << hWnd << ")" << std::endl;
-                system("pause");
 #endif
             }
             break;

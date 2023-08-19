@@ -1,19 +1,19 @@
 cmake_minimum_required(VERSION 3.21...3.27 FATAL_ERROR) #? 3.21 - PROJECT_IS_TOP_LEVEL
 
-#============  Safe Guards  ====================================================#
-
-include(cmake/SafeGuards.cmake)
-
 #==========  Project Details  ==================================================#
 
 # NOTE: update this with your new project's details.
 
 project("WinCraft"
-        VERSION "0.4.0" # NOTE: Listing the version is nice here since it sets lots of useful variables.
+        VERSION "0.4.1" # NOTE: Listing the version is nice here since it sets lots of useful variables.
         DESCRIPTION "Window automation tool"
         HOMEPAGE_URL "https://github.com/Onimuru/WinCraft"
         LANGUAGES CXX C # NOTE: To support external libraries, it's good practice to list both CXX and C.
 )
+
+#============  Safe Guards  ====================================================#
+
+include(cmake/SafeGuards.cmake)
 
 #==========  CMake Variables  ==================================================#
 
@@ -39,6 +39,16 @@ endif()
 set(CMAKE_SUPPRESS_REGENERATION true)
 
 set(CMAKE_COLOR_DIAGNOSTICS ON)
+
+# Find number of processors
+if(NOT DEFINED PROCESSOR_COUNT)
+    include(ProcessorCount)
+    ProcessorCount(PROCESSOR_COUNT)
+
+    if(PROCESSOR_COUNT EQUAL 0)
+        set(PROCESSOR_COUNT 1)
+    endif()
+endif()
 
 set(GIT_SHA
     "Unknown"
@@ -118,7 +128,9 @@ add_subdirectory(external EXCLUDE_FROM_ALL)
 
 set(PRECOMPILED_HEADER_LIST "${CMAKE_CURRENT_SOURCE_DIR}/include/pch.h")
 
-set(WINDOWS_HEADERS_NEEDED_BY_CLANG_LIST "$ENV{EXTERNAL_INCLUDE}")
+if("${CMAKE_CXX_COMPILER_ID}" MATCHES "[Cc]lang")
+    set(WINDOWS_HEADERS_NEEDED_BY_CLANG_LIST "$ENV{EXTERNAL_INCLUDE}")
+endif()
 
 if(ENABLE_CLANG_TIDY)
     set(NO_STATIC_CODE_ANALYSIS_LIST # Add here any file you want to exclude from clang-tidy static analysis.
@@ -198,9 +210,10 @@ if(ENABLE_WARNINGS)
     target_set_warnings(${PROJECT_NAME})
 endif()
 
-#=========  Compile Definitions  =================================================#
+#========  Compile Definitions  ================================================#
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE WINCRAFT_DEBUG)
+string(TOUPPER "${PROJECT_NAME}_DEBUG" PROJECT_DEBUG_DEFINE)
+target_compile_definitions(${PROJECT_NAME} PRIVATE ${PROJECT_DEBUG_DEFINE})
 
 # Global
 add_compile_definitions(_AFXDLL)
@@ -228,8 +241,6 @@ if(PROJECT_IS_TOP_LEVEL)
 
         if(ENABLE_CODE_COVERAGE)
             include(cmake/CodeCoverage.cmake)
-
-            append_coverage_compiler_flags()
         endif()
 
         add_library(TESTING_LIBRARY INTERFACE)
@@ -243,7 +254,8 @@ if(PROJECT_IS_TOP_LEVEL)
                        CXX_EXTENSIONS NO
         )
 
-        target_compile_definitions(TESTING_LIBRARY INTERFACE WINCRAFT_TEST)
+        string(TOUPPER "${PROJECT_NAME}_TEST" PROJECT_TEST_DEFINE)
+        target_compile_definitions(TESTING_LIBRARY INTERFACE ${PROJECT_TEST_DEFINE})
 
         target_precompile_headers(TESTING_LIBRARY INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:${PRECOMPILED_HEADER_LIST}>")
 
