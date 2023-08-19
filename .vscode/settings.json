@@ -1,5 +1,6 @@
 {
     //============== Native ======================================================//
+    "debug.terminal.clearBeforeReusing": true,
     "editor.rulers": [
         150
     ],
@@ -131,6 +132,7 @@
         "*.md": "vscode.markdown.preview.editor",
         "*.svg": "svgPreviewer.customEditor"
     },
+    "workbench.editor.tabSizing": "fit",
     "[cmake]": {
         "editor.defaultFormatter": "cheshirekow.cmake-format",
         "editor.quickSuggestions": {
@@ -353,7 +355,7 @@
             }
         ]
     },
-    //==========  Svg Previewer  ==================================================//
+    //==========  SVG Previewer  ==================================================//
     "svg.preview.autoOpen": true,
     //=======  Workspace Formatter  ===============================================//
     "Workspace_Formatter.closeAfterSave": true,

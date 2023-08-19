@@ -175,12 +175,6 @@ else()
     add_executable(${PROJECT_NAME} "src/Main.cpp" "${SOURCE_LIST}" "${HEADER_LIST}")
 endif()
 
-target_include_directories(
-    ${PROJECT_NAME}
-    PUBLIC "${WINDOWS_HEADERS_NEEDED_BY_CLANG_LIST}" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
-    PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include"
-)
-
 if(VERBOSE_OUTPUT)
     message(STATUS "Created ${PROJECT_NAME} binary with the following sources:")
     message(STATUS "* ${CMAKE_CURRENT_SOURCE_DIR}/src/Main.cpp")
@@ -191,6 +185,12 @@ if(VERBOSE_OUTPUT)
 else()
     message(STATUS "Created ${PROJECT_NAME} binary")
 endif()
+
+target_include_directories(
+    ${PROJECT_NAME}
+    PUBLIC "${WINDOWS_HEADERS_NEEDED_BY_CLANG_LIST}" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
+    PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include"
+)
 
 #=====  Set Standard and Warnings  =============================================#
 

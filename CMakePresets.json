@@ -9,7 +9,7 @@
         {
             "name": "ninja-configure",
             "displayName": "Ninja",
-            "description": "Configure with vcpkg toolchain and generate Ninja project files",
+            "description": "Configure the project using the Ninja generator and the vcpkg toolchain.",
             "generator": "Ninja",
             "toolchainFile": "${sourceDir}/external/vcpkg/scripts/buildsystems/vcpkg.cmake",
             "binaryDir": "${sourceDir}/build",
@@ -39,7 +39,7 @@
             "name": "ninja-build-debug",
             "configurePreset": "ninja-configure",
             "displayName": "Build (Debug)",
-            "description": "Build ninja-multi-vcpkg Debug configuration",
+            "description": "Build the project in Debug configuration using Ninja and the vcpkg toolchain.",
             "configuration": "Debug",
             "cleanFirst": false,
             "jobs": 2
@@ -48,7 +48,7 @@
             "name": "ninja-build-release",
             "configurePreset": "ninja-configure",
             "displayName": "Build (Release)",
-            "description": "Build ninja-multi-vcpkg Release configuration",
+            "description": "Build the project in Release configuration using Ninja and the vcpkg toolchain.",
             "configuration": "Release",
             "jobs": 2
         }

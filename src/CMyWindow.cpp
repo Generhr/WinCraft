@@ -159,6 +159,15 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
 #endif
             }
 
+
+            /*
+                Delete Folder
+                ahk_class #32770
+                ahk_exe explorer.exe
+                ahk_pid 9516
+                ahk_id 1968888
+            */
+
             HWND hWnd = reinterpret_cast<HWND>(lParam);
 
             if (IsWindow(hWnd)) {
@@ -182,6 +191,13 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
                     // Set `windowClassName`
                     std::array<WCHAR, 256> windowClassName = {};
                     GetClassNameW(hWnd, windowClassName.data(), windowClassName.size());
+
+                    // Check if the window is a special popup
+                    std::wstring comparison(windowClassName.data());
+
+                    if (comparison == L"#32770" || comparison == L"OperationStatusWindow") {
+                        return 0;
+                    }
 
                     // Set `windowProcessName`. Extract the executable name from the full process path
                     std::wstring windowProcessName = static_cast<std::wstring>(windowProcessPath.data())
