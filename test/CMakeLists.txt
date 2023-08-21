@@ -8,7 +8,7 @@ project(${CMAKE_PROJECT_NAME}Tests LANGUAGES CXX C)
 
 if(CMAKE_GENERATOR MATCHES "Ninja Multi")
     set(CURRENT_BINARY_DIR "${PROJECT_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
-elseif(CMAKE_GENERATOR MATCHES "Ninja")
+else()
     set(CURRENT_BINARY_DIR "${PROJECT_BINARY_DIR}")
 endif()
 
@@ -20,12 +20,6 @@ file(COPY "../cfg/Settings.ini" DESTINATION "${CURRENT_BINARY_DIR}")
 #========== Add Unit Test(s) ==================================================#
 
 file(GLOB_RECURSE TEST_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
-
-if(USE_GOOGLE_MOCK)
-    set(GOOGLE_MOCK_LIBRARIES GTest::gmock_main)
-endif()
-
-set(TEST_LIBRARIES TESTING_LIBRARY GTest::gtest_main ${GOOGLE_MOCK_LIBRARIES})
 
 foreach(TEST_FILE ${TEST_FILES})
     string(REGEX REPLACE "(.*/)([a-zA-Z0-9_ ]+)(\.cpp)" "\\2" TEST_NAME ${TEST_FILE})
@@ -54,7 +48,14 @@ foreach(TEST_FILE ${TEST_FILES})
         target_set_warnings(${TEST_NAME})
     endif()
 
-    target_link_libraries(${TEST_NAME} PRIVATE ${TEST_LIBRARIES})
+    # Check if this test file requires gmock
+    file(READ ${TEST_FILE} TEST_FILE_CONTENTS)
+
+    if(TEST_FILE_CONTENTS MATCHES "#[ \t]*include[ \t]*[\"<]gmock/gmock\\.h[\">]")
+        target_link_libraries(${TEST_NAME} PRIVATE TESTING_LIBRARY GTest::gmock_main)
+    else()
+        target_link_libraries(${TEST_NAME} PRIVATE TESTING_LIBRARY GTest::gtest_main)
+    endif()
 
     gtest_discover_tests(
         ${TEST_NAME}

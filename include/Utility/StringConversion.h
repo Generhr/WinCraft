@@ -4,7 +4,6 @@
 #include <locale>
 #include <string>
 
-
 namespace StringConversion {
 
     // Convert a UTF-8 encoded string to a wide string

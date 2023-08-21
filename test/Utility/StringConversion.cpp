@@ -2,7 +2,6 @@
 
 #include <gtest/gtest.h>
 
-
 TEST(StringConversionTest, Utf8ToWstring) {
     // Test converting an empty string
     std::string emptyUtf8Str = "";

@@ -14,7 +14,6 @@
 
 #include "resource.h"
 
-
 IMPLEMENT_DYNAMIC(CMyWindow, CWnd)
 
 BEGIN_MESSAGE_MAP(CMyWindow,
@@ -36,11 +35,15 @@ CMyWindow::CMyWindow() {
 
     popupMenu.LoadMenu(IDR_MAINMENU);
 
-    if (!popupMenu) {
-        throw Exception(GET_EXCEPTION_FILE, GET_EXCEPTION_LINE, GET_EXCEPTION_COLUMN, L"CMenu::LoadMenu()", GET_LAST_ERROR_DESCRIPTION);
+    if (popupMenu == nullptr) {
+        throw Exception(GET_EXCEPTION_FILE,
+            GET_EXCEPTION_LINE,
+            GET_EXCEPTION_COLUMN,
+            L"CMenu::LoadMenu()",
+            GET_LAST_ERROR_DESCRIPTION);
     }
 
-    SI_Error rc = ini.LoadFile("Settings.ini");  //: https://github.com/brofield/simpleini
+    const SI_Error rc = ini.LoadFile("Settings.ini");  //: https://github.com/brofield/simpleini
 
     if (rc != SI_OK) {
         throw Exception(GET_EXCEPTION_FILE,
@@ -77,7 +80,8 @@ LRESULT CMyWindow::WindowMessageHandler([[maybe_unused]] WPARAM wParam, LPARAM l
             popupMenu.GetSubMenu(0)->TrackPopupMenu(TPM_LEFTALIGN | TPM_TOPALIGN, cursorPos.x, cursorPos.y, this);
 #endif
 
-            PostMessage(WM_NULL, 0,
+            PostMessage(WM_NULL,
+                0,
                 0);  //~ You must force a task switch to the application that called `TrackPopupMenu`
 
             break;
@@ -159,21 +163,12 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
 #endif
             }
 
-
-            /*
-                Delete Folder
-                ahk_class #32770
-                ahk_exe explorer.exe
-                ahk_pid 9516
-                ahk_id 1968888
-            */
-
             HWND hWnd = reinterpret_cast<HWND>(lParam);
 
             if (IsWindow(hWnd)) {
                 // Check if the window is in the `windows` already
                 if (windows.find(hWnd) == windows.end()) {
-                    DWORD windowPID;
+                    DWORD windowPID = 0;
                     GetWindowThreadProcessId(hWnd, &windowPID);
 
                     HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, windowPID);
@@ -193,15 +188,16 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
                     GetClassNameW(hWnd, windowClassName.data(), windowClassName.size());
 
                     // Check if the window is a special popup
-                    std::wstring comparison(windowClassName.data());
+                    const std::wstring comparison(windowClassName.data());
 
                     if (comparison == L"#32770" || comparison == L"OperationStatusWindow") {
                         return 0;
                     }
 
                     // Set `windowProcessName`. Extract the executable name from the full process path
-                    std::wstring windowProcessName = static_cast<std::wstring>(windowProcessPath.data())
-                                                         .substr(static_cast<std::wstring>(windowProcessPath.data()).find_last_of(L'\\') + 1);
+                    std::wstring windowProcessName =
+                        static_cast<std::wstring>(windowProcessPath.data())
+                            .substr(static_cast<std::wstring>(windowProcessPath.data()).find_last_of(L'\\') + 1);
 
                     // Check if the process name is "ApplicationFrameHost.exe"
                     if (_wcsicmp(windowProcessName.c_str(), L"ApplicationFrameHost.exe") == 0) {
@@ -211,8 +207,9 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
                     }
 
                     // Attempt to read position values from Setting.ini
-                    std::string value =
-                        ini.GetValue("Window Positions", StringConversion::WstringToUtf8(windowProcessName).c_str(), "Scheißdreck I. Hosen");
+                    const std::string value = ini.GetValue("Window Positions",
+                        StringConversion::WstringToUtf8(windowProcessName).c_str(),
+                        "Scheißdreck I. Hosen");
 
                     if (value != "Scheißdreck I. Hosen") {
                         windows[hWnd].title = windowTitle.data();
@@ -226,7 +223,7 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
 
                         // Tokenize the input using ',' as delimiter
                         for (int i = 0; i < 4 && std::getline(iss, token, ','); i++) {
-                            int value = std::stoi(token);
+                            const int value = std::stoi(token);
 
                             (i == 0) ? windows[hWnd].x = value :
                             (i == 1) ? windows[hWnd].y = value :
@@ -243,7 +240,7 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
 
                     hook = SetWinEventHook(EVENT_SYSTEM_MOVESIZEEND,
                         EVENT_SYSTEM_MOVESIZEEND,
-                        NULL,
+                        nullptr,
                         &CMyWindow::PositionWindow,
                         currentWindow.PID,
                         0,
@@ -254,8 +251,8 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
                                << L"    * " << currentWindow.title << L"\n"
                                << L"    * " << currentWindow.className << L"\n"
                                << L"    * " << currentWindow.processName << L"\n"
-                               << L"    * " << currentWindow.x << L", " << currentWindow.y << L", " << currentWindow.width << L", "
-                               << currentWindow.height << std::endl;
+                               << L"    * " << currentWindow.x << L", " << currentWindow.y << L", "
+                               << currentWindow.width << L", " << currentWindow.height << std::endl;
                     std::cout << "\x1B[32mSetWinEventHook\x1B[0m" << std::endl;
 #endif
 
@@ -268,7 +265,12 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
 #endif
                     }
                     else {
-                        ::MoveWindow(hWnd, currentWindow.x, currentWindow.y, currentWindow.width, currentWindow.height, TRUE);
+                        ::MoveWindow(hWnd,
+                            currentWindow.x,
+                            currentWindow.y,
+                            currentWindow.width,
+                            currentWindow.height,
+                            TRUE);
 #ifdef WINCRAFT_DEBUG
                         std::cout << "\x1B[32mSet initial position!\x1B[0m" << std::endl;
 #endif
@@ -318,7 +320,7 @@ void CALLBACK CMyWindow::PositionWindow(HWINEVENTHOOK /* hWinEventHook */,
     DWORD /* dwmsEventTime */) {
     CMyWindow::Window& currentWindow = windows.find(hWnd)->second;
 
-    if (GetKeyState(VK_SHIFT) & 0x8000) {
+    if ((GetKeyState(VK_SHIFT) & 0x8000)) {
         RECT rect;
         ::GetWindowRect(hWnd, &rect);
 
@@ -327,13 +329,16 @@ void CALLBACK CMyWindow::PositionWindow(HWINEVENTHOOK /* hWinEventHook */,
         currentWindow.width = rect.right - rect.left;
         currentWindow.height = rect.bottom - rect.top;
 
-        if (GetKeyState(VK_CONTROL) & 0x8000) {
+        if ((GetKeyState(VK_CONTROL) & 0x8000)) {
             // Convert the position values to a string format
             std::ostringstream newValueStream;
-            newValueStream << currentWindow.x << ", " << currentWindow.y << ", " << currentWindow.width << ", " << currentWindow.height;
-            std::string newValue = newValueStream.str();
+            newValueStream << currentWindow.x << ", " << currentWindow.y << ", " << currentWindow.width << ", "
+                           << currentWindow.height;
+            const std::string newValue = newValueStream.str();
 
-            ini.SetValue("Window Positions", StringConversion::WstringToUtf8(currentWindow.processName).c_str(), newValue.c_str());
+            ini.SetValue("Window Positions",
+                StringConversion::WstringToUtf8(currentWindow.processName).c_str(),
+                newValue.c_str());
             // Save the changes to the INI file
             ini.SaveFile("Settings.ini");
         }

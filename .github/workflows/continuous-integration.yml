@@ -29,11 +29,11 @@ jobs:
       - name: Run CMake
         uses: lukka/run-cmake@v10
         with:
-          configurePreset: "ninja-configure"
-          configurePresetAdditionalArgs: '[`-DENABLE_TESTING=ON`, `-DENABLE_CODE_COVERAGE=ON`]'
-          buildPreset: "ninja-build-debug"
+          configurePreset: "configure-release-with-debug-info"
+          configurePresetAdditionalArgs: '[`-DENABLE_CODE_COVERAGE=ON`]'
+          buildPreset: "build-release-with-debug-info"
           buildPresetAdditionalArgs: '[`--target unit_tests`]'
-          testPreset: "ninja-test-debug"
+          testPreset: "test-release-with-debug-info"
 
       - name: Code Coverage
         uses: codecov/codecov-action@v3

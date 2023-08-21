@@ -5,21 +5,21 @@
 #include <string> /* std::wstring */
 #include <unordered_map>
 
-
 #define CALLBACKMESSAGE (WM_APP + 1)
 
-class CMyWindow : public CWnd {  //~ CWnd Class:
-                                 //: https://github.com/MicrosoftDocs/cpp-docs/blob/main/docs/mfc/reference/cwnd-class.md#onmenuselect
+class CMyWindow
+    : public CWnd {  //~ CWnd Class:
+                     //: https://github.com/MicrosoftDocs/cpp-docs/blob/main/docs/mfc/reference/cwnd-class.md#onmenuselect
 public:
     DECLARE_DYNAMIC(CMyWindow)  // cppcheck-suppress unknownMacro
 
     CMyWindow();
     ~CMyWindow() override;
 
-    CMyWindow(const CMyWindow&) = delete;             // Copy constructor
-    CMyWindow& operator=(const CMyWindow&) = delete;  // Copy assignment operator
-    CMyWindow(CMyWindow&&) = delete;                  // Move constructor
-    CMyWindow& operator=(CMyWindow&&) = delete;       // Move assignment operator
+    CMyWindow(const CMyWindow&) = delete;
+    CMyWindow& operator=(const CMyWindow&) = delete;
+    CMyWindow(CMyWindow&&) = delete;
+    CMyWindow& operator=(CMyWindow&&) = delete;
 
 protected:
     DECLARE_MESSAGE_MAP()
@@ -49,6 +49,11 @@ private:
     inline static std::unordered_map<HWND, Window> windows;
 
     LRESULT ShellMessageHandler(WPARAM wParam, LPARAM lParam);
-    static void CALLBACK
-    PositionWindow(HWINEVENTHOOK hWinEventHook, DWORD event, HWND hwnd, LONG idObject, LONG idChild, DWORD dwEventThread, DWORD dwmsEventTime);
+    inline static void CALLBACK PositionWindow(HWINEVENTHOOK hWinEventHook,
+        DWORD event,
+        HWND hwnd,
+        LONG idObject,
+        LONG idChild,
+        DWORD dwEventThread,
+        DWORD dwmsEventTime);
 };

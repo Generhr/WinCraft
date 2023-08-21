@@ -1,8 +1,8 @@
 {
+    "json.schemaDownload.enable": true,
     //============== Native ======================================================//
-    "debug.terminal.clearBeforeReusing": true,
     "editor.rulers": [
-        150
+        120
     ],
     "files.associations": {
         "*.py": "python",
@@ -17,6 +17,7 @@
         "memory": "cpp",
         "xstring": "cpp",
         "type_traits": "cpp",
+        "string": "cpp",
         "algorithm": "cpp",
         "cmath": "cpp",
         "any": "cpp",
@@ -55,7 +56,6 @@
         "map": "cpp",
         "resumable": "cpp",
         "set": "cpp",
-        "string": "cpp",
         "unordered_map": "cpp",
         "unordered_set": "cpp",
         "vector": "cpp",
@@ -113,12 +113,7 @@
         "xmemory": "cpp",
         "xtr1common": "cpp",
         "xtree": "cpp",
-        "xutility": "cpp",
-        "assert": "cpp",
-        "string_span": "cpp",
-        "pointers": "cpp",
-        "source_location": "cpp",
-        "*.rh": "cpp"
+        "xutility": "cpp"
     },
     "files.autoSave": "off", //~ Builds the project when you switch to another window (annoying).
     "files.exclude": {
@@ -128,11 +123,11 @@
         "**/.settings": true,
         "**/.factorypath": true
     },
+    "workbench.editor.tabSizing": "fit",
     "workbench.editorAssociations": {
         "*.md": "vscode.markdown.preview.editor",
         "*.svg": "svgPreviewer.customEditor"
     },
-    "workbench.editor.tabSizing": "fit",
     "[cmake]": {
         "editor.defaultFormatter": "cheshirekow.cmake-format",
         "editor.quickSuggestions": {
@@ -203,6 +198,7 @@
         "gcovr",
         "gtest",
         "HHOOK",
+        "HICON",
         "HMENU",
         "Hosen",
         "HRESULT",
@@ -232,6 +228,8 @@
         "Onimuru",
         "OUTOFCONTEXT",
         "pargs",
+        "pnid",
+        "PNOTIFYICONDATAA",
         "poopypants",
         "RBUTTON",
         "RBUTTONDOWN",
@@ -372,5 +370,4 @@
         "*.cc",
         "*.c(pp)?"
     ],
-    //==============  Other  ======================================================//
 }

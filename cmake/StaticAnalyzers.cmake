@@ -4,37 +4,34 @@ macro(enable_cppcheck)
     if(CPPCHECK)
         message(STATUS "'${CPPCHECK}' found and enabled")
 
-        # Set export commands on for use with `--project`
-        #set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
         if(CMAKE_GENERATOR MATCHES ".*Visual Studio.*")
             set(CPPCHECK_TEMPLATE "vs")
         else()
             set(CPPCHECK_TEMPLATE "gcc")
         endif()
 
-        if("${CPPCHECK_OPTIONS}" STREQUAL "")
-            set(CMAKE_CXX_CPPCHECK
-                ${CPPCHECK}
-                "--enable=warning,style,performance,portability" # Enable additional checks.
-                "--std=c++${CMAKE_CXX_STANDARD}" # Set standard.
-                #"--project=compile_commands.json" # (Optional) Specifices the json file created by MAKE_EXPORT_COMPILE_COMMANDS which outlines the code structure (see: https://github.com/danmar/cppcheck/blob/main/man/manual.md#cmake).
-                "--inconclusive" # Allow that Cppcheck reports even though the analysis is inconclusive. There are false positives with this option. Each result must be carefully investigated before you know if it is good or bad.
-                "--suppressions-list=${CMAKE_CURRENT_SOURCE_DIR}/cppcheck-suppressions.txt" # (Optional) Suppress warnings listed in the file. The format of is: `[error id]:[filename]:[line]`. The `[filename]` and `[line]` are optional. `[error id]` may be `*` to suppress all warnings (for a specified file or files). `[filename]` may contain the wildcard characters `*` or `?`.
-                "--inline-suppr" # (Optional) Enable inline suppressions. Use them by placing comments in the form: `// cppcheck-suppress memleak` before the line to suppress.
-                "--template=${CPPCHECK_TEMPLATE}" # Format the error messages (Pre-defined templates: gcc, vs).
-                "--cppcheck-build-dir=build" # (Optional) Using a Cppcheck build folder is not mandatory but it is recommended (see: https://github.com/danmar/cppcheck/blob/main/man/manual.md#cppcheck-build-dir).
-                #"--check-level=exhaustive" # Exhaustive checking level should be useful for scenarios where you can wait for results.
-                #"--performance-valueflow-max-if-count=60" # (Optional) Adjusts the max count for number of if in a function.
-                "--quiet" # (Optional) Only print something when there is an error.
-                #"--verbose"  # (Optional) More detailed error reports.
-                "--platform=win64"
-                "-j ${PROCESSOR_COUNT}" # (Optional) Start x amount of threads to do the checking work.
-            )
-        else()
-            # If the user provides a CPPCHECK_OPTIONS with a template specified, it will override this template
-            set(CMAKE_CXX_CPPCHECK ${CPPCHECK} --template=${CPPCHECK_TEMPLATE} ${CPPCHECK_OPTIONS})
-        endif()
+        # Set export commands on for use with `--project`
+        set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+        foreach(FILE_PATH ${CPP_SUPPRESS_LIST})
+            get_filename_component(FILE_NAME ${FILE_PATH} NAME)
+
+            list(APPEND SUPPRESS_FILES "--suppress=*:*${FILE_NAME}")
+        endforeach()
+
+        set(CMAKE_CXX_CPPCHECK
+            ${CPPCHECK}
+            "--enable=warning,style,performance,portability"
+            "--std=c++${CMAKE_CXX_STANDARD}"
+            "--project=compile_commands.json"
+            "--suppressions-list=${CMAKE_CURRENT_SOURCE_DIR}/cppcheck-suppressions.txt"
+            ${SUPPRESS_FILES}
+            "--inline-suppr"
+            "--template=${CPPCHECK_TEMPLATE}"
+            "--cppcheck-build-dir=build"
+            "--quiet"
+            "-j ${PROCESSOR_COUNT}"
+        )
 
         if(NOT "${CMAKE_CXX_STANDARD}" STREQUAL "")
             set(CMAKE_CXX_CPPCHECK ${CMAKE_CXX_CPPCHECK} --std=c++${CMAKE_CXX_STANDARD})
@@ -49,32 +46,77 @@ macro(enable_cppcheck)
 endmacro()
 
 macro(enable_clang_tidy)
-    find_program(CLANG_TIDY NAMES "clang-tidy")
+    get_filename_component(CLANG_TIDY_EXE_HINT "${CMAKE_CXX_COMPILER}" PATH)
 
-    if(CLANG_TIDY)
-        message(STATUS "'${CLANG_TIDY}' found and enabled")
+    find_program(
+        CLANG_TIDY_EXE
+        NAMES "clang-tidy"
+        HINTS ${CLANG_TIDY_EXE_HINT}
+    )
+
+    if(CLANG_TIDY_EXE)
+        message(STATUS "'${CLANG_TIDY_EXE}' found and enabled")
+
+        set(OPTIONS)
+        set(SINGLE_VALUE_ARGS)
+        set(MULTI_VALUE_ARGS EXTRA_ARGS CLANG_ARGS)
+
+        cmake_parse_arguments(PARSE "${OPTIONS}" "${SINGLE_VALUE_ARGS}" "${MULTI_VALUE_ARGS}" ${ARGN})
+
+        function(find_clang_tidy_version VAR)
+            execute_process(COMMAND ${CLANG_TIDY_EXE} -version OUTPUT_VARIABLE VERSION_OUTPUT)
+            separate_arguments(VERSION_OUTPUT_LIST UNIX_COMMAND "${VERSION_OUTPUT}")
+            list(FIND VERSION_OUTPUT_LIST "version" VERSION_INDEX)
+
+            if(VERSION_INDEX GREATER 0)
+                math(EXPR VERSION_INDEX "${VERSION_INDEX} + 1")
+                list(GET VERSION_OUTPUT_LIST ${VERSION_INDEX} VERSION)
+                set(${VAR}
+                    ${VERSION}
+                    PARENT_SCOPE
+                )
+            else()
+                set(${VAR}
+                    "0.0"
+                    PARENT_SCOPE
+                )
+            endif()
+        endfunction()
+
+        find_clang_tidy_version(CLANG_TIDY_VERSION)
 
         # Export compile commands on for use with `-p`
         set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # NOTE: This command only works with Ninja or Makefile generators.
 
-        #: https://clang.llvm.org/extra/clang-tidy/
-        set(CLANG_TIDY_OPTIONS "${CLANG_TIDY}" -p=${CMAKE_BINARY_DIR} --extra-arg=-Wno-unknown-warning-option --extra-arg=-Wno-ignored-optimization-argument --extra-arg=-Wno-unused-command-line-argument)
+        if(${CLANG_TIDY_VERSION} VERSION_LESS "4.0.0")
+            set(CLANG_TIDY_QUIET_ARG)
+        else()
+            set(CLANG_TIDY_QUIET_ARG "-quiet")
+        endif()
 
         if(${CMAKE_CXX_COMPILER} MATCHES "cl.exe")
-            list(APPEND CLANG_TIDY_OPTIONS --extra-arg=/std:c++${CMAKE_CXX_STANDARD} --extra-arg=/EHsc
-            )# Specify the exception handling model support generated by the compiler because clang-tidy strips it for some reason and then complains about `try` and `catch`
+            list(APPEND CLANG_TIDY_EXTRA_ARGS --extra-arg=/std:c++${CMAKE_CXX_STANDARD}
+                 --extra-arg=/EHsc # Specify the exception handling model support generated by the compiler because clang-tidy strips it for some reason and then complains about `try` and `catch`
+            )
         else()
-            set(CLANG_TIDY_OPTIONS "${CLANG_TIDY_OPTIONS}" --extra-arg=-std=c++${CMAKE_CXX_STANDARD})
+            set(CLANG_TIDY_EXTRA_ARGS --extra-arg=-std=c++${CMAKE_CXX_STANDARD})
         endif()
 
-        if(${ENABLE_WARNINGS_AS_ERRORS})
-            set(CLANG_TIDY_OPTIONS ${CLANG_TIDY_OPTIONS} --warnings-as-errors=*)
+        foreach(ARG ${PARSE_EXTRA_ARGS})
+            list(APPEND CLANG_TIDY_EXTRA_ARGS --extra-arg=${ARG})
+        endforeach()
+
+        foreach(ARG ${PARSE_CLANG_ARGS})
+            list(APPEND CLANG_TIDY_EXTRA_ARGS --extra-arg=-Xclang --extra-arg=${ARG})
+        endforeach()
+
+        set(CLANG_TIDY_ERRORS_ARG)
+
+        if(${ENABLE_WARNINGS_AS_ERRORS} AND ${CLANG_TIDY_VERSION} VERSION_GREATER_EQUAL "3.9.0")
+            set(CLANG_TIDY_ERRORS_ARG "-warnings-as-errors=*")
         endif()
 
-        #set(CLANG_TIDY_COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/tools/clang-tidy-wrapper.bat;${CLANG_TIDY_OPTIONS}" CACHE STRING "A combined command to run clang-tidy with caching wrapper") #~ https://github.com/matus-chochlik/ctcache
-        #set(CTCACHE_DIR "C:/Users/Onimuru/.local/bin/cache")
-
-        set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_OPTIONS}")
+        set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY_EXE}" -p=${CMAKE_BINARY_DIR} ${CLANG_TIDY_QUIET_ARG} ${CLANG_TIDY_EXTRA_ARGS} ${CLANG_TIDY_ERRORS_ARG})
     else()
         message(WARNING "clang-tidy is enabled but the executable was not found")
     endif()

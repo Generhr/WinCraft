@@ -4,10 +4,9 @@
 #include <sstream>
 #include <iostream>
 
-
 void HandleException(const Exception& error, const wchar_t* context) {
-    const std::wstringstream ss(
-        L"\n(\x1b[36m" + error.GetFile() + L":" + error.GetLine() + L":" + error.GetColumn() + L"\x1b[0m) \x1b[31mERROR\x1b[0m: " + error.GetNote());
+    const std::wstringstream ss(L"\n(\x1b[36m" + error.GetFile() + L":" + error.GetLine() + L":" + error.GetColumn() +
+                                L"\x1b[0m) \x1b[31mERROR\x1b[0m: " + error.GetNote());
     const std::wstring eMsg = error.GetFullMessage() + L"\n\nException caught at " + context;
 
     std::wcerr << ss.str() << std::endl;
@@ -26,7 +25,11 @@ int main() {
     try {
         // Initialize MFC
         if (!AfxWinInit(GetModuleHandle(nullptr), nullptr, GetCommandLine(), SW_HIDE)) {
-            throw Exception(GET_EXCEPTION_FILE, GET_EXCEPTION_LINE, GET_EXCEPTION_COLUMN, L"AfxWinInit()", L"MFC failed to initialize!");
+            throw Exception(GET_EXCEPTION_FILE,
+                GET_EXCEPTION_LINE,
+                GET_EXCEPTION_COLUMN,
+                L"AfxWinInit()",
+                L"MFC failed to initialize!");
         }
 
         CMyWindow myWindow;  // Create an instance of your custom window class
@@ -45,7 +48,11 @@ int main() {
                 nullptr,
                 nullptr,
                 nullptr)) {
-            throw Exception(GET_EXCEPTION_FILE, GET_EXCEPTION_LINE, GET_EXCEPTION_COLUMN, L"CMyWindow::CreateEx()", GET_LAST_ERROR_DESCRIPTION);
+            throw Exception(GET_EXCEPTION_FILE,
+                GET_EXCEPTION_LINE,
+                GET_EXCEPTION_COLUMN,
+                L"CMyWindow::CreateEx()",
+                GET_LAST_ERROR_DESCRIPTION);
         }
 
         HWND hWnd = myWindow.GetSafeHwnd();

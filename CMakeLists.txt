@@ -2,18 +2,17 @@ cmake_minimum_required(VERSION 3.21...3.27 FATAL_ERROR) #? 3.21 - PROJECT_IS_TOP
 
 #==========  Project Details  ==================================================#
 
-# NOTE: update this with your new project's details.
-
 project("WinCraft"
-        VERSION "0.4.1" # NOTE: Listing the version is nice here since it sets lots of useful variables.
+        VERSION "0.4.2"
         DESCRIPTION "Window automation tool"
         HOMEPAGE_URL "https://github.com/Onimuru/WinCraft"
-        LANGUAGES CXX C # NOTE: To support external libraries, it's good practice to list both CXX and C.
+        LANGUAGES CXX C
 )
 
 #============  Safe Guards  ====================================================#
 
 include(cmake/SafeGuards.cmake)
+variable_watch(CMAKE_BUILD_TYPE readonly_guard)
 
 #==========  CMake Variables  ==================================================#
 
@@ -41,13 +40,11 @@ set(CMAKE_SUPPRESS_REGENERATION true)
 set(CMAKE_COLOR_DIAGNOSTICS ON)
 
 # Find number of processors
-if(NOT DEFINED PROCESSOR_COUNT)
-    include(ProcessorCount)
-    ProcessorCount(PROCESSOR_COUNT)
+include(ProcessorCount)
+ProcessorCount(PROCESSOR_COUNT)
 
-    if(PROCESSOR_COUNT EQUAL 0)
-        set(PROCESSOR_COUNT 1)
-    endif()
+if(PROCESSOR_COUNT EQUAL 0)
+    set(PROCESSOR_COUNT 1)
 endif()
 
 set(GIT_SHA
@@ -56,19 +53,33 @@ set(GIT_SHA
 )
 string(SUBSTRING "${GIT_SHA}" 0 8 GIT_SHORT_SHA)
 
+#=======  Manual File Additions  ===============================================#
+
+set(CPP_SUPPRESS_LIST)
+
+set(CLANG_TIDY_SUPPRESS_LIST)
+
+set(PRECOMPILED_HEADER_LIST "${CMAKE_CURRENT_SOURCE_DIR}/include/pch.h")
+
+set(MANUAL_HEADER_LIST)
+
+# Include the .rc file directly as a source file for the project, CMake is flexible enough to consider any file with a recognized source file extension (like .cpp, .c, .rc, etc.) as part of the source code. Including the .rc file in this way tells CMake to compile it as part of your project without needing to manually compile it into a .res resource file.
+set(MANUAL_SOURCE_LIST "${CMAKE_CURRENT_SOURCE_DIR}/res/resource.rc")
+
 #====  Define CMake Module Imports  ============================================#
 
+include(CMakeParseArguments)
+
 include(cmake/Options.cmake)
+
+include(cmake/Utilities.cmake)
 
 include(cmake/UpdateSubmodules.cmake)
 
 include(cmake/Cache.cmake)
 enable_cache()
 
-if(ENABLE_CPPCHECK
-   OR ENABLE_CLANG_TIDY
-   OR ENABLE_INCLUDE_WHAT_YOU_USE
-)
+if(ENABLE_STATIC_ANALYZERS)
     include(cmake/StaticAnalyzers.cmake)
 
     if(ENABLE_CPPCHECK)
@@ -96,11 +107,6 @@ endif()
 
 include(cmake/Warnings.cmake)
 
-if(ENABLE_DOXYGEN)
-    include(cmake/Doxygen.cmake)
-    enable_doxygen()
-endif()
-
 set(VCPKG_BUILD_DOCS OFF)
 set(VCPKG_BUILD_TESTS OFF)
 set(VCPKG_BUILD_EXAMPLES OFF)
@@ -126,53 +132,46 @@ file(COPY "cfg/Settings.ini" DESTINATION "${CMAKE_BINARY_DIR}/bin")
 
 add_subdirectory(external EXCLUDE_FROM_ALL)
 
-set(PRECOMPILED_HEADER_LIST "${CMAKE_CURRENT_SOURCE_DIR}/include/pch.h")
+set(WINDOWS_HEADERS_NEEDED_BY_CLANG_LIST)
 
 if("${CMAKE_CXX_COMPILER_ID}" MATCHES "[Cc]lang")
     set(WINDOWS_HEADERS_NEEDED_BY_CLANG_LIST "$ENV{EXTERNAL_INCLUDE}")
 endif()
 
+file(GLOB_RECURSE HEADER_LIST include/*)
+list(REMOVE_ITEM HEADER_LIST ${PRECOMPILED_HEADER_LIST})
+list(APPEND HEADER_LIST ${MANUAL_HEADER_LIST})
+list(REMOVE_DUPLICATES HEADER_LIST)
+
 if(ENABLE_CLANG_TIDY)
-    set(NO_STATIC_CODE_ANALYSIS_LIST # Add here any file you want to exclude from clang-tidy static analysis.
-    )
+    list(REMOVE_ITEM HEADER_LIST ${CLANG_TIDY_SUPPRESS_LIST})
 endif()
 
-set(HEADER_LIST)
+file(GLOB_RECURSE SOURCE_LIST src/*.cpp)
+list(REMOVE_ITEM SOURCE_LIST "${CMAKE_CURRENT_SOURCE_DIR}/src/Main.cpp")
+list(APPEND SOURCE_LIST ${MANUAL_SOURCE_LIST})
+list(REMOVE_DUPLICATES SOURCE_LIST)
 
-file(GLOB_RECURSE HEADER_FILES include/*${SUFFIX_HPPHEADER})
-
-foreach(HEADER_FILE ${HEADER_FILES})
-    if(NOT "${HEADER_FILE}" IN_LIST PRECOMPILED_HEADER_LIST AND NOT "${HEADER_FILE}" IN_LIST NO_STATIC_CODE_ANALYSIS_LIST)
-        list(APPEND HEADER_LIST ${HEADER_FILE})
-    endif()
-endforeach()
-
-# Include the .rc file directly as a source file for the project, CMake is flexible enough to consider any file with a recognized source file extension (like .cpp, .c, .rc, etc.) as part of the source code. Including the .rc file in this way tells CMake to compile it as part of your project without needing to manually compile it into a .res resource file.
-set(SOURCE_LIST "${CMAKE_CURRENT_SOURCE_DIR}/res/resource.rc")
-
-file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
-
-foreach(SOURCE_FILE ${SOURCE_FILES})
-    if(NOT "${SOURCE_FILE}" MATCHES ".*/Main.cpp" AND NOT "${SOURCE_FILE}" IN_LIST NO_STATIC_CODE_ANALYSIS_LIST)
-        list(APPEND SOURCE_LIST ${SOURCE_FILE})
-    endif()
-endforeach()
+if(ENABLE_CLANG_TIDY)
+    list(REMOVE_ITEM SOURCE_LIST ${CLANG_TIDY_SUPPRESS_LIST})
+endif()
 
 #===========  Create Target  ===================================================#
 
 # Delete all cmake files from previous builds
 add_custom_target(clean_build_folder COMMAND git clean -d -f -x)
 
-# Main executable
-if(ENABLE_CLANG_TIDY AND NO_STATIC_CODE_ANALYSIS_LIST)
-    # Create a library with the sources from `NO_STATIC_CODE_ANALYSIS_LIST` and reset its `CMAKE_CXX_CLANG_TIDY` property to avoid having clang-tidy analyze the code:
-    add_library(NO_STATIC_CODE_ANALYSIS OBJECT "${NO_STATIC_CODE_ANALYSIS_LIST}")
-    set_target_properties(NO_STATIC_CODE_ANALYSIS PROPERTIES CXX_CLANG_TIDY "")
-    target_include_directories(NO_STATIC_CODE_ANALYSIS PRIVATE "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>")
+if(ENABLE_CLANG_TIDY AND CLANG_TIDY_SUPPRESS_LIST)
+    add_library(CLANG_TIDY_SUPPRESS_LIBRARY OBJECT "${CLANG_TIDY_SUPPRESS_LIST}")
+    set_target_properties(CLANG_TIDY_SUPPRESS_LIBRARY PROPERTIES CXX_CLANG_TIDY "")
+    target_include_directories(CLANG_TIDY_SUPPRESS_LIBRARY PRIVATE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>")
+endif()
 
-    add_executable(${PROJECT_NAME} "src/Main.cpp" "$<TARGET_OBJECTS:NO_STATIC_CODE_ANALYSIS>" "${SOURCE_LIST}" "${HEADER_LIST}")
-else()
-    add_executable(${PROJECT_NAME} "src/Main.cpp" "${SOURCE_LIST}" "${HEADER_LIST}")
+# Main executable
+add_executable(${PROJECT_NAME} "${CMAKE_CURRENT_SOURCE_DIR}/src/Main.cpp" "${SOURCE_LIST}" "${HEADER_LIST}")
+
+if(TARGET CLANG_TIDY_SUPPRESS_LIBRARY)
+    target_sources(${PROJECT_NAME} PRIVATE "$<TARGET_OBJECTS:CLANG_TIDY_SUPPRESS_LIBRARY>")
 endif()
 
 if(VERBOSE_OUTPUT)
@@ -186,11 +185,7 @@ else()
     message(STATUS "Created ${PROJECT_NAME} binary")
 endif()
 
-target_include_directories(
-    ${PROJECT_NAME}
-    PUBLIC "${WINDOWS_HEADERS_NEEDED_BY_CLANG_LIST}" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
-    PRIVATE "${CMAKE_BINARY_DIR}/configured_files/include"
-)
+target_include_directories(${PROJECT_NAME} PUBLIC "${WINDOWS_HEADERS_NEEDED_BY_CLANG_LIST}" "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>")
 
 #=====  Set Standard and Warnings  =============================================#
 
@@ -212,6 +207,10 @@ endif()
 
 #========  Compile Definitions  ================================================#
 
+if(${CMAKE_CXX_COMPILER} MATCHES "cl.exe")
+    target_compile_options(${PROJECT_NAME} PRIVATE /EHsc)
+endif()
+
 string(TOUPPER "${PROJECT_NAME}_DEBUG" PROJECT_DEBUG_DEFINE)
 target_compile_definitions(${PROJECT_NAME} PRIVATE ${PROJECT_DEBUG_DEFINE})
 
@@ -221,7 +220,9 @@ add_compile_definitions(_AFXDLL)
 #=========  Link Dependencies  =================================================#
 
 # Precompile headers
-target_precompile_headers(${PROJECT_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:${PRECOMPILED_HEADER_LIST}>")
+if(NOT ENABLE_CLANG_TIDY OR CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+    target_precompile_headers(${PROJECT_NAME} PRIVATE "$<$<COMPILE_LANGUAGE:CXX>:${PRECOMPILED_HEADER_LIST}>")
+endif()
 
 find_package(Microsoft.GSL CONFIG REQUIRED)
 target_link_libraries(${PROJECT_NAME} PRIVATE Microsoft.GSL::GSL)
@@ -237,7 +238,7 @@ add_executable(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 if(PROJECT_IS_TOP_LEVEL)
     if(ENABLE_TESTING)
-        enable_testing()
+        include(CTest)
 
         add_library(TESTING_LIBRARY INTERFACE)
 
@@ -246,20 +247,31 @@ if(PROJECT_IS_TOP_LEVEL)
             append_coverage_compiler_flags_to_target(TESTING_LIBRARY)
         endif()
 
-        target_sources(TESTING_LIBRARY INTERFACE "${SOURCE_LIST}" "${HEADER_LIST}")
+        if(TARGET CLANG_TIDY_SUPPRESS_LIBRARY)
+            target_sources(TESTING_LIBRARY INTERFACE "${SOURCE_LIST}" "${HEADER_LIST}" "$<TARGET_OBJECTS:CLANG_TIDY_SUPPRESS_LIBRARY>")
+        else()
+            target_sources(TESTING_LIBRARY INTERFACE "${SOURCE_LIST}" "${HEADER_LIST}")
+        endif()
+
         target_include_directories(TESTING_LIBRARY INTERFACE "${WINDOWS_HEADERS_NEEDED_BY_CLANG_LIST}" "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
         set_target_properties(
-            ${TESTING_LIBRARY}
+            TESTING_LIBRARY
             PROPERTIES CXX_STANDARD ${CMAKE_CXX_STANDARD}
                        CXX_STANDARD_REQUIRED 17
                        CXX_EXTENSIONS NO
         )
 
+        if(${CMAKE_CXX_COMPILER} MATCHES "cl.exe")
+            target_compile_options(TESTING_LIBRARY INTERFACE /EHsc)
+        endif()
+
         string(TOUPPER "${PROJECT_NAME}_TEST" PROJECT_TEST_DEFINE)
         target_compile_definitions(TESTING_LIBRARY INTERFACE ${PROJECT_TEST_DEFINE})
 
-        target_precompile_headers(TESTING_LIBRARY INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:${PRECOMPILED_HEADER_LIST}>")
+        if(NOT ENABLE_CLANG_TIDY OR CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+            target_precompile_headers(TESTING_LIBRARY INTERFACE "$<$<COMPILE_LANGUAGE:CXX>:${PRECOMPILED_HEADER_LIST}>")
+        endif()
 
         find_package(GTest CONFIG REQUIRED)
         include(GoogleTest)
@@ -278,6 +290,13 @@ if(PROJECT_IS_TOP_LEVEL)
 
         add_subdirectory(test)
     endif()
+endif()
+
+#==============  Doxygen  ======================================================#
+
+if(ENABLE_DOXYGEN)
+    include(cmake/Doxygen.cmake)
+    enable_doxygen()
 endif()
 
 #==============  Install  ======================================================#
