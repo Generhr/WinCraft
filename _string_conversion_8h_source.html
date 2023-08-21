@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">WinCraft
-   &#160;<span id="projectnumber">0.4.1</span>
+   &#160;<span id="projectnumber">0.4.2</span>
    </div>
    <div id="projectbrief">Window automation tool</div>
   </td>
@@ -95,19 +95,18 @@ $(document).ready(function(){initNavTree('_string_conversion_8h_source.html','')
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;locale&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="namespace_string_conversion.html">    8</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_string_conversion.html">StringConversion</a> {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="comment">// Convert a UTF-8 encoded string to a wide string</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    std::wstring <a class="code" href="namespace_string_conversion.html#ad9e2cafe9dba2ddd9d85f15ffaed9240">Utf8ToWstring</a>(<span class="keyword">const</span> std::string&amp; utf8Str);</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="comment">// Convert a wide string to a UTF-8 encoded string</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    std::string <a class="code" href="namespace_string_conversion.html#a91beef994384c102a1f1f25e8e561148">WstringToUtf8</a>(<span class="keyword">const</span> std::wstring&amp; wStr);</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}  <span class="comment">// namespace StringConversion</span></div>
-<div class="ttc" id="anamespace_string_conversion_html"><div class="ttname"><a href="namespace_string_conversion.html">StringConversion</a></div><div class="ttdef"><b>Definition:</b> StringConversion.h:8</div></div>
-<div class="ttc" id="anamespace_string_conversion_html_a91beef994384c102a1f1f25e8e561148"><div class="ttname"><a href="namespace_string_conversion.html#a91beef994384c102a1f1f25e8e561148">StringConversion::WstringToUtf8</a></div><div class="ttdeci">std::string WstringToUtf8(const std::wstring &amp;wStr)</div><div class="ttdef"><b>Definition:</b> StringConversion.cpp:18</div></div>
-<div class="ttc" id="anamespace_string_conversion_html_ad9e2cafe9dba2ddd9d85f15ffaed9240"><div class="ttname"><a href="namespace_string_conversion.html#ad9e2cafe9dba2ddd9d85f15ffaed9240">StringConversion::Utf8ToWstring</a></div><div class="ttdeci">std::wstring Utf8ToWstring(const std::string &amp;utf8Str)</div><div class="ttdef"><b>Definition:</b> StringConversion.cpp:8</div></div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="namespace_string_conversion.html">    7</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="namespace_string_conversion.html">StringConversion</a> {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="comment">// Convert a UTF-8 encoded string to a wide string</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    std::wstring <a class="code" href="namespace_string_conversion.html#ad9e2cafe9dba2ddd9d85f15ffaed9240">Utf8ToWstring</a>(<span class="keyword">const</span> std::string&amp; utf8Str);</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="comment">// Convert a wide string to a UTF-8 encoded string</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    std::string <a class="code" href="namespace_string_conversion.html#a91beef994384c102a1f1f25e8e561148">WstringToUtf8</a>(<span class="keyword">const</span> std::wstring&amp; wStr);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}  <span class="comment">// namespace StringConversion</span></div>
+<div class="ttc" id="anamespace_string_conversion_html"><div class="ttname"><a href="namespace_string_conversion.html">StringConversion</a></div><div class="ttdef"><b>Definition:</b> StringConversion.h:7</div></div>
+<div class="ttc" id="anamespace_string_conversion_html_a91beef994384c102a1f1f25e8e561148"><div class="ttname"><a href="namespace_string_conversion.html#a91beef994384c102a1f1f25e8e561148">StringConversion::WstringToUtf8</a></div><div class="ttdeci">std::string WstringToUtf8(const std::wstring &amp;wStr)</div><div class="ttdef"><b>Definition:</b> StringConversion.cpp:17</div></div>
+<div class="ttc" id="anamespace_string_conversion_html_ad9e2cafe9dba2ddd9d85f15ffaed9240"><div class="ttname"><a href="namespace_string_conversion.html#ad9e2cafe9dba2ddd9d85f15ffaed9240">StringConversion::Utf8ToWstring</a></div><div class="ttdeci">std::wstring Utf8ToWstring(const std::string &amp;utf8Str)</div><div class="ttdef"><b>Definition:</b> StringConversion.cpp:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

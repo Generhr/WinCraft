@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['addnotificationicon_2',['AddNotificationIcon',['../class_notification_icon_manager.html#a5f6578ce57844a74a0bda686f1fffbef',1,'NotificationIconManager']]],
-  ['adjust_5fchunk_3',['adjust_chunk',['../classclang-tidy-cache_1_1_clang_tidy_cache_opts.html#a6ebb9998607df0bdc2ab1a4a6091df3a',1,'clang-tidy-cache::ClangTidyCacheOpts']]]
+  ['begin_5fmessage_5fmap_1',['BEGIN_MESSAGE_MAP',['../src_2_c_my_window_8cpp.html#a27bb611d5d7ba487bf96eecf3626c6e8',1,'CMyWindow.cpp']]]
 ];

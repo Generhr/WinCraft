@@ -50,7 +50,7 @@
 <!-- Node4 -->
 <g id="node4" class="node">
 <title>Node4</title>
-<g id="a_node4"><a xlink:href="_notification_icon_manager_8cpp.html" target="_top" xlink:title=" ">
+<g id="a_node4"><a xlink:href="src_2_notification_icon_manager_8cpp.html" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="214.62,-0.5 214.62,-20.5 369.38,-20.5 369.38,-0.5 214.62,-0.5"/>
 <text text-anchor="middle" x="292" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">src/NotificationIconManager.cpp</text>
 </a>

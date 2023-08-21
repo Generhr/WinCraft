@@ -1,10 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,217,62,245"/>
-<area shape="rect" id="node2" href="$classclang-tidy-cache_1_1_clang_tidy_cache.html" title=" " alt="" coords="110,5,287,49"/>
-<area shape="rect" id="node3" href="$classclang-tidy-cache_1_1_clang_tidy_cache_hash.html" title=" " alt="" coords="110,73,287,117"/>
-<area shape="rect" id="node4" href="$classclang-tidy-cache_1_1_clang_tidy_cache_opts.html" title=" " alt="" coords="110,141,287,185"/>
-<area shape="rect" id="node5" href="$classclang-tidy-cache_1_1_clang_tidy_local_cache.html" title=" " alt="" coords="110,209,287,253"/>
-<area shape="rect" id="node6" href="$classclang-tidy-cache_1_1_clang_tidy_redis_cache.html" title=" " alt="" coords="110,277,287,321"/>
-<area shape="rect" id="node7" href="$classclang-tidy-cache_1_1_clang_tidy_s3_cache.html" title=" " alt="" coords="110,345,287,389"/>
-<area shape="rect" id="node8" href="$classclang-tidy-cache_1_1_clang_tidy_server_cache.html" title=" " alt="" coords="110,413,287,457"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,63,33"/>
+<area shape="rect" id="node2" href="$class_c_my_window.html" title=" " alt="" coords="111,5,205,33"/>
 </map>

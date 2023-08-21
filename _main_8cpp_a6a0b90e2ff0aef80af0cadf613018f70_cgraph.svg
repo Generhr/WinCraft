@@ -50,7 +50,7 @@
 <!-- Node4 -->
 <g id="node4" class="node">
 <title>Node4</title>
-<g id="a_node4"><a xlink:href="class_exception.html#a24790b7d43274e6043122fa6546f27e2" target="_top" xlink:title=" ">
+<g id="a_node4"><a xlink:href="class_exception.html#a7e728ac9016ea07086fd3d90a936821d" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="125.5,-117.5 125.5,-137.5 262.25,-137.5 262.25,-117.5 125.5,-117.5"/>
 <text text-anchor="middle" x="193.88" y="-124" font-family="Helvetica,sans-Serif" font-size="10.00">Exception::GetFullMessage</text>
 </a>
@@ -110,7 +110,7 @@
 <!-- Node5 -->
 <g id="node5" class="node">
 <title>Node5</title>
-<g id="a_node5"><a xlink:href="class_exception.html#acb5c9464ffc8a86bd6ea9e02c3702327" target="_top" xlink:title=" ">
+<g id="a_node5"><a xlink:href="class_exception.html#a4d2a1c8a103847989a9d4fad773b8722" target="_top" xlink:title=" ">
 <polygon fill="none" stroke="black" points="298.25,-117.5 298.25,-137.5 416.25,-137.5 416.25,-117.5 298.25,-117.5"/>
 <text text-anchor="middle" x="357.25" y="-124" font-family="Helvetica,sans-Serif" font-size="10.00">Exception::GetLocation</text>
 </a>

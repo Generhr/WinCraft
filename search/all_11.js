@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['test_98',['TEST',['../test_2_c_my_window_8cpp.html#abc0a7326376d5820dd7557205b5708d3',1,'TEST(CMyWindow, CreateDestroyWindow):&#160;CMyWindow.cpp'],['../test_2_c_my_window_8cpp.html#a8230ea0fa6787f4f95ecb3951185b628',1,'TEST(CMyWindow, MessageHandling):&#160;CMyWindow.cpp'],['../test_2_utility_2_string_conversion_8cpp.html#a52b80fdd8e54922462fd97d296e6fcf3',1,'TEST(StringConversionTest, Utf8ToWstring):&#160;StringConversion.cpp'],['../test_2_utility_2_string_conversion_8cpp.html#a861ea7b304b1b07d1022ba6b19f97157',1,'TEST(StringConversionTest, WstringToUtf8):&#160;StringConversion.cpp']]]
+  ['_7ecmywindow_61',['~CMyWindow',['../class_c_my_window.html#ad93f6824bf3aeb44c9c046a91daf284e',1,'CMyWindow']]],
+  ['_7eexception_62',['~Exception',['../class_exception.html#a5c134c74b84c0a7a4c106ac60cabe10c',1,'Exception']]],
+  ['_7enotificationiconmanager_63',['~NotificationIconManager',['../class_notification_icon_manager.html#ace7dabad40a287938ff557442129418f',1,'NotificationIconManager']]]
 ];

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['debug_5fenabled_24',['debug_enabled',['../classclang-tidy-cache_1_1_clang_tidy_cache_opts.html#ab0fd7674aeb73be7fff805fd19231c1b',1,'clang-tidy-cache::ClangTidyCacheOpts']]],
-  ['declare_5fdynamic_25',['DECLARE_DYNAMIC',['../class_c_my_window.html#a471eb45e96af7ff70199798eb1e206b7',1,'CMyWindow']]],
-  ['dump_5fenabled_26',['dump_enabled',['../classclang-tidy-cache_1_1_clang_tidy_cache_opts.html#a22fbccd90227cbfc6fa933a35475e689',1,'clang-tidy-cache::ClangTidyCacheOpts']]]
+  ['exception_11',['Exception',['../class_exception.html',1,'Exception'],['../class_exception.html#abe87bc6522edebe9e246a84f2a640f33',1,'Exception::Exception(std::wstring file, std::wstring line, std::wstring column, std::wstring title=L&quot;Exception&quot;, std::wstring note=L&quot;&quot;)'],['../class_exception.html#a62ccbcd7d76e96952dc53975a9429370',1,'Exception::Exception(const Exception &amp;)=delete'],['../class_exception.html#a3c1365e7a706d4e7e66bb20737b30bd7',1,'Exception::Exception(Exception &amp;&amp;)=delete']]],
+  ['exception_2eh_12',['Exception.h',['../_exception_8h.html',1,'']]]
 ];

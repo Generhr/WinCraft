@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['redis_196',['redis',['../namespaceclang-tidy-cache.html#a9165c425366ed5d12734848cadf3f6cd',1,'clang-tidy-cache']]]
+  ['mockwindow_113',['mockWindow',['../class_notification_icon_manager_test.html#af17bd27739c84fcfcf26df2558f54200',1,'NotificationIconManagerTest']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['find_5fct_5fconfig_29',['find_ct_config',['../namespaceclang-tidy-cache.html#a2268d655c464a7275ef7d34da3ca3a6b',1,'clang-tidy-cache']]]
+  ['handleexception_26',['HandleException',['../_main_8cpp.html#a6a0b90e2ff0aef80af0cadf613018f70',1,'HandleException(const Exception &amp;error, const wchar_t *context):&#160;Main.cpp'],['../_main_8cpp.html#a73c6b42c516cae0cf792fb5bef86f428',1,'HandleException(const std::exception &amp;error, const wchar_t *context):&#160;Main.cpp']]]
 ];

@@ -28,7 +28,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">WinCraft
-   &#160;<span id="projectnumber">0.4.1</span>
+   &#160;<span id="projectnumber">0.4.2</span>
    </div>
    <div id="projectbrief">Window automation tool</div>
   </td>
@@ -96,10 +96,10 @@ $(document).ready(function(){initNavTree('_notification_icon_manager_8h_source.h
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;windows.h&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;shellapi.h&gt;</span> <span class="comment">/* NOTIFYICONDATAA, Shell_NotifyIcon */</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="class_notification_icon_manager.html">    9</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_notification_icon_manager.html">NotificationIconManager</a> {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_notification_icon_manager.html#ab57d0e55e2e99567c9476892932d801a">NotificationIconManager</a>(HWND hWnd);</div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="class_notification_icon_manager.html">    8</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_notification_icon_manager.html">NotificationIconManager</a> {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="class_notification_icon_manager.html#a109981573b571ba04868479354606128">   10</a></span>&#160;    <a class="code" href="class_notification_icon_manager.html#a109981573b571ba04868479354606128">NotificationIconManager</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_notification_icon_manager.html#a109981573b571ba04868479354606128">NotificationIconManager</a>(HWND hWnd);</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="class_notification_icon_manager.html#ace7dabad40a287938ff557442129418f">~NotificationIconManager</a>();</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
 <div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="class_notification_icon_manager.html#a9d598ff449e1018675701a51b5cfd2e1">   14</a></span>&#160;    <a class="code" href="class_notification_icon_manager.html#a9d598ff449e1018675701a51b5cfd2e1">NotificationIconManager</a>(<span class="keyword">const</span> <a class="code" href="class_notification_icon_manager.html">NotificationIconManager</a>&amp;) = <span class="keyword">delete</span>;</div>
@@ -110,19 +110,37 @@ $(document).ready(function(){initNavTree('_notification_icon_manager_8h_source.h
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_notification_icon_manager.html#a5f6578ce57844a74a0bda686f1fffbef">AddNotificationIcon</a>();</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_notification_icon_manager.html#a38640c691857ff771689c3f74dc0d4cb">RemoveNotificationIcon</a>();</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    HWND hWnd;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    NOTIFYICONDATAA nid;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;};</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="class_notification_icon_manager.html#ad60d7bdbef437bb591b4f472b124ca46">   22</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_notification_icon_manager.html#ad60d7bdbef437bb591b4f472b124ca46">ChangeIcon</a>(LPCSTR iconName) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        HICON hIcon = LoadIconA(<span class="keyword">nullptr</span>, iconName);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">if</span> (hIcon != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            nid.hIcon = hIcon;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            Shell_NotifyIcon(NIM_MODIFY, &amp;nid);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        }</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="class_notification_icon_manager.html#ab644f6c0a9a3d98e5429c3a16aa4b3a5">   34</a></span>&#160;    [[nodiscard]] <span class="keyword">const</span> NOTIFYICONDATAA&amp; <a class="code" href="class_notification_icon_manager.html#ab644f6c0a9a3d98e5429c3a16aa4b3a5">GetNotificationData</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">return</span> nid;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    HWND hWnd;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    NOTIFYICONDATAA nid;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;};</div>
 <div class="ttc" id="a_exception_8h_html"><div class="ttname"><a href="_exception_8h.html">Exception.h</a></div></div>
-<div class="ttc" id="aclass_notification_icon_manager_html"><div class="ttname"><a href="class_notification_icon_manager.html">NotificationIconManager</a></div><div class="ttdef"><b>Definition:</b> NotificationIconManager.h:9</div></div>
+<div class="ttc" id="aclass_notification_icon_manager_html"><div class="ttname"><a href="class_notification_icon_manager.html">NotificationIconManager</a></div><div class="ttdef"><b>Definition:</b> NotificationIconManager.h:8</div></div>
 <div class="ttc" id="aclass_notification_icon_manager_html_a0b7e0ec83ce1d0d1bbb765dd41342080"><div class="ttname"><a href="class_notification_icon_manager.html#a0b7e0ec83ce1d0d1bbb765dd41342080">NotificationIconManager::NotificationIconManager</a></div><div class="ttdeci">NotificationIconManager(NotificationIconManager &amp;&amp;)=delete</div></div>
-<div class="ttc" id="aclass_notification_icon_manager_html_a38640c691857ff771689c3f74dc0d4cb"><div class="ttname"><a href="class_notification_icon_manager.html#a38640c691857ff771689c3f74dc0d4cb">NotificationIconManager::RemoveNotificationIcon</a></div><div class="ttdeci">void RemoveNotificationIcon()</div><div class="ttdef"><b>Definition:</b> NotificationIconManager.cpp:28</div></div>
-<div class="ttc" id="aclass_notification_icon_manager_html_a5f6578ce57844a74a0bda686f1fffbef"><div class="ttname"><a href="class_notification_icon_manager.html#a5f6578ce57844a74a0bda686f1fffbef">NotificationIconManager::AddNotificationIcon</a></div><div class="ttdeci">void AddNotificationIcon()</div><div class="ttdef"><b>Definition:</b> NotificationIconManager.cpp:24</div></div>
+<div class="ttc" id="aclass_notification_icon_manager_html_a109981573b571ba04868479354606128"><div class="ttname"><a href="class_notification_icon_manager.html#a109981573b571ba04868479354606128">NotificationIconManager::NotificationIconManager</a></div><div class="ttdeci">NotificationIconManager()=default</div></div>
+<div class="ttc" id="aclass_notification_icon_manager_html_a38640c691857ff771689c3f74dc0d4cb"><div class="ttname"><a href="class_notification_icon_manager.html#a38640c691857ff771689c3f74dc0d4cb">NotificationIconManager::RemoveNotificationIcon</a></div><div class="ttdeci">void RemoveNotificationIcon()</div><div class="ttdef"><b>Definition:</b> NotificationIconManager.cpp:27</div></div>
+<div class="ttc" id="aclass_notification_icon_manager_html_a5f6578ce57844a74a0bda686f1fffbef"><div class="ttname"><a href="class_notification_icon_manager.html#a5f6578ce57844a74a0bda686f1fffbef">NotificationIconManager::AddNotificationIcon</a></div><div class="ttdeci">void AddNotificationIcon()</div><div class="ttdef"><b>Definition:</b> NotificationIconManager.cpp:23</div></div>
 <div class="ttc" id="aclass_notification_icon_manager_html_a72a252c5f2e98ef35bf824b02f0fe547"><div class="ttname"><a href="class_notification_icon_manager.html#a72a252c5f2e98ef35bf824b02f0fe547">NotificationIconManager::operator=</a></div><div class="ttdeci">NotificationIconManager &amp; operator=(NotificationIconManager &amp;&amp;)=delete</div></div>
 <div class="ttc" id="aclass_notification_icon_manager_html_a9d598ff449e1018675701a51b5cfd2e1"><div class="ttname"><a href="class_notification_icon_manager.html#a9d598ff449e1018675701a51b5cfd2e1">NotificationIconManager::NotificationIconManager</a></div><div class="ttdeci">NotificationIconManager(const NotificationIconManager &amp;)=delete</div></div>
-<div class="ttc" id="aclass_notification_icon_manager_html_ab57d0e55e2e99567c9476892932d801a"><div class="ttname"><a href="class_notification_icon_manager.html#ab57d0e55e2e99567c9476892932d801a">NotificationIconManager::NotificationIconManager</a></div><div class="ttdeci">NotificationIconManager(HWND hWnd)</div><div class="ttdef"><b>Definition:</b> NotificationIconManager.cpp:8</div></div>
-<div class="ttc" id="aclass_notification_icon_manager_html_ace7dabad40a287938ff557442129418f"><div class="ttname"><a href="class_notification_icon_manager.html#ace7dabad40a287938ff557442129418f">NotificationIconManager::~NotificationIconManager</a></div><div class="ttdeci">~NotificationIconManager()</div><div class="ttdef"><b>Definition:</b> NotificationIconManager.cpp:20</div></div>
+<div class="ttc" id="aclass_notification_icon_manager_html_ab644f6c0a9a3d98e5429c3a16aa4b3a5"><div class="ttname"><a href="class_notification_icon_manager.html#ab644f6c0a9a3d98e5429c3a16aa4b3a5">NotificationIconManager::GetNotificationData</a></div><div class="ttdeci">const NOTIFYICONDATAA &amp; GetNotificationData() const</div><div class="ttdef"><b>Definition:</b> NotificationIconManager.h:34</div></div>
+<div class="ttc" id="aclass_notification_icon_manager_html_ace7dabad40a287938ff557442129418f"><div class="ttname"><a href="class_notification_icon_manager.html#ace7dabad40a287938ff557442129418f">NotificationIconManager::~NotificationIconManager</a></div><div class="ttdeci">~NotificationIconManager()</div><div class="ttdef"><b>Definition:</b> NotificationIconManager.cpp:19</div></div>
+<div class="ttc" id="aclass_notification_icon_manager_html_ad60d7bdbef437bb591b4f472b124ca46"><div class="ttname"><a href="class_notification_icon_manager.html#ad60d7bdbef437bb591b4f472b124ca46">NotificationIconManager::ChangeIcon</a></div><div class="ttdeci">void ChangeIcon(LPCSTR iconName)</div><div class="ttdef"><b>Definition:</b> NotificationIconManager.h:22</div></div>
 <div class="ttc" id="aclass_notification_icon_manager_html_af08c7d833ed5073ad58f7b33a4d5d0de"><div class="ttname"><a href="class_notification_icon_manager.html#af08c7d833ed5073ad58f7b33a4d5d0de">NotificationIconManager::operator=</a></div><div class="ttdeci">NotificationIconManager &amp; operator=(const NotificationIconManager &amp;)=delete</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

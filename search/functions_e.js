@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['query_5fstats_168',['query_stats',['../classclang-tidy-cache_1_1_clang_tidy_server_cache.html#aba785bff2f81fa02ddddd20dd3654afa',1,'clang-tidy-cache.ClangTidyServerCache.query_stats()'],['../classclang-tidy-cache_1_1_clang_tidy_cache.html#aa18cbf04c80ae408a629d1a493b409ef',1,'clang-tidy-cache.ClangTidyCache.query_stats()']]]
+  ['wstringtoutf8_109',['WstringToUtf8',['../namespace_string_conversion.html#a91beef994384c102a1f1f25e8e561148',1,'StringConversion']]]
 ];

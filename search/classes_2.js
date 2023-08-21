@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['notificationiconmanager_115',['NotificationIconManager',['../class_notification_icon_manager.html',1,'']]]
+  ['mockwindow_66',['MockWindow',['../class_mock_window.html',1,'']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['print_5fstats_167',['print_stats',['../namespaceclang-tidy-cache.html#a9b3db07143732e04693695ee124de392',1,'clang-tidy-cache']]]
+  ['utf8towstring_108',['Utf8ToWstring',['../namespace_string_conversion.html#ad9e2cafe9dba2ddd9d85f15ffaed9240',1,'StringConversion']]]
 ];
