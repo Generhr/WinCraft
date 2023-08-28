@@ -25,7 +25,8 @@ ON_WM_CAPTURECHANGED()
 ON_REGISTERED_MESSAGE(SHELLMESSAGE, &CMyWindow::ShellMessageHandler)
 END_MESSAGE_MAP()
 
-inline static CSimpleIniA ini;
+inline static CSimpleIniA
+    ini;  // NOLINT(cppcoreguidelines-avoid-non-const-global-variables, misc-use-anonymous-namespace)
 
 CMyWindow::CMyWindow() {
     // Constructor implementation
@@ -96,8 +97,10 @@ BOOL CMyWindow::OnCommand(WPARAM wParam, LPARAM lParam) {
         switch (LOWORD(wParam)) {
             case IDM_MAINMENU_ITEM4:
 #ifdef WINCRAFT_TEST
+                // NOLINTBEGIN
                 fprintf(stderr, "Success");
                 exit(EXIT_SUCCESS);
+                // NOLINTEND
 #else
                 PostQuitMessage(0);
 #endif
@@ -129,7 +132,8 @@ void CMyWindow::OnCaptureChanged(CWnd* pWnd) {
     return CWnd::OnCaptureChanged(pWnd);
 }
 
-LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
+LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam,  // NOLINT(readability-convert-member-functions-to-static)
+    LPARAM lParam) {
     switch (wParam) {
         case HSHELL_WINDOWCREATED:
             std::cout << "HSHELL_WINDOWCREATED"
@@ -137,7 +141,7 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
 
             break;
         case HSHELL_WINDOWDESTROYED: {
-            HWND hWnd = reinterpret_cast<HWND>(lParam);
+            HWND hWnd = reinterpret_cast<HWND>(lParam);  // NOLINT(performance-no-int-to-ptr)
             auto windowIterator = windows.find(hWnd);
 
             if (windowIterator != windows.end()) {
@@ -163,7 +167,7 @@ LRESULT CMyWindow::ShellMessageHandler(WPARAM wParam, LPARAM lParam) {
 #endif
             }
 
-            HWND hWnd = reinterpret_cast<HWND>(lParam);
+            HWND hWnd = reinterpret_cast<HWND>(lParam);  // NOLINT(performance-no-int-to-ptr)
 
             if (IsWindow(hWnd)) {
                 // Check if the window is in the `windows` already

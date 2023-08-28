@@ -19,10 +19,10 @@ cmake_dependent_option(ENABLE_IPO "Enable Interprocedural Optimization, aka Link
 option(ENABLE_WARNINGS "Enable to add compiler warnings." ON)
 option(ENABLE_WARNINGS_AS_ERRORS "Enable to treat compiler warnings as errors." OFF)
 
-option(ENABLE_DOXYGEN "Enable to create a doxygen build target (doxygen)." OFF)
-
 option(ENABLE_TESTING "Enable to create a unit test build target (unit_tests)." OFF)
 option(ENABLE_CODE_COVERAGE "Enable to create a Code Coverage build target (coverage)." OFF)
+
+option(ENABLE_DOXYGEN "Enable to create a doxygen build target (doxygen)." OFF)
 
 if(NOT PROJECT_IS_TOP_LEVEL)
     mark_as_advanced(
@@ -37,8 +37,8 @@ if(NOT PROJECT_IS_TOP_LEVEL)
         ENABLE_IPO
         ENABLE_WARNINGS
         ENABLE_WARNINGS_AS_ERRORS
-        ENABLE_DOXYGEN
         ENABLE_TESTING
         ENABLE_CODE_COVERAGE
+        ENABLE_DOXYGEN
     )
 endif()
