@@ -12,5 +12,6 @@ var searchData=
   ['getlocation_22',['GetLocation',['../class_exception.html#a4d2a1c8a103847989a9d4fad773b8722',1,'Exception']]],
   ['getnote_23',['GetNote',['../class_exception.html#ac17b8d732b73373bb946215795775047',1,'Exception']]],
   ['getnotificationdata_24',['GetNotificationData',['../class_notification_icon_manager.html#ab644f6c0a9a3d98e5429c3a16aa4b3a5',1,'NotificationIconManager']]],
-  ['gettitle_25',['GetTitle',['../class_exception.html#acd380a1e7b3c31a64a7e818b49810be5',1,'Exception']]]
+  ['gettitle_25',['GetTitle',['../class_exception.html#acd380a1e7b3c31a64a7e818b49810be5',1,'Exception']]],
+  ['git_5fsha_26',['git_sha',['../namespace_win_craft_1_1_c_make.html#a0ffa36787f0dfc1ac048710182cae2ca',1,'WinCraft::CMake']]]
 ];
