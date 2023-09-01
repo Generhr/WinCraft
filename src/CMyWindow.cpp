@@ -97,10 +97,8 @@ BOOL CMyWindow::OnCommand(WPARAM wParam, LPARAM lParam) {
         switch (LOWORD(wParam)) {
             case IDM_MAINMENU_ITEM4:
 #ifdef WINCRAFT_TEST
-                // NOLINTBEGIN
                 fprintf(stderr, "Success");
                 exit(EXIT_SUCCESS);
-                // NOLINTEND
 #else
                 PostQuitMessage(0);
 #endif
