@@ -1,8 +1,9 @@
 # WinCraft
 
-[![ci](https://github.com/Onimuru/WinCraft/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/Onimuru/WinCraft/actions/workflows/continuous-integration.yml)
+[![Continuous Integration](https://github.com/Onimuru/WinCraft/actions/workflows/continuous-integration.yml/badge.svg)](https://github.com/Onimuru/WinCraft/actions/workflows/continuous-integration.yml)
 [![codecov](https://codecov.io/gh/Onimuru/WinCraft/branch/main/graph/badge.svg)](https://codecov.io/gh/Onimuru/WinCraft)
-[![CodeQL](https://github.com/Onimuru/WinCraft/actions/workflows/codeql.yml/badge.svg)](https://github.com/Onimuru/WinCraft/actions/workflows/codeql.yml)
+[![Documentation](https://svgshare.com/i/vaA.svg)](https://onimuru.github.io/WinCraft/)
+[![License](https://camo.githubusercontent.com/890acbdcb87868b382af9a4b1fac507b9659d9bf/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d4d49542d626c75652e737667)](./LICENSE)
 
 ## About WinCraft
 
