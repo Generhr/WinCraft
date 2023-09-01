@@ -27,35 +27,6 @@ var NAVTREE =
   [ "WinCraft", "index.html", [
     [ "About WinCraft", "index.html#autotoc_md1", null ],
     [ "Features", "index.html#autotoc_md2", null ],
-    [ "CMake Tutorial", "md__r_e_a_d_m_e_cmake.html", [
-      [ "Generating a Project", "md__r_e_a_d_m_e_cmake.html#autotoc_md4", null ],
-      [ "Generator for GCC and Clang", "md__r_e_a_d_m_e_cmake.html#autotoc_md5", null ],
-      [ "Generator for MSVC", "md__r_e_a_d_m_e_cmake.html#autotoc_md6", null ],
-      [ "Specify the Build Type", "md__r_e_a_d_m_e_cmake.html#autotoc_md7", null ],
-      [ "Passing Options", "md__r_e_a_d_m_e_cmake.html#autotoc_md8", null ],
-      [ "Specify the Build Target (Option 1)", "md__r_e_a_d_m_e_cmake.html#autotoc_md9", null ],
-      [ "Specify the Build Target (Option 2)", "md__r_e_a_d_m_e_cmake.html#autotoc_md10", null ],
-      [ "Run the Executable", "md__r_e_a_d_m_e_cmake.html#autotoc_md11", null ],
-      [ "Different Linking Types", "md__r_e_a_d_m_e_cmake.html#autotoc_md12", [
-        [ "PUBLIC", "md__r_e_a_d_m_e_cmake.html#autotoc_md13", null ],
-        [ "PRIVATE", "md__r_e_a_d_m_e_cmake.html#autotoc_md14", null ],
-        [ "INTERFACE", "md__r_e_a_d_m_e_cmake.html#autotoc_md15", null ]
-      ] ],
-      [ "Different Library Types", "md__r_e_a_d_m_e_cmake.html#autotoc_md16", [
-        [ "Shared", "md__r_e_a_d_m_e_cmake.html#autotoc_md17", null ],
-        [ "Static", "md__r_e_a_d_m_e_cmake.html#autotoc_md18", null ]
-      ] ]
-    ] ],
-    [ "Software Installation", "md__r_e_a_d_m_e_install.html", [
-      [ "How to install VCPKG", "md__r_e_a_d_m_e_install.html#autotoc_md20", null ],
-      [ "How to install the Conan Package Manager", "md__r_e_a_d_m_e_install.html#autotoc_md21", [
-        [ "Installation Steps", "md__r_e_a_d_m_e_install.html#autotoc_md22", null ]
-      ] ],
-      [ "Formatter and Static Analyzer", "md__r_e_a_d_m_e_install.html#autotoc_md23", [
-        [ "Tooling", "md__r_e_a_d_m_e_install.html#autotoc_md24", null ],
-        [ "Install Clang Tools", "md__r_e_a_d_m_e_install.html#autotoc_md25", null ]
-      ] ]
-    ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
