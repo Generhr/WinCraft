@@ -17,6 +17,7 @@ Checks: "-*,\
     -readability-identifier-length,\
     -readability-implicit-bool-conversion,\
     -readability-magic-numbers,\
+    -readability-uppercase-literal-suffix,\
     "
 
 HeaderFilterRegex: '.*'
